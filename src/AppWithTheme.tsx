@@ -1,9 +1,9 @@
 import {ReactNode, useMemo} from 'react'
 import {createTheme, ThemeOptions, ThemeProvider} from '@mui/material'
 
-import {useThemePaletteMode} from './hooks/use-theme-palette-mode.tsx'
+import {useThemeMode} from './hooks/use-theme-palette-mode.tsx'
 import {themeOptions} from './theme.tsx'
-import {ThemePaletteModeContext} from './context.tsx'
+import {ThemeModeContext} from './context.tsx'
 
 const AppWithTheme = ({
   appThemeOptions,
@@ -12,26 +12,26 @@ const AppWithTheme = ({
   appThemeOptions: ThemeOptions
   children: ReactNode
 }) => {
-  const {themePaletteMode, toggleThemePaletteMode} = useThemePaletteMode()
+  const {themeMode, toggleThemeMode} = useThemeMode()
 
-  const themePaletteModeContextProvider = useMemo(
+  const themeModeContextProvider = useMemo(
     () => ({
-      toggleThemePaletteMode,
-      themePaletteMode
+      toggleThemeMode,
+      themeMode
     }),
-    [themePaletteMode]
+    [themeMode]
   )
 
   return (
-    <ThemePaletteModeContext.Provider value={themePaletteModeContextProvider}>
+    <ThemeModeContext.Provider value={themeModeContextProvider}>
       <ThemeProvider
         theme={createTheme({
           ...themeOptions,
           ...appThemeOptions,
           palette: {
             ...themeOptions.palette,
-            mode: themePaletteMode,
-            ...(themePaletteMode === 'dark' && {
+            mode: themeMode,
+            ...(themeMode === 'dark' && {
               background: {
                 default: '#303030',
                 paper: '#424242'
@@ -42,7 +42,7 @@ const AppWithTheme = ({
       >
         {children}
       </ThemeProvider>
-    </ThemePaletteModeContext.Provider>
+    </ThemeModeContext.Provider>
   )
 }
 

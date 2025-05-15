@@ -1,10 +1,10 @@
 import React from 'react'
 import {PaletteMode} from '@mui/material'
 
-export const ThemePaletteModeContext = React.createContext<{
-  themePaletteMode: PaletteMode
-  toggleThemePaletteMode: () => void
+export const ThemeModeContext = React.createContext<{
+  themeMode: PaletteMode
+  toggleThemeMode: () => void
 }>({
-  themePaletteMode: 'light',
-  toggleThemePaletteMode: () => {}
+  themeMode: 'light',
+  toggleThemeMode: () => {}
 })

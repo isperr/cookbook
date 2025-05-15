@@ -2,9 +2,9 @@ import {useState} from 'react'
 import {PaletteMode, useMediaQuery} from '@mui/material'
 import {useLocalStorageState} from '@toolpad/core'
 
-export const useThemePaletteMode = () => {
-  // get 'themePaletteMode' from local-storage to see if it was already set
-  const [state, setState] = useLocalStorageState('themePaletteMode', null)
+export const useThemeMode = () => {
+  // get 'themeMode' from local-storage to see if it was already set
+  const [state, setState] = useLocalStorageState('themeMode', null)
   const convertedAppModeFromState =
     state === 'light' || state === 'dark' ? state : undefined
 
@@ -23,5 +23,5 @@ export const useThemePaletteMode = () => {
     setAppMode(prevAppMode => (prevAppMode === 'light' ? 'dark' : 'light'))
   }
 
-  return {themePaletteMode: appMode, toggleThemePaletteMode: setMode}
+  return {themeMode: appMode, toggleThemeMode: setMode}
 }
