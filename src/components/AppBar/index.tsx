@@ -14,13 +14,13 @@ const AppBar = () => {
   const {onLogout} = useLogin()
   const themeModeContext = React.useContext(ThemeModeContext)
   const trigger = useScrollTrigger({
-    threshold: 200
+    threshold: 150
   })
 
   return (
     <Slide className="transition-all" appear={false} in={!trigger}>
-      <AppBarComponent className={trigger ? 'hidden' : ''} enableColorOnDark>
-        <Toolbar>
+      <AppBarComponent enableColorOnDark>
+        <Toolbar className="pr-1">
           <Typography className="flex-1">Kochbuch</Typography>
           <IconButton
             aria-label="mode"

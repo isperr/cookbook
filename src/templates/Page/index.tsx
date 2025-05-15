@@ -10,8 +10,9 @@ type PageTemplateProps = {
 
 const PageTemplate = ({children, className}: PageTemplateProps) => {
   const trigger = useScrollTrigger({
-    threshold: 200
+    threshold: 150
   })
+
   return (
     <>
       <AppBar />
@@ -20,7 +21,7 @@ const PageTemplate = ({children, className}: PageTemplateProps) => {
         className={twMerge(
           'flex flex-col my-4 justify-center h-screen gap-8',
           className,
-          !trigger && 'mt-[56px]'
+          !trigger && 'absolute sm:top-[64px] top-[56px] w-full'
         )}
       >
         {children}
