@@ -3,6 +3,7 @@ import {Route, Routes} from 'react-router'
 import {Button, Paper, Typography} from '@mui/material'
 
 import './App.css'
+import './fire'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
