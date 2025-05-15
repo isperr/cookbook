@@ -1,7 +1,9 @@
 import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
+import {BrowserRouter} from 'react-router'
 import CssBaseline from '@mui/material/CssBaseline'
 import {StyledEngineProvider} from '@mui/material'
+import {NotificationsProvider} from '@toolpad/core/useNotifications'
 
 import './index.css'
 import App from './App.tsx'
@@ -45,7 +47,11 @@ root.render(
         }}
       >
         <CssBaseline />
-        <App />
+        <BrowserRouter>
+          <NotificationsProvider>
+            <App />
+          </NotificationsProvider>
+        </BrowserRouter>
       </AppWithTheme>
     </StyledEngineProvider>
   </StrictMode>
