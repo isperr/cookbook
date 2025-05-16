@@ -4,6 +4,7 @@ import {createTheme, ThemeOptions, ThemeProvider} from '@mui/material'
 import {useThemeMode} from './hooks/use-theme-palette-mode.tsx'
 import {themeOptions} from './theme.tsx'
 import {ThemeModeContext} from './context.tsx'
+import {themeColors} from '../theme.ts'
 
 const AppWithTheme = ({
   appThemeOptions,
@@ -32,10 +33,9 @@ const AppWithTheme = ({
             ...themeOptions.palette,
             mode: themeMode,
             ...(themeMode === 'dark' && {
-              background: {
-                default: '#303030',
-                paper: '#424242'
-              }
+              background: themeColors.background.dark,
+              divider: themeColors.divider.dark,
+              text: themeColors.text.dark
             })
           }
         })}

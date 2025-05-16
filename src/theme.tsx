@@ -1,22 +1,41 @@
 import {ThemeOptions} from '@mui/material/styles'
+import {themeColors} from '../theme'
 
 export const themeOptions: ThemeOptions = {
   palette: {
+    background: themeColors.background.light,
     primary: {
-      main: '#6db07d'
+      main: themeColors.primary.DEFAULT,
+      light: themeColors.primary.light,
+      dark: themeColors.primary.dark
     },
     secondary: {
-      main: '#a67c45'
+      main: themeColors.secondary.DEFAULT,
+      light: themeColors.secondary.light,
+      dark: themeColors.secondary.dark
     },
     warning: {
-      main: '#f59a23'
+      main: themeColors.orange.DEFAULT,
+      light: themeColors.orange.light,
+      dark: themeColors.orange.dark
     },
     info: {
-      main: '#00c7e0'
+      main: themeColors.blue.DEFAULT,
+      light: themeColors.blue.light,
+      dark: themeColors.blue.dark
     },
     success: {
-      main: '#7ec636'
-    }
+      main: themeColors.green.DEFAULT,
+      light: themeColors.green.light,
+      dark: themeColors.green.dark
+    },
+    error: {
+      main: themeColors.red.DEFAULT,
+      light: themeColors.red.light,
+      dark: themeColors.red.dark
+    },
+    divider: themeColors.divider.light,
+    text: themeColors.text.light
   },
   typography: {
     fontFamily: 'Jost',
