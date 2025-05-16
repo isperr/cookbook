@@ -1,7 +1,7 @@
 import {Box, useScrollTrigger} from '@mui/material'
 import {ReactNode} from 'react'
 import {twMerge} from 'tailwind-merge'
-import AppBar from '../../components/AppBar'
+import AppBar from '../../molecules/AppBar'
 
 type PageTemplateProps = {
   children: ReactNode
