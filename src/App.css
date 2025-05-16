@@ -6,3 +6,8 @@
   background: #fafafa;
   color: rgba(0, 0, 0, 0.87);
 }
+.MuiSpeedDialIcon-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
