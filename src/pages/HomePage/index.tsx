@@ -8,11 +8,11 @@ const HomePage = () => {
   const {username} = useAuth()
 
   return (
-    <PageTemplate className="justify-start h-[200vh]">
-      <Typography>Willkommen{username ? `, ${username}` : ''}</Typography>
+    <PageTemplate className="justify-start">
+      <Typography className="text-center" variant="h5">
+        Willkommen{username ? `, ${username}` : ''}
+      </Typography>
       <AppSpeedDial />
-
-      <div className="h-1/2 bg-primary-dark">test</div>
     </PageTemplate>
   )
 }

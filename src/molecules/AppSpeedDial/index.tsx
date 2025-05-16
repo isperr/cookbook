@@ -8,6 +8,8 @@ import {
 import SearchIcon from '@mui/icons-material/Search'
 import AddIcon from '@mui/icons-material/Add'
 import ShuffleIcon from '@mui/icons-material/Shuffle'
+import MenuIcon from '@mui/icons-material/Menu'
+import CloseIcon from '@mui/icons-material/Close'
 
 const actions = [
   {icon: <SearchIcon />, name: 'search', title: 'Suche'},
@@ -29,8 +31,8 @@ const AppSpeedDial = () => {
       <Backdrop open={open} />
       <SpeedDial
         ariaLabel="SpeedDial tooltip example"
-        sx={{position: 'fixed', bottom: 16, right: 16}}
-        icon={<SpeedDialIcon />}
+        className="fixed bottom-4 right-4"
+        icon={<SpeedDialIcon icon={<MenuIcon />} openIcon={<CloseIcon />} />}
         onClose={handleClose}
         onOpen={handleOpen}
         open={open}
@@ -42,7 +44,9 @@ const AppSpeedDial = () => {
             onClick={() => handleClick(action.name)}
             slotProps={{
               tooltip: {
+                arrow: true,
                 open: true,
+                placement: 'top',
                 title: action.title
               }
             }}

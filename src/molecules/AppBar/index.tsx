@@ -9,6 +9,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 
 import {useLogin} from '../../hooks/auth/use-login'
 import {ThemeModeContext} from '../../context'
+import {Link} from 'react-router'
 
 const AppBar = () => {
   const {onLogout} = useLogin()
@@ -21,7 +22,11 @@ const AppBar = () => {
     <Slide className="transition-all" appear={false} in={!trigger}>
       <AppBarComponent enableColorOnDark>
         <Toolbar className="pr-1">
-          <Typography className="flex-1">Sperr's Kochbuch</Typography>
+          <div className="flex-1 flex justify-start">
+            <Link to="/">
+              <Typography>Sperr's Kochbuch</Typography>
+            </Link>
+          </div>
           <IconButton
             aria-label="mode"
             size="large"

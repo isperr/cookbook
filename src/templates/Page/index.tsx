@@ -19,7 +19,7 @@ const PageTemplate = ({children, className}: PageTemplateProps) => {
 
       <Box
         className={twMerge(
-          'flex flex-col my-4 justify-center h-screen gap-8',
+          'flex flex-col my-4 justify-center gap-8',
           className,
           !trigger && 'absolute sm:top-[64px] top-[56px] w-full'
         )}

@@ -10,7 +10,7 @@ const RegistrationForm = () => {
 
   return (
     <form
-      className="flex flex-col items-center p-6 gap-6"
+      className="flex flex-col items-center px-6 py-2 gap-6"
       onSubmit={handleSubmit}
     >
       <TextField
