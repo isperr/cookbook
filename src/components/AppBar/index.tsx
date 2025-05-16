@@ -21,7 +21,7 @@ const AppBar = () => {
     <Slide className="transition-all" appear={false} in={!trigger}>
       <AppBarComponent enableColorOnDark>
         <Toolbar className="pr-1">
-          <Typography className="flex-1">Kochbuch</Typography>
+          <Typography className="flex-1">Sperr's Kochbuch</Typography>
           <IconButton
             aria-label="mode"
             size="large"

@@ -21,7 +21,7 @@ export type ButtonProps = {
   size?: 'small' | 'medium' | 'large'
   startIcon?: ReactNode
   type?: 'submit' | 'button' | 'reset'
-  variant?: 'contained' | 'outlined'
+  variant?: 'contained' | 'outlined' | 'text'
 }
 
 const Button = ({
