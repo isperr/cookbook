@@ -7,15 +7,12 @@ import {
 } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
+import {useAppSelector} from '../../../utils/store-hooks'
+import {selectRecipeData} from '../../../modules/recipe/results/selectors'
 
-export type ListItemProps = {
-  category: string
-  id: string
-  isFavorite: boolean
-  title: string
-}
+const ListItem = ({id}: {id: string}) => {
+  const {title, category, isFavorite} = useAppSelector(selectRecipeData(id))
 
-const ListItem = ({category, isFavorite, title}: ListItemProps) => {
   return (
     <MuiListItem
       className="py-0 px-0"

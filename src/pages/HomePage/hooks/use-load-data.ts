@@ -3,7 +3,7 @@ import {useNotifications} from '@toolpad/core'
 
 import {loadRecipes} from '../../../hooks/recipe/use-load'
 import {
-  selectData,
+  selectResult,
   selectError,
   selectIsLoaded,
   selectIsLoading
@@ -16,7 +16,7 @@ export const useLoadData = () => {
   const dispatch = useAppDispatch()
   const notifications = useNotifications()
 
-  const data = useAppSelector(selectData)
+  const result = useAppSelector(selectResult)
   const error = useAppSelector(selectError)
   const isLoaded = useAppSelector(selectIsLoaded)
   const isLoading = useAppSelector(selectIsLoading)
@@ -38,10 +38,10 @@ export const useLoadData = () => {
   }, [dispatch])
 
   return {
-    data,
     error,
     isLoaded,
     isLoading,
-    handleLoadData
+    handleLoadData,
+    result
   }
 }

@@ -6,22 +6,22 @@ export type RecipeDocumentData = DocumentData & {
 }
 
 type RecipeResultsState = {
-  data: RecipeDocumentData[]
   entities: {
     [k: string]: RecipeDocumentData
   }
   error: Error | null
   isLoaded: boolean
   isLoading: boolean
+  result: Array<string>
 }
 
 // Define the initial state using that type
 const initialState: RecipeResultsState = {
-  data: [],
   entities: {},
   error: null,
   isLoaded: false,
-  isLoading: false
+  isLoading: false,
+  result: []
 }
 
 export const recipeResultsState = createSlice({
@@ -31,16 +31,18 @@ export const recipeResultsState = createSlice({
     load: state => {
       state.isLoading = true
       state.isLoaded = false
-      state.data = []
+      state.result = []
       state.error = null
     },
     loaded: (state, action: PayloadAction<RecipeDocumentData[]>) => {
-      state.data = action.payload
+      const result: string[] = []
 
       state.entities = action.payload.reduce((acc, item) => {
+        result.push(item.id)
         return {...acc, [item.id]: item}
       }, {})
 
+      state.result = result
       state.isLoaded = true
       state.isLoading = false
     },
@@ -52,25 +54,32 @@ export const recipeResultsState = createSlice({
     insert: (state, action: PayloadAction<RecipeDocumentData>) => {
       // do not insert item if data is not loaded
       if (state.isLoaded) {
-        const tempData = [...state.data, action.payload]
-        // update data in state as sorted array by title
-        state.data = tempData.sort((itemA, itemB) => itemA.title - itemB.title)
+        // update result in state as sorted array by title
+        const tempResult = [...state.result, action.payload.id].sort(
+          (idA, idB) => {
+            const itemA = state.entities[idA]
+            const itemB = state.entities[idB]
+            return itemA.title - itemB.title
+          }
+        )
+        state.result = tempResult
         state.entities[action.payload.title] = action.payload
       }
     },
     remove: (state, action: PayloadAction<string>) => {
       const id = action.payload
 
-      const updatedData: RecipeDocumentData[] = []
+      const updatedResult: string[] = []
 
-      state.entities = state.data.reduce((acc, item) => {
+      state.entities = state.result.reduce((acc, itemId) => {
+        const item = state.entities[itemId]
         if (id === item.id) {
           return acc
         }
-        updatedData.push(item)
+        updatedResult.push(item.id)
         return {...acc, [item.id]: item}
       }, {})
-      state.data = updatedData
+      state.result = updatedResult
     }
   }
 })

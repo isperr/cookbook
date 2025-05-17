@@ -1,4 +1,3 @@
-import {DocumentData} from 'firebase/firestore'
 import {memo} from 'react'
 import {List} from '@mui/material'
 
@@ -7,13 +6,18 @@ import Text from '../../atoms/Text'
 import ListItem from './components/ListItem'
 
 export type RecipeListProps = {
-  data: DocumentData[]
   hasError: boolean
   isLoaded: boolean
   isLoading: boolean
+  result: string[]
 }
 
-const RecipeList = ({data, hasError, isLoaded, isLoading}: RecipeListProps) => {
+const RecipeList = ({
+  hasError,
+  isLoaded,
+  isLoading,
+  result
+}: RecipeListProps) => {
   if (hasError) {
     return (
       <Text>
@@ -27,21 +31,15 @@ const RecipeList = ({data, hasError, isLoaded, isLoading}: RecipeListProps) => {
     return <Loading type="list" />
   }
 
-  if (isLoaded && !data.length) {
+  if (isLoaded && !result.length) {
     return <Text>Es gibt leider noch keine Rezepte im Kochbuch.</Text>
   }
 
-  if (isLoaded && data.length) {
+  if (isLoaded && result.length) {
     return (
       <List className="pt-0">
-        {data.map(item => (
-          <ListItem
-            key={item.id}
-            category={item.category}
-            id={item.id}
-            isFavorite={item.isFavorite}
-            title={item.title}
-          />
+        {result.map(id => (
+          <ListItem key={id} id={id} />
         ))}
       </List>
     )

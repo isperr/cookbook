@@ -1,5 +1,5 @@
 import {memo} from 'react'
-import {Box, Skeleton, Stack} from '@mui/material'
+import {Box, Grid, Skeleton} from '@mui/material'
 import {random} from 'lodash'
 
 export type LoadingProps = {
@@ -17,51 +17,62 @@ const Loading = ({type}: LoadingProps) => {
             const idx = oldIdx + 1
 
             return (
-              <Stack spacing={0} key={`list-loading-${idx}`}>
-                <Box className="flex justify-start items-center gap-2">
-                  {idx % 3 !== 0 && idx % 5 !== 0 && (
-                    <Skeleton
-                      className="w-4/5"
-                      variant="text"
-                      sx={{fontSize: '1.5rem'}}
-                    />
-                  )}
+              <Grid
+                container
+                direction="row"
+                spacing={2}
+                alignItems="center"
+                key={`list-loading-${idx}`}
+              >
+                <Grid container direction="column" size="grow" spacing={0.5}>
+                  <Box className="flex justify-start items-center gap-4">
+                    {idx % 3 !== 0 && idx % 5 !== 0 && (
+                      <Skeleton
+                        className="w-4/5"
+                        variant="text"
+                        sx={{fontSize: '18px'}}
+                      />
+                    )}
+                    {idx % 3 === 0 && (
+                      <Skeleton
+                        className="w-full"
+                        variant="text"
+                        sx={{fontSize: '18px'}}
+                      />
+                    )}
+                    {idx % 5 === 0 && (
+                      <>
+                        <Skeleton
+                          className="w-2/3"
+                          variant="text"
+                          sx={{fontSize: '18px'}}
+                        />
+                        <Skeleton className="size-5" variant="circular" />
+                      </>
+                    )}
+                  </Box>
                   {idx % 3 === 0 && (
                     <Skeleton
-                      className="w-full"
+                      className="w-1/2"
                       variant="text"
-                      sx={{fontSize: '1.5rem'}}
+                      sx={{fontSize: '16px'}}
                     />
                   )}
-                  {idx % 5 === 0 && (
-                    <>
-                      <Skeleton
-                        className="w-2/3"
-                        variant="text"
-                        sx={{fontSize: '1.5rem'}}
-                      />
-                      <Skeleton className="size-5" variant="circular" />
-                    </>
+                  {idx % 2 === 0 && (
+                    <Skeleton
+                      className="w-3/4"
+                      variant="text"
+                      sx={{fontSize: '16px'}}
+                    />
                   )}
-                </Box>
-                {idx % 3 === 0 && (
-                  <Skeleton
-                    className="w-1/2"
-                    variant="text"
-                    sx={{fontSize: '1.25rem'}}
-                  />
-                )}
-                {idx % 2 === 0 && (
-                  <Skeleton
-                    className="w-3/4"
-                    variant="text"
-                    sx={{fontSize: '1.25rem'}}
-                  />
-                )}
-                {idx % 2 !== 0 && idx % 3 !== 0 && (
-                  <Skeleton variant="text" sx={{fontSize: '1.25rem'}} />
-                )}
-              </Stack>
+                  {idx % 2 !== 0 && idx % 3 !== 0 && (
+                    <Skeleton variant="text" sx={{fontSize: '16px'}} />
+                  )}
+                </Grid>
+                <Grid size="auto">
+                  <Skeleton className="size-9" variant="circular" />
+                </Grid>
+              </Grid>
             )
           })}
       </Box>

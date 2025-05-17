@@ -12,7 +12,7 @@ const HomePage = () => {
 
   const effectRan = useRef<boolean>(false)
 
-  const {data, error, isLoaded, isLoading, handleLoadData} = useLoadData()
+  const {result, error, isLoaded, isLoading, handleLoadData} = useLoadData()
 
   useEffect(() => {
     if (!effectRan.current && !isLoaded) {
@@ -32,10 +32,10 @@ const HomePage = () => {
       <AppSpeedDial />
 
       <RecipeList
-        data={data}
         hasError={Boolean(error)}
         isLoaded={isLoaded}
         isLoading={isLoading}
+        result={result}
       />
     </PageTemplate>
   )
