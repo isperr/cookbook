@@ -38,7 +38,7 @@ export const themeOptions: ThemeOptions = {
     text: themeColors.text.light
   },
   typography: {
-    fontFamily: 'Jost',
+    fontFamily: '"Jost", "Helvetica", "Arial", sans-serif',
     fontSize: 16
   },
   spacing: 8,
