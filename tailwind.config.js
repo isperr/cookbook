@@ -4,9 +4,8 @@ const theme = require('./theme')
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
-    colors: {
-      ...theme.colors
+    extend: {
+      colors: theme.colors
     },
     screens: {
       sm: '600px',

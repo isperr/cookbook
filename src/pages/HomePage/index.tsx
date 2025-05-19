@@ -3,7 +3,6 @@ import {Typography} from '@mui/material'
 
 import {useAuth} from '../../hooks/auth/use-auth'
 import PageTemplate from '../../templates/Page'
-import AppSpeedDial from '../../molecules/AppSpeedDial'
 import {useLoadData} from './hooks/use-load-data'
 import RecipeList from '../../molecules/RecipeList'
 
@@ -25,11 +24,10 @@ const HomePage = () => {
   }, [isLoaded])
 
   return (
-    <PageTemplate className="justify-start">
+    <PageTemplate className="justify-start h-[200vh]">
       <Typography className="text-center" variant="h5">
         Willkommen{username ? `, ${username}` : ''}
       </Typography>
-      <AppSpeedDial />
 
       <RecipeList
         hasError={Boolean(error)}

@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {createSelector, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from '../../utils/store'
 
 // Define a type for the slice state
@@ -63,5 +63,11 @@ export const {
 export const selectIsLoading = (state: RootState) => state.auth.isLoading
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn
 export const selectUsername = (state: RootState) => state.auth.username
+export const selectInitials = createSelector(selectUsername, username => {
+  return username
+    ?.split(' ')
+    .map(name => name.substring(0, 1).toUpperCase())
+    .join('')
+})
 
 export default authState.reducer
