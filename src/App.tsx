@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage'
 import NotFoundPage from './pages/NotFoundPage'
 import './App.css'
 import './fire'
+import RecipePage from './pages/RecipePage'
 
 const App = () => {
   const {isLoggedIn} = useAuth()
@@ -18,6 +19,8 @@ const App = () => {
         {isLoggedIn && (
           <>
             <Route path="/" element={<HomePage />} />
+            <Route path="/recipes/:recipeId" element={<RecipePage />} />
+
             <Route path="*" element={<NotFoundPage />} />
           </>
         )}
