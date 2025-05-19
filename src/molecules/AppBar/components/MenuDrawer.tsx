@@ -15,22 +15,18 @@ import ModeItem from './ModeItem'
 import LogoutItem from './LogoutItem'
 
 export type MenuDrawerProps = {
+  closeDrawer: () => void
   handleDrawerToggle: () => void
   isMobileOpen: boolean
   onActionClick: (link: string) => void
-  setMobileOpen: (isMobileOpen: boolean) => void
 }
 
 const MenuDrawer = ({
+  closeDrawer,
   handleDrawerToggle,
   isMobileOpen,
-  onActionClick,
-  setMobileOpen
+  onActionClick
 }: MenuDrawerProps) => {
-  const closeMenu = () => {
-    setMobileOpen(false)
-  }
-
   return (
     <nav>
       <Drawer
@@ -52,7 +48,7 @@ const MenuDrawer = ({
         }}
       >
         <Box className="text-center">
-          <Link to="/" onClickCapture={closeMenu}>
+          <Link to="/" onClickCapture={closeDrawer}>
             <Typography className="my-[9.5px]" variant="h6">
               Menü
             </Typography>

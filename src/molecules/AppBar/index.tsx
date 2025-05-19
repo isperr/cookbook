@@ -9,16 +9,20 @@ import {
   Toolbar,
   Typography
 } from '@mui/material'
+import {useNotifications} from '@toolpad/core'
 
 import Button from '../../atoms/Button'
 import {ThemeModeContext} from '../../context'
+import {getRandomRecipeId} from '../../utils/get-random-recipe'
+import {getToastConfig} from '../../utils/get-toast-config'
 
 import AvatarMenu from './components/AvatarMenu'
-import {actions, RECIPE, TITLE} from './constants'
 import MenuDrawer from './components/MenuDrawer'
+import {actions, RECIPE, TITLE} from './constants'
 
 const AppBar = () => {
   const navigate = useNavigate()
+  const notifications = useNotifications()
 
   const themeModeContext = React.useContext(ThemeModeContext)
 
@@ -28,13 +32,27 @@ const AppBar = () => {
     setIsMobileOpen(prevState => !prevState)
   }
 
-  const onActionClick = (link: string) => {
-    if (link.includes(RECIPE)) {
-      navigate(link.replace(RECIPE, '1'))
-    } else {
-      navigate(link)
-    }
+  const closeDrawer = () => {
     setIsMobileOpen(false)
+  }
+
+  const onActionClick = async (link: string) => {
+    if (!link.includes(RECIPE)) {
+      navigate(link)
+      closeDrawer()
+      return
+    }
+
+    try {
+      const recipeId = await getRandomRecipeId()
+      navigate(link.replace(RECIPE, recipeId))
+      closeDrawer()
+    } catch (error) {
+      notifications.show(
+        'Beim Aussuchen des Zufallrezepts ist leider ein Fehler aufgetreten.',
+        getToastConfig({})
+      )
+    }
   }
 
   return (
@@ -88,10 +106,10 @@ const AppBar = () => {
       </MuiAppBar>
 
       <MenuDrawer
+        closeDrawer={closeDrawer}
         handleDrawerToggle={handleDrawerToggle}
         isMobileOpen={isMobileOpen}
         onActionClick={onActionClick}
-        setMobileOpen={setIsMobileOpen}
       />
     </Box>
   )
