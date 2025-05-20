@@ -2,7 +2,7 @@ import {createSelector} from '@reduxjs/toolkit'
 
 import {RootState} from '../../../utils/store'
 
-import {RecipeDocumentData} from './slice'
+import {RecipeReturnType} from '../types'
 
 export const selectResult = (state: RootState) => state.recipeResults.result
 export const selectEntities = (state: RootState) => state.recipeResults.entities
@@ -11,7 +11,6 @@ export const selectIsLoading = (state: RootState) =>
   state.recipeResults.isLoading
 export const selectError = (state: RootState) => state.recipeResults.error
 
-export type RecipeReturnType = (state: RootState) => RecipeDocumentData
 export const selectRecipeData = (id: string): RecipeReturnType =>
   createSelector(
     [(state: RootState) => selectEntities(state)],
