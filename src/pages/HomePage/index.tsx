@@ -5,8 +5,10 @@ import {useAuth} from '../../hooks/auth/use-auth'
 import PageTemplate from '../../templates/Page'
 import {useLoadData} from './hooks/use-load-data'
 import RecipeList from '../../molecules/RecipeList'
+import {useScrollToTop} from '../../hooks/use-scroll-to-top'
 
 const HomePage = () => {
+  useScrollToTop()
   const {username} = useAuth()
 
   const effectRan = useRef<boolean>(false)
