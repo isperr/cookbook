@@ -1,4 +1,5 @@
 import {memo} from 'react'
+import {useNavigate} from 'react-router'
 import {
   IconButton,
   ListItem as MuiListItem,
@@ -7,9 +8,9 @@ import {
 } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
+
 import {useAppSelector} from '../../../utils/store-hooks'
 import {selectRecipeData} from '../../../modules/recipe/results/selectors'
-import {useNavigate} from 'react-router'
 
 const ListItem = ({id}: {id: string}) => {
   const {title, category, isFavorite} = useAppSelector(selectRecipeData(id))
