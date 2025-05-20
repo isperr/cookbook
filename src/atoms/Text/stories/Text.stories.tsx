@@ -1,14 +1,14 @@
 import type {Meta, StoryObj} from '@storybook/react'
 
-import Button from '../index'
+import Text from '../index'
 
-const meta: Meta<typeof Button> = {
-  component: Button,
-  title: 'Atoms/Button'
+const meta: Meta<typeof Text> = {
+  component: Text,
+  title: 'Atoms/Text'
 }
 
 export default meta
-type Story = StoryObj<typeof Button>
+type Story = StoryObj<typeof Text>
 
 //👇 Throws a type error if the args don't match the component props
 export const Primary: Story = {

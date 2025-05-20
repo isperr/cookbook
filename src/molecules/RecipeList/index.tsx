@@ -20,7 +20,7 @@ const RecipeList = ({
 }: RecipeListProps) => {
   if (hasError) {
     return (
-      <Text>
+      <Text className="md:px-6 px-4">
         Beim Laden der Daten ist leider ein Fehler aufgetreten. Versuche die
         Seite neu zu laden oder probiere es später erneut.
       </Text>
@@ -32,7 +32,11 @@ const RecipeList = ({
   }
 
   if (isLoaded && !result.length) {
-    return <Text>Es gibt leider noch keine Rezepte im Kochbuch.</Text>
+    return (
+      <Text className="md:px-6 px-4">
+        Es gibt leider noch keine Rezepte im Kochbuch.
+      </Text>
+    )
   }
 
   if (isLoaded && result.length) {
