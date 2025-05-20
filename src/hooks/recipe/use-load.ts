@@ -6,7 +6,7 @@ import {
   query
 } from 'firebase/firestore'
 
-import {RecipeDocumentData} from '../../modules/recipe/results/slice'
+import {RecipeDocumentData} from '../../modules/recipe/types'
 
 export const loadRecipes = async () => {
   const db = getFirestore()
@@ -24,7 +24,14 @@ export const loadRecipes = async () => {
     throw error
   })
   snapshot.forEach(doc => {
-    data.push({...doc.data(), id: doc.id})
+    const data = doc.data()
+    data.push({
+      ...data,
+      duration: data.duration,
+      id: doc.id,
+      instructions: data.instructions,
+      ingredients: data.ingredients
+    })
   })
 
   return data

@@ -8,6 +8,7 @@ export default {
       colors: theme.colors
     },
     screens: {
+      xs: '375px',
       sm: '600px',
       md: '728px',
       lg: '984px',
