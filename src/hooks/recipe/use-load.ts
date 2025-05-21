@@ -24,13 +24,13 @@ export const loadRecipes = async () => {
     throw error
   })
   snapshot.forEach(doc => {
-    const data = doc.data()
+    const docData = doc.data()
     data.push({
-      ...data,
-      duration: data.duration,
+      ...docData,
+      duration: docData.duration,
       id: doc.id,
-      instructions: data.instructions,
-      ingredients: data.ingredients
+      instructions: docData.instructions,
+      ingredients: docData.ingredients
     })
   })
 
