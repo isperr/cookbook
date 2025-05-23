@@ -25,17 +25,13 @@ export const useResolveRecipe = (id?: string) => {
   const isResolving = useAppSelector(selectIsResolving(id))
   const hasResolveError = useAppSelector(selectHasResolveError(id))
 
-  const handleResolveRecipe = useCallback(async () => {
-    if (!id) {
-      return
-    }
-
+  const handleResolveRecipe = useCallback(async (recipeId: string) => {
     try {
-      dispatch(resolve(id))
-      const data = await resolveRecipe(id)
-      dispatch(resolved({data, id: id}))
+      dispatch(resolve(recipeId))
+      const data = await resolveRecipe(recipeId)
+      dispatch(resolved({data, id: recipeId}))
     } catch (error) {
-      dispatch(resolvingError({error: error as Error, id: id}))
+      dispatch(resolvingError({error: error as Error, id: recipeId}))
       notifications.show(
         'Beim Laden des Rezepts ist leider ein Fehler aufgetreten.',
         getToastConfig({})

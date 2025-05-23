@@ -10,6 +10,9 @@ import {
   Typography
 } from '@mui/material'
 import {Link} from 'react-router'
+
+import {useLoadRandom} from '../../../hooks/recipe/use-load-random'
+
 import {actions, drawerWidth} from '../constants'
 import ModeItem from './ModeItem'
 import LogoutItem from './LogoutItem'
@@ -27,6 +30,8 @@ const MenuDrawer = ({
   isMobileOpen,
   onActionClick
 }: MenuDrawerProps) => {
+  const {hasError, isLoaded} = useLoadRandom()
+
   return (
     <nav>
       <Drawer
@@ -57,7 +62,10 @@ const MenuDrawer = ({
           <List>
             {actions.map(item => (
               <ListItem key={item.name} disablePadding>
-                <ListItemButton onClick={() => onActionClick(item.link)}>
+                <ListItemButton
+                  disabled={item.name === 'random' && (hasError || !isLoaded)}
+                  onClick={() => onActionClick(item.link)}
+                >
                   <ListItemIcon className="justify-center">
                     {item.icon}
                   </ListItemIcon>

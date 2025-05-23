@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {Link, useNavigate} from 'react-router'
+import {useEffect, useRef} from 'react'
+import {Link} from 'react-router'
 import {twMerge} from 'tailwind-merge'
 import MenuIcon from '@mui/icons-material/Menu'
 import {
@@ -9,57 +9,42 @@ import {
   Toolbar,
   Typography
 } from '@mui/material'
-import {useNotifications} from '@toolpad/core'
 
 import Button from '../../atoms/Button'
-import {ThemeModeContext} from '../../context'
-import {getRandomRecipeId} from '../../utils/get-random-recipe'
-import {getToastConfig} from '../../utils/get-toast-config'
+import {useLoadRandom} from '../../hooks/recipe/use-load-random'
 
 import AvatarMenu from './components/AvatarMenu'
 import MenuDrawer from './components/MenuDrawer'
-import {actions, RECIPE, TITLE} from './constants'
+import {actions, TITLE} from './constants'
+import {useAppBar} from './hooks/use-app-bar'
 
 const AppBar = () => {
-  const navigate = useNavigate()
-  const notifications = useNotifications()
+  const effectRan = useRef<boolean>(false)
+  const {hasError, isLoaded, onLoad} = useLoadRandom()
 
-  const themeModeContext = React.useContext(ThemeModeContext)
-
-  const [isMobileOpen, setIsMobileOpen] = useState<boolean>(false)
-
-  const handleDrawerToggle = () => {
-    setIsMobileOpen(prevState => !prevState)
-  }
-
-  const closeDrawer = () => {
-    setIsMobileOpen(false)
-  }
-
-  const onActionClick = async (link: string) => {
-    if (!link.includes(RECIPE)) {
-      navigate(link)
-      closeDrawer()
-      return
+  useEffect(() => {
+    if (!effectRan.current && !isLoaded) {
+      onLoad()
     }
 
-    try {
-      const recipeId = await getRandomRecipeId()
-      navigate(link.replace(RECIPE, recipeId))
-      closeDrawer()
-    } catch (error) {
-      notifications.show(
-        'Beim Aussuchen des Zufallrezepts ist leider ein Fehler aufgetreten.',
-        getToastConfig({})
-      )
+    return () => {
+      effectRan.current = true
     }
-  }
+  }, [isLoaded])
+
+  const {
+    closeDrawer,
+    handleDrawerToggle,
+    isMobileOpen,
+    onActionClick,
+    themeModeContext
+  } = useAppBar()
 
   return (
     <Box className="flex">
       <MuiAppBar component="nav" enableColorOnDark>
         <Toolbar className="flex justify-between">
-          <Link to="/" onClickCapture={() => setIsMobileOpen(false)}>
+          <Link to="/" onClickCapture={closeDrawer}>
             <Typography
               className={twMerge(
                 themeModeContext.themeMode === 'dark' && 'text-white',
@@ -93,6 +78,7 @@ const AppBar = () => {
                 key={item.name}
                 variant="text"
                 onClick={() => onActionClick(item.link)}
+                isDisabled={item.name === 'random' && (hasError || !isLoaded)}
               >
                 <span className="md:block hidden">{item.title}</span>
                 <span className="md:hidden block">

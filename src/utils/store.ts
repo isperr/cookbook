@@ -4,13 +4,15 @@ import authReducer from '../modules/auth/slice'
 import registrationReducer from '../modules/registration/slice'
 import recipeResultsReducer from '../modules/recipe/results/slice'
 import recipeResolveReducer from '../modules/recipe/resolve/slice'
+import recipeRandomReducer from '../modules/recipe/random/slice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     registration: registrationReducer,
     recipeResults: recipeResultsReducer,
-    recipeResolve: recipeResolveReducer
+    recipeResolve: recipeResolveReducer,
+    recipeRandom: recipeRandomReducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

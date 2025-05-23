@@ -41,7 +41,6 @@ export const useLogin = () => {
       let errorMsg = 'Beim Einloggen ist leider ein Fehler aufgetreten.'
       if (error instanceof FirebaseError) {
         const errorCode = error.code
-        console.log(errorCode)
         const msg = AUTH_ERROR_CODES[errorCode as keyof typeof AUTH_ERROR_CODES]
         if (msg) {
           errorMsg = msg
