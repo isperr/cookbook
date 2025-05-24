@@ -6,12 +6,11 @@ import DetailList from '../../../atoms/DetailList'
 import DoubleWrapper from '../../../atoms/DetailText/components/DoubleWrapper'
 import DetailText from '../../../atoms/DetailText'
 import StarRating from '../../../atoms/StarRating'
-import {selectRecipeData} from '../../../modules/recipe/results/selectors'
+import {useRecipeWithCategoryName} from '../../../hooks/recipe-category/use-recipe-with-category-name'
 import {recipeDurations} from '../../../modules/recipe/types'
-import {useAppSelector} from '../../../utils/store-hooks'
 
 const NonEditView = ({id}: {id: string}) => {
-  const recipe = useAppSelector(selectRecipeData(id))
+  const recipe = useRecipeWithCategoryName(id, true)
 
   return (
     <Box className="flex flex-col gap-2 pb-6">
@@ -36,13 +35,10 @@ const NonEditView = ({id}: {id: string}) => {
           <StarRating isReadOnly value={recipe.rating} />
         </DetailText>
         <DetailText
-          heading="Favorit"
-          text={recipe.isFavorite ? 'Ja' : 'Nein'}
-        />
-        <DetailText
           heading="Low Carb"
           text={recipe.isLowCarb ? 'Ja' : 'Nein'}
         />
+        <DetailText heading="Kategorie" text={recipe.categoryName} />
         <DetailText heading="Dauer" text={recipeDurations[recipe.duration]} />
       </DoubleWrapper>
       <DetailText heading="Details" text={recipe.details || '--'} />

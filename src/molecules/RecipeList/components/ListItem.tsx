@@ -1,4 +1,4 @@
-import {memo} from 'react'
+import {memo, useMemo} from 'react'
 import {useNavigate} from 'react-router'
 import {
   IconButton,
@@ -9,11 +9,18 @@ import {
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 
-import {useAppSelector} from '../../../utils/store-hooks'
-import {selectRecipeData} from '../../../modules/recipe/results/selectors'
+import {useRecipeWithCategoryName} from '../../../hooks/recipe-category/use-recipe-with-category-name'
 
 const ListItem = ({id}: {id: string}) => {
-  const {title, category, isFavorite} = useAppSelector(selectRecipeData(id))
+  const {title, categoryName, isFavorite, isLowCarb} =
+    useRecipeWithCategoryName(id, false)
+  const secondary = useMemo(() => {
+    if (isLowCarb) {
+      return [categoryName, 'Low Carb'].join('; ')
+    }
+    return categoryName
+  }, [categoryName, isLowCarb])
+
   const navigate = useNavigate()
 
   const onNavigateToRecipe = () => {
@@ -46,7 +53,7 @@ const ListItem = ({id}: {id: string}) => {
               {isFavorite && <FavoriteIcon fontSize="small" color="error" />}
             </span>
           }
-          secondary={category}
+          secondary={secondary}
         />
       </ListItemButton>
     </MuiListItem>

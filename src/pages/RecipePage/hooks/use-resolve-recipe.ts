@@ -15,10 +15,12 @@ import {
 } from '../../../modules/recipe/resolve/slice'
 import {getToastConfig} from '../../../utils/get-toast-config'
 import {useAppDispatch, useAppSelector} from '../../../utils/store-hooks'
+import {useLoadRecipeCategories} from '../../../hooks/recipe-category/use-load'
 
 export const useResolveRecipe = (id?: string) => {
   const dispatch = useAppDispatch()
   const notifications = useNotifications()
+  const {isLoading} = useLoadRecipeCategories(false)
 
   const recipe = useAppSelector(selectRecipe(id))
   const isResolved = useAppSelector(selectIsResolved(id))
@@ -42,7 +44,7 @@ export const useResolveRecipe = (id?: string) => {
   return {
     hasResolveError,
     isResolved,
-    isResolving,
+    isResolving: isResolving || isLoading,
     handleResolveRecipe,
     recipe
   }

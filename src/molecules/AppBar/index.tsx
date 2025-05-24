@@ -12,6 +12,7 @@ import {
 
 import Button from '../../atoms/Button'
 import {useLoadRandom} from '../../hooks/recipe/use-load-random'
+import {useLoadRecipeCategories} from '../../hooks/recipe-category/use-load'
 
 import AvatarMenu from './components/AvatarMenu'
 import MenuDrawer from './components/MenuDrawer'
@@ -21,6 +22,7 @@ import {useAppBar} from './hooks/use-app-bar'
 const AppBar = () => {
   const effectRan = useRef<boolean>(false)
   const {hasError, isLoaded, onLoad} = useLoadRandom()
+  useLoadRecipeCategories(true)
 
   useEffect(() => {
     if (!effectRan.current && !isLoaded) {
