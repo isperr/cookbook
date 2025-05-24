@@ -1,12 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RecipeDocumentData} from '../types'
 import {resolved} from '../resolve/slice'
+import {removed} from '../remove/slice'
 
 type RecipeResultsState = {
   entities: {
     [k: string]: RecipeDocumentData
   }
   error: Error | null
+  isEditMode: boolean
   isLoaded: boolean
   isLoading: boolean
   result: Array<string>
@@ -16,6 +18,7 @@ type RecipeResultsState = {
 const initialState: RecipeResultsState = {
   entities: {},
   error: null,
+  isEditMode: false,
   isLoaded: false,
   isLoading: false,
   result: []
@@ -63,20 +66,8 @@ export const recipeResultsState = createSlice({
         state.entities[action.payload.title] = action.payload
       }
     },
-    remove: (state, action: PayloadAction<string>) => {
-      const id = action.payload
-
-      const updatedResult: string[] = []
-
-      state.entities = state.result.reduce((acc, itemId) => {
-        const item = state.entities[itemId]
-        if (id === item.id) {
-          return acc
-        }
-        updatedResult.push(item.id)
-        return {...acc, [item.id]: item}
-      }, {})
-      state.result = updatedResult
+    toggleEditMode: (state, action: PayloadAction<boolean>) => {
+      state.isEditMode = action.payload
     }
   },
   extraReducers: builder => {
@@ -97,12 +88,27 @@ export const recipeResultsState = createSlice({
           }
         }
       )
+      .addCase(removed, (state, action: PayloadAction<string>) => {
+        const removeId = action.payload
+
+        const updatedResult: string[] = []
+
+        state.entities = state.result.reduce((acc, itemId) => {
+          const item = state.entities[itemId]
+          if (removeId === item.id) {
+            return acc
+          }
+          updatedResult.push(item.id)
+          return {...acc, [item.id]: item}
+        }, {})
+        state.result = updatedResult
+      })
       // and provide a default case if no other handlers matched
       .addDefaultCase(() => {})
   }
 })
 
-export const {load, loaded, loadingError, insert, remove} =
+export const {load, loaded, loadingError, insert, toggleEditMode} =
   recipeResultsState.actions
 
 export default recipeResultsState.reducer

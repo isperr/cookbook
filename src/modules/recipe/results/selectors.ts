@@ -10,6 +10,8 @@ export const selectIsLoaded = (state: RootState) => state.recipeResults.isLoaded
 export const selectIsLoading = (state: RootState) =>
   state.recipeResults.isLoading
 export const selectError = (state: RootState) => state.recipeResults.error
+export const selectIsEditMode = (state: RootState) =>
+  state.recipeResults.isEditMode
 
 export const selectRecipeData = (id: string): RecipeReturnType =>
   createSelector(

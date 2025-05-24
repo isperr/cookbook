@@ -63,6 +63,7 @@ export const useLoadRandom = () => {
   return {
     hasError,
     getRandomRecipeId,
+    isButtonDisabled: hasError || !result.length || !isLoaded,
     isLoaded,
     isLoading,
     onLoad

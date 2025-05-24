@@ -1,7 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
 import {RecipeDocumentData} from '../types'
-import {insert, remove} from '../results/slice'
+import {insert} from '../results/slice'
+import {removed} from '../remove/slice'
 
 type RecipeRandomState = {
   error: Error | null
@@ -45,9 +46,9 @@ export const recipeRandomState = createSlice({
         const {id} = action.payload
         state.result.push(id)
       })
-      .addCase(remove, (state, action: PayloadAction<string>) => {
-        const id = action.payload
-        state.result.filter(recipeId => recipeId !== id)
+      .addCase(removed, (state, action: PayloadAction<string>) => {
+        const recipeId = action.payload
+        state.result = state.result.filter(id => id !== recipeId)
       })
       // and provide a default case if no other handlers matched
       .addDefaultCase(() => {})

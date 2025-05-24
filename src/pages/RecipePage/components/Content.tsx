@@ -1,15 +1,17 @@
 import {memo} from 'react'
 import {Link} from 'react-router'
 
-import Text from '../../../atoms/Text'
 import Loading from '../../../atoms/Loading'
-import {useResolveRecipe} from '../hooks/use-resolve-recipe'
+import Text from '../../../atoms/Text'
 
+import {useResolveRecipe} from '../hooks/use-resolve-recipe'
+import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
 import NonEditView from './NonEditView'
 
 const Content = ({id}: {id?: string}) => {
   const {hasResolveError, isResolved, isResolving, recipe} =
     useResolveRecipe(id)
+  const {isEditMode} = useToggleEditMode()
 
   if (hasResolveError) {
     return (
@@ -36,8 +38,12 @@ const Content = ({id}: {id?: string}) => {
     )
   }
 
-  if (isResolved && recipe) {
+  if (!isEditMode && recipe) {
     return <NonEditView id={recipe.id} />
+  }
+
+  if (isEditMode && recipe) {
+    return <>edit mode</>
   }
 
   return null

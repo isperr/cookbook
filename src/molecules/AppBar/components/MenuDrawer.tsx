@@ -30,7 +30,7 @@ const MenuDrawer = ({
   isMobileOpen,
   onActionClick
 }: MenuDrawerProps) => {
-  const {hasError, isLoaded} = useLoadRandom()
+  const {isButtonDisabled} = useLoadRandom()
 
   return (
     <nav>
@@ -63,7 +63,7 @@ const MenuDrawer = ({
             {actions.map(item => (
               <ListItem key={item.name} disablePadding>
                 <ListItemButton
-                  disabled={item.name === 'random' && (hasError || !isLoaded)}
+                  disabled={item.name === 'random' && isButtonDisabled}
                   onClick={() => onActionClick(item.link)}
                 >
                   <ListItemIcon className="justify-center">

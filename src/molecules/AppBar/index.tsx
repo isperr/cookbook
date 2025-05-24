@@ -21,7 +21,7 @@ import {useAppBar} from './hooks/use-app-bar'
 
 const AppBar = () => {
   const effectRan = useRef<boolean>(false)
-  const {hasError, isLoaded, onLoad} = useLoadRandom()
+  const {isLoaded, isButtonDisabled, onLoad} = useLoadRandom()
   useLoadRecipeCategories(true)
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const AppBar = () => {
                 key={item.name}
                 variant="text"
                 onClick={() => onActionClick(item.link)}
-                isDisabled={item.name === 'random' && (hasError || !isLoaded)}
+                isDisabled={item.name === 'random' && isButtonDisabled}
               >
                 <span className="md:block hidden">{item.title}</span>
                 <span className="md:hidden block">
