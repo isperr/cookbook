@@ -53,12 +53,16 @@ export const selectRecipeCategoryOptions = createSelector(
       category => category.parentCategory
     )
     grouped['null'].forEach(parentCategory => {
-      recipeCategoryOptions.push(getOption(parentCategory))
-      const children = grouped[parentCategory.id]?.map(getOption) ?? [
-        getOption({...parentCategory, parentCategory: parentCategory.name})
-      ]
+      const children = grouped[parentCategory.id]?.map(getOption) ?? []
       if (children.length) {
+        recipeCategoryOptions.push(getOption(parentCategory))
         recipeCategoryOptions.push(...children)
+      } else {
+        recipeCategoryOptions.push({
+          name: parentCategory.name,
+          value: parentCategory.id,
+          isSubheading: false
+        })
       }
     })
 
