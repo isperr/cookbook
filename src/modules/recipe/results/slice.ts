@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RecipeDocumentData} from '../types'
 import {resolved} from '../resolve/slice'
 import {removed} from '../remove/slice'
+import {edited} from '../edit/slice'
 
 type RecipeResultsState = {
   entities: {
@@ -103,6 +104,23 @@ export const recipeResultsState = createSlice({
         }, {})
         state.result = updatedResult
       })
+      .addCase(
+        edited,
+        (
+          state,
+          action: PayloadAction<{
+            data: Partial<RecipeDocumentData>
+            id: string
+          }>
+        ) => {
+          const {data, id} = action.payload
+          // add new recipe to entities if data is provided
+          if (data) {
+            const oldData = state.entities[id]
+            state.entities[id] = {...oldData, ...data}
+          }
+        }
+      )
       // and provide a default case if no other handlers matched
       .addDefaultCase(() => {})
   }

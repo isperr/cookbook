@@ -13,11 +13,15 @@ import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
 import {selectRecipeData} from '../../../modules/recipe/results/selectors'
 import RecipeForm from '../../../molecules/RecipeForm'
 import {useAppSelector} from '../../../utils/store-hooks'
+import {getUpdatedData} from '../utils/get-updated-data'
+import {useEditRecipe} from '../../../hooks/recipe/use-edit'
 
 export type RecipeFormFields = {
   category: string
   details: string
   duration: string
+  ingredients: {amount: string; text: string}[]
+  instructions: {amount: null; text: string}[]
   isFavorite: boolean
   isLowCarb: boolean
   rating: number | null
@@ -27,18 +31,29 @@ export type RecipeFormFields = {
 const EditView = ({id}: {id: string}) => {
   const {leaveEditMode} = useToggleEditMode()
   const recipe = useAppSelector(selectRecipeData(id))
+  const {isEdited, isEditing, handleEdit} = useEditRecipe()
 
-  const isUpdating = false
+  const isDisabled = isEdited || isEditing
 
   const methods = useForm<RecipeFormFields>({
     defaultValues: omit({...recipe, details: recipe.details ?? undefined}, [
       'id'
     ]),
-    disabled: isUpdating
+    disabled: isDisabled
   })
+  const {
+    formState: {isDirty, dirtyFields}
+  } = methods
   const onSubmit: SubmitHandler<RecipeFormFields> = data => {
+    if (!isDirty) {
+      leaveEditMode()
+      return
+    }
     console.log(data)
-    console.log(methods.formState.dirtyFields)
+    console.log('dirtyFields', dirtyFields)
+    const updated = getUpdatedData(data, recipe)
+    console.log('updated', updated)
+    handleEdit({data: updated, id, leaveEditMode})
   }
   const onError: SubmitErrorHandler<RecipeFormFields> = errors =>
     console.log(errors)
@@ -50,13 +65,13 @@ const EditView = ({id}: {id: string}) => {
         <RecipeForm onSubmit={methods.handleSubmit(onSubmit, onError)}>
           <Button
             fullWidth
-            isDisabled={isUpdating}
+            isDisabled={isDisabled}
             onClick={leaveEditMode}
             variant="outlined"
           >
             Abbrechen
           </Button>
-          <Button fullWidth isLoading={isUpdating} type="submit">
+          <Button fullWidth isLoading={isDisabled} type="submit">
             Speichern
           </Button>
         </RecipeForm>

@@ -1,4 +1,4 @@
-import {useMemo} from 'react'
+import {memo, useMemo} from 'react'
 import {twMerge} from 'tailwind-merge'
 import {List, ListItem, ListItemIcon, ListItemText} from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
@@ -7,7 +7,7 @@ import DetailText from '../DetailText'
 import Text from '../Text'
 
 export type DetailListProps = {
-  data: Array<string>
+  data: Array<{text: string; amount: string | null}>
   heading: string
   isOrderedList: boolean
   noDataText: string
@@ -26,7 +26,7 @@ const DetailList = ({
       {hasData && (
         <List className="pb-0">
           {data.map((item, idx) => (
-            <ListItem key={item} className="gap-2 py-0" dense>
+            <ListItem key={item.text} className="gap-2 py-0" dense>
               <ListItemIcon
                 className={twMerge(
                   'justify-center min-w-fit',
@@ -39,7 +39,9 @@ const DetailList = ({
                   <CircleIcon fontSize="inherit" />
                 )}
               </ListItemIcon>
-              <ListItemText primary={item} />
+              <ListItemText
+                primary={[item.amount, item.text].filter(Boolean).join(' ')}
+              />
             </ListItem>
           ))}
         </List>
@@ -49,4 +51,4 @@ const DetailList = ({
   )
 }
 
-export default DetailList
+export default memo(DetailList)

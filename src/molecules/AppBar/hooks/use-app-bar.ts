@@ -3,6 +3,7 @@ import {useLocation, useNavigate} from 'react-router'
 
 import {ThemeModeContext} from '../../../context'
 import {useLoadRandom} from '../../../hooks/recipe/use-load-random'
+import {useToggleEditMode} from '../../../pages/RecipePage/hooks/use-toggle-edit-mode'
 
 import {RECIPE} from '../constants'
 
@@ -11,6 +12,7 @@ export const useAppBar = () => {
   const location = useLocation()
 
   const {getRandomRecipeId} = useLoadRandom()
+  const {isEditMode, leaveEditMode} = useToggleEditMode()
 
   const themeModeContext = React.useContext(ThemeModeContext)
   const [isMobileOpen, setIsMobileOpen] = useState<boolean>(false)
@@ -34,6 +36,9 @@ export const useAppBar = () => {
       ? location.pathname.split('/')[2]
       : null
     const recipeId = getRandomRecipeId(excludeId)
+    if (isEditMode) {
+      leaveEditMode()
+    }
     navigate(link.replace(RECIPE, recipeId))
     closeDrawer()
   }

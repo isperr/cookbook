@@ -5,6 +5,7 @@ import DoubleWrapper from '../../atoms/DetailText/components/DoubleWrapper'
 import DurationToggle from '../../atoms/DurationToggle'
 import BooleanButtonToggle from '../../atoms/BooleanButtonToggle'
 
+import ListDialog from '../ListDialog'
 import RatingDetail from './components/RatingDetail'
 import TitleDetail from './components/TitleDetail'
 import CategoryDetail from './components/CategoryDetail'
@@ -26,6 +27,11 @@ const RecipeForm = ({children, onSubmit}: RecipeFormProps) => {
         <BooleanButtonToggle heading="Favorit" type="isFavorite" />
         <TitleDetail />
       </Box>
+
+      <DoubleWrapper className="md:grid-cols-2">
+        <ListDialog title="Zutaten" type="ingredients" />
+        <ListDialog title="Zubereitung" type="instructions" />
+      </DoubleWrapper>
 
       <DoubleWrapper>
         <RatingDetail />

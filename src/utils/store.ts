@@ -6,6 +6,7 @@ import recipeResultsReducer from '../modules/recipe/results/slice'
 import recipeResolveReducer from '../modules/recipe/resolve/slice'
 import recipeRandomReducer from '../modules/recipe/random/slice'
 import recipeRemoveReducer from '../modules/recipe/remove/slice'
+import recipeEditReducer from '../modules/recipe/edit/slice'
 import recipeCategoryResultsReducer from '../modules/recipe-category/results/slice'
 
 export const store = configureStore({
@@ -16,7 +17,8 @@ export const store = configureStore({
     recipeResolve: recipeResolveReducer,
     recipeRandom: recipeRandomReducer,
     recipeCategoryResults: recipeCategoryResultsReducer,
-    recipeRemove: recipeRemoveReducer
+    recipeRemove: recipeRemoveReducer,
+    recipeEdit: recipeEditReducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

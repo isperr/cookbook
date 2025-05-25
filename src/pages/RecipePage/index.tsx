@@ -1,9 +1,12 @@
 import {useEffect, useRef, useState} from 'react'
-import PageTemplate from '../../templates/Page'
 import {useParams} from 'react-router'
-import {useResolveRecipe} from './hooks/use-resolve-recipe'
-import Content from './components/Content'
+
 import {useScrollToTop} from '../../hooks/use-scroll-to-top'
+import PageTemplate from '../../templates/Page'
+
+import Content from './components/Content'
+import {useResolveRecipe} from './hooks/use-resolve-recipe'
+import {useToggleEditMode} from './hooks/use-toggle-edit-mode'
 
 const RecipePage = () => {
   useScrollToTop()
@@ -13,6 +16,8 @@ const RecipePage = () => {
 
   const effectRan = useRef<boolean>(false)
   const {isResolved, handleResolveRecipe} = useResolveRecipe(id)
+
+  const {leaveEditMode} = useToggleEditMode()
 
   useEffect(() => {
     if (!effectRan.current && !isResolved && id) {
@@ -31,6 +36,12 @@ const RecipePage = () => {
       setPrevId(id)
     }
   }, [prevId, id, isResolved])
+
+  useEffect(() => {
+    return () => {
+      leaveEditMode()
+    }
+  }, [])
 
   return (
     <PageTemplate className="sm:px-6 px-4">

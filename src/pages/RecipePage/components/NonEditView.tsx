@@ -2,16 +2,17 @@ import {memo} from 'react'
 import {Box, Typography} from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 
+import Button from '../../../atoms/Button'
 import DetailList from '../../../atoms/DetailList'
 import DoubleWrapper from '../../../atoms/DetailText/components/DoubleWrapper'
 import DetailText from '../../../atoms/DetailText'
+import RecipeFavorite from '../../../atoms/RecipeFavorite'
 import StarRating from '../../../atoms/StarRating'
 import {useRecipeWithCategoryName} from '../../../hooks/recipe-category/use-recipe-with-category-name'
 import {recipeDurations} from '../../../modules/recipe/types'
-import Button from '../../../atoms/Button'
+
 import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
 import DeleteDialog from './DeleteDialog'
-import RecipeFavorite from '../../../atoms/RecipeFavorite'
 
 const NonEditView = ({id}: {id: string}) => {
   const recipe = useRecipeWithCategoryName(id, true)
