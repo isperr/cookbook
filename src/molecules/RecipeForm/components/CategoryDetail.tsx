@@ -4,7 +4,7 @@ import {FormControl, ListSubheader, MenuItem, Select} from '@mui/material'
 
 import DetailText from '../../../atoms/DetailText'
 import {selectRecipeCategoryOptions} from '../../../modules/recipe-category/results/selectors'
-import {RecipeFormFields} from '../../../pages/RecipePage/components/EditView'
+import {RecipeFormFields} from '../../../molecules/RecipeForm/types'
 import {useAppSelector} from '../../../utils/store-hooks'
 
 const CategoryDetail = () => {

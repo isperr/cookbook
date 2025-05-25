@@ -10,23 +10,13 @@ import {Typography} from '@mui/material'
 
 import Button from '../../../atoms/Button'
 import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
+import {useEditRecipe} from '../../../hooks/recipe/use-edit'
 import {selectRecipeData} from '../../../modules/recipe/results/selectors'
 import RecipeForm from '../../../molecules/RecipeForm'
+import {RecipeFormFields} from '../../../molecules/RecipeForm/types'
 import {useAppSelector} from '../../../utils/store-hooks'
-import {getUpdatedData} from '../utils/get-updated-data'
-import {useEditRecipe} from '../../../hooks/recipe/use-edit'
 
-export type RecipeFormFields = {
-  category: string
-  details: string
-  duration: string
-  ingredients: {amount: string; text: string}[]
-  instructions: {amount: null; text: string}[]
-  isFavorite: boolean
-  isLowCarb: boolean
-  rating: number | null
-  title: string
-}
+import {getUpdatedData} from '../utils/get-updated-data'
 
 const EditView = ({id}: {id: string}) => {
   const {leaveEditMode} = useToggleEditMode()

@@ -1,7 +1,7 @@
 import {ToggleButton, ToggleButtonGroup} from '@mui/material'
 
 import {Controller, useFormContext} from 'react-hook-form'
-import {RecipeFormFields} from '../../pages/RecipePage/components/EditView'
+import {RecipeFormFields} from '../../molecules/RecipeForm/types'
 import DetailText from '../DetailText'
 
 const DurationToggle = () => {

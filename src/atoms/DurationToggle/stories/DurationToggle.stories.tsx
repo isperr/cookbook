@@ -2,7 +2,7 @@ import {useForm, FormProvider} from 'react-hook-form'
 import type {Meta, StoryObj} from '@storybook/react'
 
 import DurationToggle from '../index'
-import {RecipeFormFields} from '../../../pages/RecipePage/components/EditView'
+import {RecipeFormFields} from '../../../molecules/RecipeForm/types'
 
 const meta: Meta<typeof DurationToggle> = {
   component: DurationToggle,

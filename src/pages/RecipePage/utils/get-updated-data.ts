@@ -1,8 +1,7 @@
 import {isArray, isBoolean, isEqual} from 'lodash'
 
 import {RecipeDocumentData} from '../../../modules/recipe/types'
-
-import {RecipeFormFields} from '../components/EditView'
+import {RecipeFormFields} from '../../../molecules/RecipeForm/types'
 
 export const getUpdatedData = (
   data: RecipeFormFields,

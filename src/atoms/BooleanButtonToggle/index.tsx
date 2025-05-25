@@ -6,7 +6,7 @@ import {ToggleButton} from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 
-import {RecipeFormFields} from '../../pages/RecipePage/components/EditView'
+import {RecipeFormFields} from '../../molecules/RecipeForm/types'
 import DetailText from '../DetailText'
 
 export type BooleanButtonToggleProps = {

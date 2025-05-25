@@ -4,7 +4,7 @@ import {Box} from '@mui/material'
 
 import DetailText from '../../../atoms/DetailText'
 import StarRating, {StarRatingValue} from '../../../atoms/StarRating'
-import {RecipeFormFields} from '../../../pages/RecipePage/components/EditView'
+import {RecipeFormFields} from '../../../molecules/RecipeForm/types'
 
 const RatingDetail = () => {
   const {control} = useFormContext<RecipeFormFields>()

@@ -1,7 +1,7 @@
 import {FormProvider, useForm} from 'react-hook-form'
 import type {Meta, StoryObj} from '@storybook/react'
 
-import {RecipeFormFields} from '../../../pages/RecipePage/components/EditView'
+import {RecipeFormFields} from '../../../molecules/RecipeForm/types'
 import BooleanButtonToggle from '../index'
 
 const meta: Meta<typeof BooleanButtonToggle> = {

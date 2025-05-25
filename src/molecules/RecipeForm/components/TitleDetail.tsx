@@ -3,7 +3,7 @@ import {Controller, useFormContext} from 'react-hook-form'
 import {FormControl, OutlinedInput} from '@mui/material'
 
 import DetailText from '../../../atoms/DetailText'
-import {RecipeFormFields} from '../../../pages/RecipePage/components/EditView'
+import {RecipeFormFields} from '../../../molecules/RecipeForm/types'
 
 const TitleDetail = () => {
   const {control} = useFormContext<RecipeFormFields>()

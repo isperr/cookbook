@@ -2,7 +2,7 @@ import {useController, useFormContext} from 'react-hook-form'
 import {twMerge} from 'tailwind-merge'
 import {FormControl, InputAdornment, OutlinedInput} from '@mui/material'
 
-import {RecipeFormFields} from '../../../pages/RecipePage/components/EditView'
+import {RecipeFormFields} from '../../../molecules/RecipeForm/types'
 
 import {ListDialogProps} from '../index'
 

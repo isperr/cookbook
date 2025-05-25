@@ -17,7 +17,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import Button from '../../atoms/Button'
 import DetailText from '../../atoms/DetailText'
 import Text from '../../atoms/Text'
-import {RecipeFormFields} from '../../pages/RecipePage/components/EditView'
+import {RecipeFormFields} from '../../molecules/RecipeForm/types'
 
 import Field from './components/Field'
 
