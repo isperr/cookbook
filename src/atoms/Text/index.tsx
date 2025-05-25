@@ -4,13 +4,15 @@ import {Typography} from '@mui/material'
 export type TextProps = {
   children: ReactNode
   className?: string
-  type?: 'text' | 'subheading' | 'body'
+  type?: 'text' | 'subheading' | 'body' | 'label'
 }
 
 const Text = ({children, className, type = 'text'}: TextProps) => {
   const color = useMemo(() => {
     if (type === 'subheading') {
       return 'primary'
+    } else if (type === 'label') {
+      return 'textSecondary'
     }
   }, [type])
 
@@ -25,6 +27,8 @@ const Text = ({children, className, type = 'text'}: TextProps) => {
       return 'subtitle1'
     } else if (type === 'body') {
       return 'body2'
+    } else if (type === 'label') {
+      return 'caption'
     }
   }, [type])
 

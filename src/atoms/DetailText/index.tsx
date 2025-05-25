@@ -2,14 +2,23 @@ import {ReactNode, useMemo} from 'react'
 import {Box} from '@mui/material'
 
 import Text from '../Text'
+import {twMerge} from 'tailwind-merge'
 
 export type DetailTextProps = {
   children?: ReactNode
+  className?: string
   heading?: string
+  isEditMode?: boolean
   text?: string
 }
 
-const DetailText = ({children, heading, text}: DetailTextProps) => {
+const DetailText = ({
+  children,
+  className,
+  heading,
+  isEditMode = false,
+  text
+}: DetailTextProps) => {
   const textContent = useMemo(() => {
     if (text) {
       return <Text>{text}</Text>
@@ -19,8 +28,8 @@ const DetailText = ({children, heading, text}: DetailTextProps) => {
   }, [children, text])
 
   return (
-    <Box className="flex flex-col">
-      <Text type="subheading">{heading}</Text>
+    <Box className={twMerge('flex flex-col', className)}>
+      <Text type={isEditMode ? 'label' : 'subheading'}>{heading}</Text>
       {textContent}
     </Box>
   )
