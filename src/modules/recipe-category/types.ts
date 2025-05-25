@@ -11,3 +11,9 @@ export type RecipeCategoryReturnType = (state: RootState) => Omit<
 > & {
   parentCategory: RecipeCategory | null
 }
+
+export type RecipeCategoryOptionType = {
+  isSubheading: boolean
+  name: string
+  value: string
+}

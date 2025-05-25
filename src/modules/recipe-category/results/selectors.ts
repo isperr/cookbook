@@ -2,7 +2,12 @@ import {createSelector} from '@reduxjs/toolkit'
 
 import {RootState} from '../../../utils/store'
 
-import {RecipeCategoryReturnType} from '../types'
+import {
+  RecipeCategory,
+  RecipeCategoryOptionType,
+  RecipeCategoryReturnType
+} from '../types'
+import {groupBy} from 'lodash'
 
 export const selectResult = (state: RootState) =>
   state.recipeCategoryResults.result
@@ -28,3 +33,35 @@ export const selectRecipeCategory = (id: string): RecipeCategoryReturnType =>
       parentCategory: parentCategory ? entities[parentCategory] : null
     }
   })
+
+const getOption = (category: RecipeCategory) => {
+  return {
+    name: category.name,
+    value: category.id,
+    isSubheading: !category.parentCategory
+  }
+}
+
+export const selectRecipeCategoryOptions = createSelector(
+  selectResult,
+  selectEntities,
+  (result, entities) => {
+    const recipeCategories = result.map(id => entities[id])
+    const recipeCategoryOptions: Array<RecipeCategoryOptionType> = []
+    const grouped = groupBy(
+      recipeCategories,
+      category => category.parentCategory
+    )
+    grouped['null'].forEach(parentCategory => {
+      recipeCategoryOptions.push(getOption(parentCategory))
+      const children = grouped[parentCategory.id]?.map(getOption) ?? [
+        getOption({...parentCategory, parentCategory: parentCategory.name})
+      ]
+      if (children.length) {
+        recipeCategoryOptions.push(...children)
+      }
+    })
+
+    return recipeCategoryOptions
+  }
+)

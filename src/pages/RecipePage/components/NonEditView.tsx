@@ -1,6 +1,5 @@
 import {memo} from 'react'
 import {Box, Typography} from '@mui/material'
-import FavoriteIcon from '@mui/icons-material/Favorite'
 import EditIcon from '@mui/icons-material/Edit'
 
 import DetailList from '../../../atoms/DetailList'
@@ -12,6 +11,7 @@ import {recipeDurations} from '../../../modules/recipe/types'
 import Button from '../../../atoms/Button'
 import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
 import DeleteDialog from './DeleteDialog'
+import RecipeFavorite from '../../../atoms/RecipeFavorite'
 
 const NonEditView = ({id}: {id: string}) => {
   const recipe = useRecipeWithCategoryName(id, true)
@@ -20,7 +20,7 @@ const NonEditView = ({id}: {id: string}) => {
   return (
     <Box className="flex flex-col gap-2 pb-6">
       <div className="flex items-center gap-2">
-        {recipe.isFavorite && <FavoriteIcon fontSize="medium" color="error" />}
+        <RecipeFavorite value={recipe.isFavorite} />
         <Typography variant="h5">{recipe.title}</Typography>
       </div>
       <DetailList
@@ -37,7 +37,13 @@ const NonEditView = ({id}: {id: string}) => {
       />
       <DoubleWrapper>
         <DetailText heading="Rating">
-          <StarRating isReadOnly value={recipe.rating} />
+          <StarRating
+            defaultValue={recipe.rating}
+            isDisabled={false}
+            isReadOnly
+            name="rating"
+            value={undefined}
+          />
         </DetailText>
         <DetailText
           heading="Low Carb"

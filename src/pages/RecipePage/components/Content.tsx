@@ -7,6 +7,7 @@ import Text from '../../../atoms/Text'
 import {useResolveRecipe} from '../hooks/use-resolve-recipe'
 import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
 import NonEditView from './NonEditView'
+import EditView from './EditView'
 
 const Content = ({id}: {id?: string}) => {
   const {hasResolveError, isResolved, isResolving, recipe} =
@@ -43,7 +44,7 @@ const Content = ({id}: {id?: string}) => {
   }
 
   if (isEditMode && recipe) {
-    return <>edit mode</>
+    return <EditView id={id} />
   }
 
   return null

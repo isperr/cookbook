@@ -5,7 +5,8 @@ import {RootState} from '../../utils/store'
 export const recipeDurations = {
   short: 'Kurz',
   medium: 'Mittel',
-  long: 'Lang'
+  long: 'Lang',
+  unknown: '--'
 }
 export type RecipeDurationType = typeof recipeDurations
 export type RecipeDuration = keyof RecipeDurationType
@@ -17,4 +18,3 @@ export type RecipeDocumentData = DocumentData & {
   ingredients: Array<string>
 }
 export type RecipeReturnType = (state: RootState) => RecipeDocumentData
-export type ResolveStateReturnType = (state: RootState) => boolean
