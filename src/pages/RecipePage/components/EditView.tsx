@@ -1,4 +1,11 @@
 import {memo} from 'react'
+import {
+  useForm,
+  SubmitHandler,
+  FormProvider,
+  SubmitErrorHandler
+} from 'react-hook-form'
+import {omit} from 'lodash'
 import {Typography} from '@mui/material'
 
 import Button from '../../../atoms/Button'
@@ -7,17 +14,8 @@ import {selectRecipeData} from '../../../modules/recipe/results/selectors'
 import RecipeForm from '../../../molecules/RecipeForm'
 import {useAppSelector} from '../../../utils/store-hooks'
 
-import {
-  useForm,
-  SubmitHandler,
-  FormProvider,
-  SubmitErrorHandler
-} from 'react-hook-form'
-import {RecipeCategory} from '../../../modules/recipe-category/types'
-import {omit} from 'lodash'
-
 export type RecipeFormFields = {
-  category: RecipeCategory
+  category: string
   details: string
   duration: string
   isFavorite: boolean

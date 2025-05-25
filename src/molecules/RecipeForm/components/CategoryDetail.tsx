@@ -21,12 +21,27 @@ const CategoryDetail = () => {
           <FormControl id="category-form" required>
             <Select
               disabled={disabled}
+              displayEmpty
               id={name}
               name={name}
               onBlur={onBlur}
               onChange={onChange}
               ref={ref}
               size="small"
+              renderValue={(selected?: string) => {
+                if (!selected) {
+                  return <em>Kategorie auswählen</em>
+                }
+
+                return (
+                  <>
+                    {
+                      options.find(opt => opt.value === selected.toString())
+                        ?.name
+                    }
+                  </>
+                )
+              }}
               value={value}
             >
               {options.map(opt => {

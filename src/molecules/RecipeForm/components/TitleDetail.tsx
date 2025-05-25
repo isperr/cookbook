@@ -23,6 +23,7 @@ const TitleDetail = () => {
               id={name}
               onBlur={onBlur}
               onChange={onChange}
+              placeholder="Gib hier den Titel des Rezepts an"
               required
               size="small"
               value={value}

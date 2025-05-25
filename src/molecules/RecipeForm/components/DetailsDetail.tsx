@@ -24,6 +24,7 @@ const DetailsDetail = () => {
               name={name}
               onBlur={onBlur}
               onChange={onChange}
+              placeholder="Gib hier Details zum Rezept an"
               size="small"
               value={value}
             />
