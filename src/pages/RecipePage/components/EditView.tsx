@@ -32,17 +32,14 @@ const EditView = ({id}: {id: string}) => {
     disabled: isDisabled
   })
   const {
-    formState: {isDirty, dirtyFields}
+    formState: {isDirty}
   } = methods
   const onSubmit: SubmitHandler<RecipeFormFields> = data => {
     if (!isDirty) {
       leaveEditMode()
       return
     }
-    console.log(data)
-    console.log('dirtyFields', dirtyFields)
     const updated = getUpdatedData(data, recipe)
-    console.log('updated', updated)
     handleEdit({data: updated, id, leaveEditMode})
   }
   const onError: SubmitErrorHandler<RecipeFormFields> = errors =>
