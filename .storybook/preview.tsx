@@ -13,7 +13,6 @@ import {
 
 const withMuiTheme = (Story, context) => {
   const {theme} = context.globals
-  console.log(context)
 
   return (
     <ThemeProvider

@@ -38,12 +38,10 @@ export const useAuth = () => {
         }
         return
       }
-      console.log('only here once')
 
       const docRef = doc(db, 'users', user.email)
       const docSnap = await getDoc(docRef)
       const userDoc = docSnap.data()
-      console.log('loginUser', userDoc)
 
       if (userDoc) {
         dispatch(

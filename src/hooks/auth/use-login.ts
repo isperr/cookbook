@@ -35,7 +35,6 @@ export const useLogin = () => {
       dispatch(loginSuccess())
       // success toast will only be shown once auth was successfull - see /hooks/auth/use-auth.ts
     } catch (error) {
-      console.log(error)
       let errorMsg = 'Beim Einloggen ist leider ein Fehler aufgetreten.'
       if (error instanceof FirebaseError) {
         const errorCode = error.code

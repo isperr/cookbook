@@ -24,7 +24,6 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (!effectRan.current && !shouldPreventAuthCheck) {
-      console.log('useeffect')
       onCheckUser()
     }
     return () => {
