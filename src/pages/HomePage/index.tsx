@@ -26,7 +26,7 @@ const HomePage = () => {
   }, [isLoaded])
 
   return (
-    <PageTemplate className="justify-start h-[200vh]">
+    <PageTemplate className="justify-start">
       <Typography className="text-center" variant="h5">
         Willkommen{username ? `, ${username}` : ''}
       </Typography>

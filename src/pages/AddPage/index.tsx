@@ -7,13 +7,15 @@ import {
 } from 'react-hook-form'
 import {Typography} from '@mui/material'
 
-import Button from '../../atoms/Button'
+import SaveButtons from '../../atoms/SaveButtons'
 import {useAddRecipe} from '../../hooks/recipe/use-add'
-import {RecipeFormFields} from '../../molecules/RecipeForm/types'
+import {useScrollToTop} from '../../hooks/use-scroll-to-top'
 import RecipeForm from '../../molecules/RecipeForm'
+import {RecipeFormFields} from '../../molecules/RecipeForm/types'
 import PageTemplate from '../../templates/Page'
 
 const AddPage = () => {
+  useScrollToTop()
   const navigate = useNavigate()
   const navigateHome = () => {
     navigate('/')
@@ -59,17 +61,11 @@ const AddPage = () => {
           isAddMode
           onSubmit={methods.handleSubmit(onSubmit, onError)}
         >
-          <Button
-            fullWidth
-            isDisabled={isDisabled}
-            onClick={navigateHome}
-            variant="outlined"
-          >
-            Abbrechen
-          </Button>
-          <Button fullWidth isLoading={isDisabled} type="submit">
-            Hinzufügen
-          </Button>
+          <SaveButtons
+            isLoading={isDisabled}
+            onCancel={navigateHome}
+            type="add"
+          />
         </RecipeForm>
       </FormProvider>
     </PageTemplate>

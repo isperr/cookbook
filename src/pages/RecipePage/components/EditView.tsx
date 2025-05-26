@@ -8,14 +8,14 @@ import {
 import {omit} from 'lodash'
 import {Typography} from '@mui/material'
 
-import Button from '../../../atoms/Button'
-import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
+import SaveButtons from '../../../atoms/SaveButtons'
 import {useEditRecipe} from '../../../hooks/recipe/use-edit'
 import {selectRecipeData} from '../../../modules/recipe/results/selectors'
 import RecipeForm from '../../../molecules/RecipeForm'
 import {RecipeFormFields} from '../../../molecules/RecipeForm/types'
 import {useAppSelector} from '../../../utils/store-hooks'
 
+import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
 import {getUpdatedData} from '../utils/get-updated-data'
 
 const EditView = ({id}: {id: string}) => {
@@ -34,13 +34,14 @@ const EditView = ({id}: {id: string}) => {
   const {
     formState: {isDirty}
   } = methods
-  const onSubmit: SubmitHandler<RecipeFormFields> = data => {
+
+  const onSubmit: SubmitHandler<RecipeFormFields> = async data => {
     if (!isDirty) {
       leaveEditMode()
       return
     }
     const updated = getUpdatedData(data, recipe)
-    handleEdit({data: updated, id, leaveEditMode})
+    await handleEdit({data: updated, id})
   }
   const onError: SubmitErrorHandler<RecipeFormFields> = errors =>
     console.log(errors)
@@ -53,17 +54,11 @@ const EditView = ({id}: {id: string}) => {
           isAddMode={false}
           onSubmit={methods.handleSubmit(onSubmit, onError)}
         >
-          <Button
-            fullWidth
-            isDisabled={isDisabled}
-            onClick={leaveEditMode}
-            variant="outlined"
-          >
-            Abbrechen
-          </Button>
-          <Button fullWidth isLoading={isDisabled} type="submit">
-            Speichern
-          </Button>
+          <SaveButtons
+            isLoading={isDisabled}
+            onCancel={leaveEditMode}
+            type="leaveEdit"
+          />
         </RecipeForm>
       </FormProvider>
     </>

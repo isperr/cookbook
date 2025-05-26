@@ -10,7 +10,7 @@ const RatingDetail = () => {
   const {control} = useFormContext<RecipeFormFields>()
 
   return (
-    <DetailText heading="Rating" isEditMode>
+    <DetailText heading="Bewertung" isEditMode>
       <Box className="h-[43.28px] flex items-center">
         <Controller
           control={control}

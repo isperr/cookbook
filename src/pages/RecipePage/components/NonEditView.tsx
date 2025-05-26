@@ -1,8 +1,6 @@
-import {memo} from 'react'
+import {memo, useState} from 'react'
 import {Box, Typography} from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
 
-import Button from '../../../atoms/Button'
 import DetailList from '../../../atoms/DetailList'
 import DoubleWrapper from '../../../atoms/DetailText/components/DoubleWrapper'
 import DetailText from '../../../atoms/DetailText'
@@ -13,10 +11,17 @@ import {recipeDurations} from '../../../modules/recipe/types'
 
 import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
 import DeleteDialog from './DeleteDialog'
+import SaveButtons from '../../../atoms/SaveButtons'
 
 const NonEditView = ({id}: {id: string}) => {
   const recipe = useRecipeWithCategoryName(id, true)
   const {enterEditMode} = useToggleEditMode()
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false)
+
+  const openDeleteDialog = () => {
+    setIsDeleteDialogOpen(true)
+  }
 
   return (
     <Box className="flex flex-col gap-2 pb-6">
@@ -39,7 +44,7 @@ const NonEditView = ({id}: {id: string}) => {
       <DoubleWrapper>
         <DetailText heading="Kategorie" text={recipe.categoryName} />
         <DetailText heading="Dauer" text={recipeDurations[recipe.duration]} />
-        <DetailText heading="Rating">
+        <DetailText heading="Bewertung">
           <StarRating
             defaultValue={recipe.rating}
             isDisabled={false}
@@ -55,12 +60,18 @@ const NonEditView = ({id}: {id: string}) => {
       </DoubleWrapper>
       <DetailText heading="Details" text={recipe.details || '--'} />
 
-      <Box className="grid xs:grid-cols-2 grid-cols-1 gap-2">
-        <Button onClick={enterEditMode} startIcon={<EditIcon />}>
-          Bearbeiten
-        </Button>
-        <DeleteDialog id={id} name={recipe.title} />
-      </Box>
+      <SaveButtons
+        onCancel={enterEditMode}
+        onConfirm={openDeleteDialog}
+        type="enterEdit"
+      >
+        <DeleteDialog
+          id={id}
+          isDialogOpen={isDeleteDialogOpen}
+          name={recipe.title}
+          setIsDialogOpen={setIsDeleteDialogOpen}
+        />
+      </SaveButtons>
     </Box>
   )
 }

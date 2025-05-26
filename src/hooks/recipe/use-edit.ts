@@ -16,6 +16,9 @@ import {
 import {RecipeDocumentData} from '../../modules/recipe/types'
 import {getToastConfig} from '../../utils/get-toast-config'
 import {useAppDispatch, useAppSelector} from '../../utils/store-hooks'
+import {useToggleEditMode} from '../../pages/RecipePage/hooks/use-toggle-edit-mode'
+
+import {scrollToTop} from '../use-scroll-to-top'
 
 export const useEditRecipe = () => {
   const notifications = useNotifications()
@@ -26,16 +29,10 @@ export const useEditRecipe = () => {
   const isEditing = useAppSelector(selectIsEditing)
   const error = useAppSelector(selectError)
 
+  const {leaveEditMode} = useToggleEditMode()
+
   const handleEdit = useCallback(
-    async ({
-      data,
-      id,
-      leaveEditMode
-    }: {
-      data: Partial<RecipeDocumentData>
-      id: string
-      leaveEditMode: () => void
-    }) => {
+    async ({data, id}: {data: Partial<RecipeDocumentData>; id: string}) => {
       try {
         const ref = doc(db, 'recipes', id)
 
@@ -47,6 +44,7 @@ export const useEditRecipe = () => {
           getToastConfig({autoHideDuration: 3000, severity: 'success'})
         )
         leaveEditMode()
+        scrollToTop()
         dispatch(reset())
       } catch (error) {
         dispatch(editingError(error as Error))
@@ -56,7 +54,7 @@ export const useEditRecipe = () => {
         )
       }
     },
-    [db, dispatch]
+    [db, dispatch, leaveEditMode]
   )
 
   return {
