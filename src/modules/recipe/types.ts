@@ -18,3 +18,4 @@ export type RecipeDocumentData = DocumentData & {
   instructions: Array<{amount: null; text: string}>
 }
 export type RecipeReturnType = (state: RootState) => RecipeDocumentData
+export type ResolveStateReturnType = (state: RootState) => boolean

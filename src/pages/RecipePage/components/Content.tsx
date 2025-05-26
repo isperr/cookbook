@@ -39,12 +39,11 @@ const Content = ({id}: {id?: string}) => {
     )
   }
 
-  if (!isEditMode && recipe) {
+  if (recipe?.id) {
+    if (isEditMode) {
+      return <EditView id={recipe.id} />
+    }
     return <NonEditView id={recipe.id} />
-  }
-
-  if (isEditMode && recipe) {
-    return <EditView id={id} />
   }
 
   return null
