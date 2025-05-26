@@ -1,8 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
-import {RecipeDocumentData} from '../types'
-import {insert} from '../results/slice'
 import {removed} from '../remove/slice'
+import {added} from '../add/slice'
 
 type RecipeRandomState = {
   error: Error | null
@@ -42,7 +41,7 @@ export const recipeRandomState = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(insert, (state, action: PayloadAction<RecipeDocumentData>) => {
+      .addCase(added, (state, action: PayloadAction<{id: string}>) => {
         const {id} = action.payload
         state.result.push(id)
       })
