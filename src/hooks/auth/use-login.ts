@@ -7,9 +7,9 @@ import {
   loginSuccess,
   logout,
   logoutFailure,
-  logoutSuccess,
-  selectIsLoading
+  logoutSuccess
 } from '../../modules/auth/slice'
+import {selectIsLoading} from '../../modules/auth/selectors'
 import {useAppDispatch, useAppSelector} from '../../utils/store-hooks'
 import {getToastConfig} from '../../utils/get-toast-config'
 import {FirebaseError} from 'firebase/app'
@@ -33,15 +33,11 @@ export const useLogin = () => {
       dispatch(login())
       await signInWithEmailAndPassword(auth, email, password)
       dispatch(loginSuccess())
-      notifications.show(
-        'Du hast dich erfolgreich eingeloggt.',
-        getToastConfig({severity: 'success'})
-      )
+      // success toast will only be shown once auth was successfull - see /hooks/auth/use-auth.ts
     } catch (error) {
       let errorMsg = 'Beim Einloggen ist leider ein Fehler aufgetreten.'
       if (error instanceof FirebaseError) {
         const errorCode = error.code
-        console.log(errorCode)
         const msg = AUTH_ERROR_CODES[errorCode as keyof typeof AUTH_ERROR_CODES]
         if (msg) {
           errorMsg = msg

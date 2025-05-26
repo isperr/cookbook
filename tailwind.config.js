@@ -4,11 +4,11 @@ const theme = require('./theme')
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
-    colors: {
-      ...theme.colors
+    extend: {
+      colors: theme.colors
     },
     screens: {
+      xs: '375px',
       sm: '600px',
       md: '728px',
       lg: '984px',

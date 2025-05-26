@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {Paper, Typography} from '@mui/material'
 
 import Button from '../../atoms/Button'
@@ -8,9 +8,13 @@ import LoginForm from './components/LoginForm'
 import RegistrationForm from './components/RegistrationForm'
 import {twMerge} from 'tailwind-merge'
 import Background from '../../atoms/Background'
+import {useAppSelector} from '../../utils/store-hooks'
+import {selectShouldPreventAuthCheck} from '../../modules/auth/selectors'
 
 const LoginPage = () => {
+  const effectRan = useRef<boolean>(false)
   const {onCheckUser} = useAuth()
+  const shouldPreventAuthCheck = useAppSelector(selectShouldPreventAuthCheck)
 
   const [isRegistration, setIsRegistration] = useState<boolean>(false)
 
@@ -19,8 +23,13 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    onCheckUser()
-  }, [])
+    if (!effectRan.current && !shouldPreventAuthCheck) {
+      onCheckUser()
+    }
+    return () => {
+      effectRan.current = true
+    }
+  }, [shouldPreventAuthCheck])
 
   return (
     <Background>
