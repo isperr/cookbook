@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react'
+import {useCallback} from 'react'
 import {deleteDoc, doc, getFirestore} from 'firebase/firestore'
 import {useNotifications} from '@toolpad/core'
 
@@ -39,6 +39,11 @@ export const useRemoveRecipe = () => {
           getToastConfig({autoHideDuration: 3000, severity: 'success'})
         )
         closeDialog()
+
+        setTimeout(() => {
+          // do a little bit later to avoid "not found"-message being shown on RecipePage
+          dispatch(reset(id))
+        }, 500)
       } catch (error) {
         dispatch(removingError(error as Error))
         notifications.show(
@@ -49,15 +54,6 @@ export const useRemoveRecipe = () => {
     },
     [db, dispatch]
   )
-
-  useEffect(() => {
-    return () => {
-      // only reset if data was actually deleted
-      if (isRemoved) {
-        dispatch(reset())
-      }
-    }
-  }, [isRemoved])
 
   return {
     handleRemove,

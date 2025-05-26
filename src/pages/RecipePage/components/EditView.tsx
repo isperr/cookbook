@@ -49,7 +49,10 @@ const EditView = ({id}: {id: string}) => {
     <>
       <Typography variant="h5">Rezept bearbeiten</Typography>
       <FormProvider {...methods}>
-        <RecipeForm onSubmit={methods.handleSubmit(onSubmit, onError)}>
+        <RecipeForm
+          isAddMode={false}
+          onSubmit={methods.handleSubmit(onSubmit, onError)}
+        >
           <Button
             fullWidth
             isDisabled={isDisabled}

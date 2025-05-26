@@ -11,7 +11,7 @@ const DoubleWrapper = ({
 }) => (
   <Box
     className={twMerge(
-      'grid md:grid-cols-4 xs:grid-cols-2 grid-cols-1 gap-2',
+      'grid md:grid-cols-4 xs:grid-cols-2 grid-cols-1 gap-4',
       className
     )}
   >

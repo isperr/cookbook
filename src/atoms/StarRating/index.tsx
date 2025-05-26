@@ -33,6 +33,7 @@ const StarRating = ({
     precision={0.5}
     readOnly={isReadOnly}
     value={value}
+    size={isReadOnly ? 'medium' : 'large'}
   />
 )
 

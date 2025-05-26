@@ -37,6 +37,8 @@ const NonEditView = ({id}: {id: string}) => {
         isOrderedList
       />
       <DoubleWrapper>
+        <DetailText heading="Kategorie" text={recipe.categoryName} />
+        <DetailText heading="Dauer" text={recipeDurations[recipe.duration]} />
         <DetailText heading="Rating">
           <StarRating
             defaultValue={recipe.rating}
@@ -50,8 +52,6 @@ const NonEditView = ({id}: {id: string}) => {
           heading="Low Carb"
           text={recipe.isLowCarb ? 'Ja' : 'Nein'}
         />
-        <DetailText heading="Kategorie" text={recipe.categoryName} />
-        <DetailText heading="Dauer" text={recipeDurations[recipe.duration]} />
       </DoubleWrapper>
       <DetailText heading="Details" text={recipe.details || '--'} />
 

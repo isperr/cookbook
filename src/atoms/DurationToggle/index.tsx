@@ -3,6 +3,7 @@ import {ToggleButton, ToggleButtonGroup} from '@mui/material'
 import {Controller, useFormContext} from 'react-hook-form'
 import {RecipeFormFields} from '../../molecules/RecipeForm/types'
 import DetailText from '../DetailText'
+import {twMerge} from 'tailwind-merge'
 
 const DurationToggle = () => {
   const {control} = useFormContext<RecipeFormFields>()
@@ -14,7 +15,8 @@ const DurationToggle = () => {
         name="duration"
         render={({field: {onChange, onBlur, value, ref, disabled}}) => (
           <ToggleButtonGroup
-            color="primary"
+            className="w-full"
+            color="secondary"
             disabled={disabled}
             value={value}
             exclusive
@@ -30,13 +32,40 @@ const DurationToggle = () => {
             size="small"
             ref={ref}
           >
-            <ToggleButton value="long" aria-label="long">
+            <ToggleButton
+              fullWidth
+              className={twMerge(
+                'sm:uppercase xs:normal-case',
+                value === 'long' && 'border-secondary-light'
+              )}
+              value="long"
+              aria-label="long"
+              size="small"
+            >
               Lang
             </ToggleButton>
-            <ToggleButton value="medium" aria-label="medium">
+            <ToggleButton
+              fullWidth
+              className={twMerge(
+                'sm:uppercase xs:normal-case',
+                value === 'medium' && 'border-secondary-light'
+              )}
+              value="medium"
+              aria-label="medium"
+              size="small"
+            >
               Mittel
             </ToggleButton>
-            <ToggleButton value="short" aria-label="short">
+            <ToggleButton
+              fullWidth
+              className={twMerge(
+                'sm:uppercase xs:normal-case',
+                value === 'short' && 'border-secondary-light'
+              )}
+              value="short"
+              aria-label="short"
+              size="small"
+            >
               Kurz
             </ToggleButton>
           </ToggleButtonGroup>

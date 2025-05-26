@@ -32,7 +32,8 @@ export const recipeRemoveState = createSlice({
       state.isRemoved = false
       state.isRemoving = false
     },
-    reset: state => {
+    // @ts-ignore
+    reset: (state, action: PayloadAction<string>) => {
       state.error = null
       state.isRemoved = false
       state.isRemoving = false

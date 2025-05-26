@@ -43,9 +43,13 @@ const getOption = (category: RecipeCategory) => {
 }
 
 export const selectRecipeCategoryOptions = createSelector(
+  selectIsLoaded,
   selectResult,
   selectEntities,
-  (result, entities) => {
+  (isLoaded, result, entities) => {
+    if (!isLoaded) {
+      return []
+    }
     const recipeCategories = result.map(id => entities[id])
     const recipeCategoryOptions: Array<RecipeCategoryOptionType> = []
     const grouped = groupBy(

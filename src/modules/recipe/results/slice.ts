@@ -1,8 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RecipeDocumentData} from '../types'
 import {resolved} from '../resolve/slice'
-import {removed} from '../remove/slice'
+import {removed, reset as resetRemove} from '../remove/slice'
 import {edited} from '../edit/slice'
+import {added} from '../add/slice'
 
 type RecipeResultsState = {
   entities: {
@@ -89,20 +90,37 @@ export const recipeResultsState = createSlice({
           }
         }
       )
+      .addCase(
+        added,
+        (
+          state,
+          action: PayloadAction<{
+            data: RecipeDocumentData | undefined
+            id: string
+          }>
+        ) => {
+          const {data, id} = action.payload
+          // add new recipe to entities if data is provided
+          if (data) {
+            state.entities[id] = data
+          }
+        }
+      )
       .addCase(removed, (state, action: PayloadAction<string>) => {
         const removeId = action.payload
 
-        const updatedResult: string[] = []
+        state.result = state.result.filter(id => id !== removeId)
+      })
+      .addCase(resetRemove, (state, action: PayloadAction<string>) => {
+        const removeId = action.payload
 
         state.entities = state.result.reduce((acc, itemId) => {
           const item = state.entities[itemId]
           if (removeId === item.id) {
             return acc
           }
-          updatedResult.push(item.id)
           return {...acc, [item.id]: item}
         }, {})
-        state.result = updatedResult
       })
       .addCase(
         edited,

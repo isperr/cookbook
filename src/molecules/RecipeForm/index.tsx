@@ -13,10 +13,11 @@ import DetailsDetail from './components/DetailsDetail'
 
 export type RecipeFormProps = {
   children: ReactNode
+  isAddMode: boolean
   onSubmit: React.FormEventHandler<HTMLFormElement>
 }
 
-const RecipeForm = ({children, onSubmit}: RecipeFormProps) => {
+const RecipeForm = ({children, isAddMode, onSubmit}: RecipeFormProps) => {
   return (
     <Box
       className="flex flex-col gap-4 pb-6"
@@ -28,16 +29,18 @@ const RecipeForm = ({children, onSubmit}: RecipeFormProps) => {
         <TitleDetail />
       </Box>
 
-      <DoubleWrapper className="md:grid-cols-2">
-        <ListDialog title="Zutaten" type="ingredients" />
-        <ListDialog title="Zubereitung" type="instructions" />
-      </DoubleWrapper>
+      <ListDialog isAddMode={isAddMode} title="Zutaten" type="ingredients" />
+      <ListDialog
+        isAddMode={isAddMode}
+        title="Zubereitung"
+        type="instructions"
+      />
 
       <DoubleWrapper>
-        <RatingDetail />
-        <BooleanButtonToggle heading="Low Carb" type="isLowCarb" />
         <CategoryDetail />
         <DurationToggle />
+        <RatingDetail />
+        <BooleanButtonToggle heading="Low Carb" type="isLowCarb" />
       </DoubleWrapper>
 
       <DetailsDetail />

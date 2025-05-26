@@ -19,16 +19,17 @@ const Field = ({fieldType, index, type}: FieldProps) => {
   } = useController({
     name: `${type}.${index}.${fieldType}`,
     control,
-    rules: {required: true}
+    rules: {required: fieldType === 'text'}
   })
 
   return (
     <FormControl
       className={twMerge(
-        fieldType === 'text' && type === 'ingredients' && 'col-span-4 flex-[2]',
-        fieldType === 'text' && type === 'instructions' && 'col-span-5 flex-1',
-        fieldType === 'amount' && 'flex-[0.5]'
+        fieldType === 'text' && type === 'ingredients' && 'flex-[2]',
+        fieldType === 'text' && type === 'instructions' && 'flex-1',
+        fieldType === 'amount' && 'sm:flex-[0.5] flex-1'
       )}
+      required={fieldType === 'text'}
     >
       <OutlinedInput
         autoFocus={
@@ -36,11 +37,12 @@ const Field = ({fieldType, index, type}: FieldProps) => {
           (type === 'instructions' && fieldType === 'text')
         }
         disabled={disabled}
-        error={!value}
+        error={!value && fieldType === 'text'}
         name={name}
         onBlur={onBlur}
         onChange={onChange}
         ref={ref}
+        required={fieldType === 'text'}
         size="small"
         startAdornment={
           fieldType === 'text' && type === 'instructions' ? (

@@ -9,10 +9,11 @@ import {
   IconButton,
   Typography
 } from '@mui/material'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import AddIcon from '@mui/icons-material/Add'
+import CloseIcon from '@mui/icons-material/Close'
 import EditIcon from '@mui/icons-material/Edit'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import CloseIcon from '@mui/icons-material/Close'
 
 import Button from '../../atoms/Button'
 import DetailText from '../../atoms/DetailText'
@@ -20,14 +21,18 @@ import Text from '../../atoms/Text'
 import {RecipeFormFields} from '../../molecules/RecipeForm/types'
 
 import Field from './components/Field'
+import {useNotifications} from '@toolpad/core'
+import {getToastConfig} from '../../utils/get-toast-config'
 
 export type ListDialogProps = {
+  isAddMode: boolean
   type: 'ingredients' | 'instructions'
   title: string
 }
 
-const ListDialog = ({type, title}: ListDialogProps) => {
-  const {control} = useFormContext<RecipeFormFields>()
+const ListDialog = ({isAddMode, type, title}: ListDialogProps) => {
+  const notifications = useNotifications()
+  const {control, formState} = useFormContext<RecipeFormFields>()
   const {fields, append, remove} = useFieldArray({
     control,
     name: type
@@ -36,15 +41,7 @@ const ListDialog = ({type, title}: ListDialogProps) => {
     name: type,
     control
   })
-  const isInvalid = useMemo(
-    () =>
-      value.some(
-        it =>
-          (type === 'ingredients' && (!it.amount || !it.text)) ||
-          (type === 'instructions' && !it.text)
-      ),
-    [value]
-  )
+  const isInvalid = useMemo(() => value.some(it => !it.text), [value])
 
   const isRemoving = false
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
@@ -54,7 +51,12 @@ const ListDialog = ({type, title}: ListDialogProps) => {
   }
 
   const closeDialog = () => {
-    if (!isInvalid) {
+    if (isInvalid) {
+      notifications.show(
+        'Fülle alle Felder aus oder entferne die Zeile mit dem Fehler.',
+        getToastConfig({})
+      )
+    } else {
       setIsDialogOpen(false)
     }
   }
@@ -63,12 +65,14 @@ const ListDialog = ({type, title}: ListDialogProps) => {
     <>
       <DetailText heading={title} isEditMode>
         <Button
+          color="secondary"
           className="w-fit"
+          isDisabled={formState.disabled}
           onClick={openDialog}
-          startIcon={<EditIcon />}
+          startIcon={isAddMode ? <AddIcon /> : <EditIcon />}
           size="small"
         >
-          Bearbeiten
+          {isAddMode ? 'Hinzufügen' : 'Bearbeiten'}
         </Button>
       </DetailText>
 
@@ -86,26 +90,24 @@ const ListDialog = ({type, title}: ListDialogProps) => {
         <DialogContent className="flex flex-col gap-2">
           <Box className="flex justify-between">
             <Typography variant="h6">{title} angeben</Typography>
-            <IconButton
-              color="inherit"
-              disabled={isInvalid}
-              onClick={closeDialog}
-            >
+            <IconButton color="inherit" onClick={closeDialog}>
               <CloseIcon />
             </IconButton>
           </Box>
 
           <Box className="flex">
             {type === 'ingredients' && (
-              <Text className="flex-[0.5]" type="label">
+              <Text className="sm:flex-[0.5] flex-1" type="label">
                 Anzahl
               </Text>
             )}
             <Text
-              className={twMerge(type === 'ingredients' && 'flex-[2.15]')}
+              className={twMerge(
+                type === 'ingredients' && 'sm:flex-[2.15] flex-[2.4]'
+              )}
               type="label"
             >
-              {type === 'ingredients' ? 'Zutat' : 'Schritt'}
+              {type === 'ingredients' ? 'Zutat' : 'Schritt'} *
             </Text>
           </Box>
           {fields.map((field, index) => (
@@ -119,7 +121,7 @@ const ListDialog = ({type, title}: ListDialogProps) => {
               )}
               <Field fieldType="text" index={index} type={type} />
               <IconButton
-                color="warning"
+                color="error"
                 onClick={() => remove(index)}
                 size="medium"
               >
@@ -139,8 +141,8 @@ const ListDialog = ({type, title}: ListDialogProps) => {
           </IconButton>
 
           <FormHelperText className={twMerge(isInvalid && 'text-red')}>
-            Alle Felder müssen ausgefüllt sein, damit die entsprechende Zeile
-            korrekt gespeichert wird
+            Alle Pflichtfelder müssen ausgefüllt sein, damit die entsprechende
+            Zeile korrekt gespeichert wird
           </FormHelperText>
         </DialogContent>
       </Dialog>

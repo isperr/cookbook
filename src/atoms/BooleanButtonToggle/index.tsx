@@ -27,11 +27,10 @@ const BooleanButtonToggle = ({heading, type}: BooleanButtonToggleProps) => {
           field: {onChange, onBlur, value: isChecked, ref, disabled}
         }) => (
           <ToggleButton
-            color={isFavorite ? 'error' : 'primary'}
+            color="secondary"
             className={twMerge(
               'size-[43.28px]',
-              !isFavorite && isChecked && 'border-primary-light',
-              isFavorite && isChecked && 'border-red-light'
+              isChecked && 'border-secondary-light'
             )}
             disabled={disabled}
             value={isChecked}
