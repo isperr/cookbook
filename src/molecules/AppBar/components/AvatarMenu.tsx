@@ -3,7 +3,7 @@ import {twMerge} from 'tailwind-merge'
 import {Avatar, IconButton, Menu} from '@mui/material'
 
 import {ThemeModeContext} from '../../../context'
-import {selectInitials} from '../../../modules/auth/slice'
+import {selectInitials} from '../../../modules/auth/selectors'
 import {useAppSelector} from '../../../utils/store-hooks'
 
 import LogoutItem from './LogoutItem'

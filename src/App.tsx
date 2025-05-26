@@ -11,7 +11,7 @@ import RecipePage from './pages/RecipePage'
 import AddPage from './pages/AddPage'
 
 const App = () => {
-  const {isLoggedIn} = useAuth()
+  const {canEdit, isLoggedIn} = useAuth()
 
   return (
     <>
@@ -21,7 +21,7 @@ const App = () => {
           <>
             <Route path="/" element={<HomePage />} />
             <Route path="/recipes/:recipeId" element={<RecipePage />} />
-            <Route path="/new" element={<AddPage />} />
+            {canEdit && <Route path="/new" element={<AddPage />} />}
 
             <Route path="*" element={<NotFoundPage />} />
           </>

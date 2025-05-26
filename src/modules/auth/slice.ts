@@ -1,18 +1,35 @@
-import {createSelector, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {RootState} from '../../utils/store'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {DocumentData} from 'firebase/firestore'
+
+import {getUserInitials, getUserName} from './util'
+
+export type UserDocumentData = DocumentData & {
+  canEdit: boolean
+  firstName: string | null
+  lastName: string | null
+  username: string
+}
 
 // Define a type for the slice state
 interface AuthState {
+  hasLoggedIn: boolean
   isLoading: boolean
   isLoggedIn: boolean
-  username: string | null
+  isLoggedOut: boolean
+  name?: string
+  user?: UserDocumentData
+  initials?: string
 }
 
 // Define the initial state using that type
 const initialState: AuthState = {
+  hasLoggedIn: false,
   isLoading: false,
   isLoggedIn: false,
-  username: null
+  isLoggedOut: false,
+  name: undefined,
+  user: undefined,
+  initials: undefined
 }
 
 export const authState = createSlice({
@@ -22,10 +39,11 @@ export const authState = createSlice({
   reducers: {
     login: state => {
       state.isLoading = true
+      state.isLoggedOut = false
     },
     loginSuccess: state => {
       state.isLoading = false
-      state.isLoggedIn = true
+      state.hasLoggedIn = true
     },
     loginFailure: state => {
       state.isLoading = false
@@ -37,14 +55,25 @@ export const authState = createSlice({
     logoutSuccess: state => {
       state.isLoading = false
       state.isLoggedIn = false
+      state.name = undefined
+      state.user = undefined
+      state.initials = undefined
+      state.isLoggedOut = true
     },
     logoutFailure: state => {
       state.isLoading = false
       state.isLoggedIn = true
     },
-    setValidUser: (state, action: PayloadAction<string | null>) => {
+    setValidUser: (state, action: PayloadAction<UserDocumentData>) => {
+      const user = action.payload
+
+      const username = getUserName(user)
+      state.initials = getUserInitials(username)
+      state.name = username
+      state.user = user
+
       state.isLoggedIn = true
-      state.username = action.payload
+      state.hasLoggedIn = false
     }
   }
 })
@@ -58,16 +87,5 @@ export const {
   logoutSuccess,
   setValidUser
 } = authState.actions
-
-// Other code such as selectors can use the imported `RootState` type
-export const selectIsLoading = (state: RootState) => state.auth.isLoading
-export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn
-export const selectUsername = (state: RootState) => state.auth.username
-export const selectInitials = createSelector(selectUsername, username => {
-  return username
-    ?.split(' ')
-    .map(name => name.substring(0, 1).toUpperCase())
-    .join('')
-})
 
 export default authState.reducer

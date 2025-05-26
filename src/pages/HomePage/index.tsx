@@ -9,7 +9,7 @@ import {useScrollToTop} from '../../hooks/use-scroll-to-top'
 
 const HomePage = () => {
   useScrollToTop()
-  const {username} = useAuth()
+  const {name} = useAuth()
 
   const effectRan = useRef<boolean>(false)
 
@@ -28,7 +28,7 @@ const HomePage = () => {
   return (
     <PageTemplate className="justify-start">
       <Typography className="text-center" variant="h5">
-        Willkommen{username ? `, ${username}` : ''}
+        Willkommen{name ? `, ${name}` : ''}
       </Typography>
 
       <RecipeList

@@ -3,13 +3,17 @@ import {useLocation, useNavigate} from 'react-router'
 
 import {ThemeModeContext} from '../../../context'
 import {useLoadRandom} from '../../../hooks/recipe/use-load-random'
+import {selectCanEdit} from '../../../modules/auth/selectors'
 import {useToggleEditMode} from '../../../pages/RecipePage/hooks/use-toggle-edit-mode'
+import {useAppSelector} from '../../../utils/store-hooks'
 
 import {RECIPE} from '../constants'
 
 export const useAppBar = () => {
   const navigate = useNavigate()
   const location = useLocation()
+
+  const canEdit = useAppSelector(selectCanEdit)
 
   const {getRandomRecipeId} = useLoadRandom()
   const {isEditMode, leaveEditMode} = useToggleEditMode()
@@ -44,6 +48,7 @@ export const useAppBar = () => {
   }
 
   return {
+    canEdit,
     closeDrawer,
     handleDrawerToggle,
     isMobileOpen,

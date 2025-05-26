@@ -35,6 +35,7 @@ const AppBar = () => {
   }, [isLoaded])
 
   const {
+    canEdit,
     closeDrawer,
     handleDrawerToggle,
     isMobileOpen,
@@ -74,20 +75,26 @@ const AppBar = () => {
               'sm:flex justify-end items-center hidden'
             )}
           >
-            {actions.map(item => (
-              <Button
-                color="inherit"
-                key={item.name}
-                variant="text"
-                onClick={() => onActionClick(item.link)}
-                isDisabled={item.name === 'random' && isButtonDisabled}
-              >
-                <span className="md:block hidden">{item.title}</span>
-                <span className="md:hidden block">
-                  {item.shortTitle ?? item.title}
-                </span>
-              </Button>
-            ))}
+            {actions.map(item => {
+              if (item.name === 'add' && !canEdit) {
+                return null
+              }
+
+              return (
+                <Button
+                  color="inherit"
+                  key={item.name}
+                  variant="text"
+                  onClick={() => onActionClick(item.link)}
+                  isDisabled={item.name === 'random' && isButtonDisabled}
+                >
+                  <span className="md:block hidden">{item.title}</span>
+                  <span className="md:hidden block">
+                    {item.shortTitle ?? item.title}
+                  </span>
+                </Button>
+              )
+            })}
             <AvatarMenu />
           </Box>
         </Toolbar>

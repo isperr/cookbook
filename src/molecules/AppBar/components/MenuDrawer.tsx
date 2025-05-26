@@ -12,6 +12,8 @@ import {
 import {Link} from 'react-router'
 
 import {useLoadRandom} from '../../../hooks/recipe/use-load-random'
+import {selectCanEdit} from '../../../modules/auth/selectors'
+import {useAppSelector} from '../../../utils/store-hooks'
 
 import {actions, drawerWidth} from '../constants'
 import ModeItem from './ModeItem'
@@ -31,6 +33,7 @@ const MenuDrawer = ({
   onActionClick
 }: MenuDrawerProps) => {
   const {isButtonDisabled} = useLoadRandom()
+  const canEdit = useAppSelector(selectCanEdit)
 
   return (
     <nav>
@@ -60,19 +63,24 @@ const MenuDrawer = ({
           </Link>
           <Divider />
           <List>
-            {actions.map(item => (
-              <ListItem key={item.name} disablePadding>
-                <ListItemButton
-                  disabled={item.name === 'random' && isButtonDisabled}
-                  onClick={() => onActionClick(item.link)}
-                >
-                  <ListItemIcon className="justify-center">
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.title} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            {actions.map(item => {
+              if (item.name === 'add' && !canEdit) {
+                return null
+              }
+              return (
+                <ListItem key={item.name} disablePadding>
+                  <ListItemButton
+                    disabled={item.name === 'random' && isButtonDisabled}
+                    onClick={() => onActionClick(item.link)}
+                  >
+                    <ListItemIcon className="justify-center">
+                      {item.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={item.title} />
+                  </ListItemButton>
+                </ListItem>
+              )
+            })}
           </List>
           <Divider />
           <List>

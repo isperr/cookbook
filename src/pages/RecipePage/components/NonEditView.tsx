@@ -5,15 +5,18 @@ import DetailList from '../../../atoms/DetailList'
 import DoubleWrapper from '../../../atoms/DetailText/components/DoubleWrapper'
 import DetailText from '../../../atoms/DetailText'
 import RecipeFavorite from '../../../atoms/RecipeFavorite'
+import SaveButtons from '../../../atoms/SaveButtons'
 import StarRating from '../../../atoms/StarRating'
 import {useRecipeWithCategoryName} from '../../../hooks/recipe-category/use-recipe-with-category-name'
+import {selectCanEdit} from '../../../modules/auth/selectors'
 import {recipeDurations} from '../../../modules/recipe/types'
+import {useAppSelector} from '../../../utils/store-hooks'
 
 import {useToggleEditMode} from '../hooks/use-toggle-edit-mode'
 import DeleteDialog from './DeleteDialog'
-import SaveButtons from '../../../atoms/SaveButtons'
 
 const NonEditView = ({id}: {id: string}) => {
+  const canEdit = useAppSelector(selectCanEdit)
   const recipe = useRecipeWithCategoryName(id, true)
   const {enterEditMode} = useToggleEditMode()
 
@@ -60,18 +63,20 @@ const NonEditView = ({id}: {id: string}) => {
       </DoubleWrapper>
       <DetailText heading="Details" text={recipe.details || '--'} />
 
-      <SaveButtons
-        onCancel={enterEditMode}
-        onConfirm={openDeleteDialog}
-        type="enterEdit"
-      >
-        <DeleteDialog
-          id={id}
-          isDialogOpen={isDeleteDialogOpen}
-          name={recipe.title}
-          setIsDialogOpen={setIsDeleteDialogOpen}
-        />
-      </SaveButtons>
+      {canEdit && (
+        <SaveButtons
+          onCancel={enterEditMode}
+          onConfirm={openDeleteDialog}
+          type="enterEdit"
+        >
+          <DeleteDialog
+            id={id}
+            isDialogOpen={isDeleteDialogOpen}
+            name={recipe.title}
+            setIsDialogOpen={setIsDeleteDialogOpen}
+          />
+        </SaveButtons>
+      )}
     </Box>
   )
 }
