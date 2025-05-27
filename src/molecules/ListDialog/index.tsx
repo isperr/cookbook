@@ -13,7 +13,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
 import EditIcon from '@mui/icons-material/Edit'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import Button from '../../atoms/Button'
 import DetailText from '../../atoms/DetailText'
@@ -98,7 +98,7 @@ const ListDialog = ({isAddMode, type, title}: ListDialogProps) => {
           <Box className="flex">
             {type === 'ingredients' && (
               <Text className="sm:flex-[0.5] flex-1" type="label">
-                Anzahl
+                Menge
               </Text>
             )}
             <Text
@@ -121,17 +121,17 @@ const ListDialog = ({isAddMode, type, title}: ListDialogProps) => {
               )}
               <Field fieldType="text" index={index} type={type} />
               <IconButton
-                color="error"
+                color="secondary"
                 onClick={() => remove(index)}
                 size="medium"
               >
-                <RemoveCircleIcon fontSize="inherit" />
+                <DeleteIcon fontSize="inherit" />
               </IconButton>
             </Box>
           ))}
           <IconButton
             className="w-fit mx-auto"
-            color="primary"
+            color="secondary"
             onClick={() =>
               append({amount: type === 'instructions' ? null : '', text: ''})
             }
