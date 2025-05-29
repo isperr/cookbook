@@ -12,7 +12,7 @@ const NotFoundPage = () => {
   }
 
   return (
-    <PageTemplate className="items-center mt-[45%] px-8 text-center">
+    <PageTemplate className="items-center px-8 text-center" isEmptyPage>
       <Typography className="leading-none" variant="subtitle1">
         404
       </Typography>
