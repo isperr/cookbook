@@ -5,13 +5,22 @@ import {
   useForm,
   useFormContext
 } from 'react-hook-form'
-import {Dialog, DialogTitle} from '@mui/material'
+import {twMerge} from 'tailwind-merge'
+import {
+  AppBar,
+  Box,
+  Dialog,
+  DialogTitle,
+  Toolbar,
+  Typography
+} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 
 import Button from '../../atoms/Button'
 import DetailText from '../../atoms/DetailText'
 import List from '../../atoms/DetailList/components/List'
+import Text from '../../atoms/Text'
 import {
   IngredientsType,
   InstructionsType,
@@ -99,13 +108,27 @@ const ListDialog = ({type, title}: ListDialogProps) => {
         open={isDialogOpen}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        sx={{
-          '.MuiPaper-root': {
-            width: '600px'
-          }
-        }}
       >
-        <DialogTitle>{title} angeben</DialogTitle>
+        <AppBar className="relative" color="default">
+          <Toolbar className="px-6">
+            <Typography variant="h6">{title} angeben</Typography>
+          </Toolbar>
+        </AppBar>
+        <DialogTitle>
+          <Box className="flex">
+            {type === 'ingredients' && (
+              <Text className="sm:flex-[0.207] flex-[0.355]" type="label">
+                Menge
+              </Text>
+            )}
+            <Text
+              className={twMerge(type === 'ingredients' && '')}
+              type="label"
+            >
+              {type === 'ingredients' ? 'Zutat' : 'Schritt'} *
+            </Text>
+          </Box>
+        </DialogTitle>
         <FormProvider {...methods}>
           <Form
             handleCancel={handleCancel}

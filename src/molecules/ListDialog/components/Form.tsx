@@ -13,7 +13,6 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import {useNotifications} from '@toolpad/core'
 
 import Button from '../../../atoms/Button'
-import Text from '../../../atoms/Text'
 import {getToastConfig} from '../../../utils/get-toast-config'
 import {
   IngredientsType,
@@ -62,21 +61,6 @@ const ListDialogForm = ({
   return (
     <>
       <DialogContent className="flex flex-col gap-2">
-        <Box className="flex">
-          {type === 'ingredients' && (
-            <Text className="sm:flex-[0.5] flex-1" type="label">
-              Menge
-            </Text>
-          )}
-          <Text
-            className={twMerge(
-              type === 'ingredients' && 'sm:flex-[2.05] flex-[2.2]'
-            )}
-            type="label"
-          >
-            {type === 'ingredients' ? 'Zutat' : 'Schritt'} *
-          </Text>
-        </Box>
         {fields.map((field, index) => (
           <Box
             className="flex items-center gap-2 -mr-3"
