@@ -57,10 +57,7 @@ const AddPage = () => {
     <PageTemplate className="sm:px-6 px-4">
       <Typography variant="h5">Neues Rezept hinzufügen</Typography>
       <FormProvider {...methods}>
-        <RecipeForm
-          isAddMode
-          onSubmit={methods.handleSubmit(onSubmit, onError)}
-        >
+        <RecipeForm onSubmit={methods.handleSubmit(onSubmit, onError)}>
           <SaveButtons
             isLoading={isDisabled}
             onCancel={navigateHome}

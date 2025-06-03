@@ -1,4 +1,5 @@
 import {memo, ReactNode, useMemo} from 'react'
+import {twMerge} from 'tailwind-merge'
 import {Box} from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -51,7 +52,12 @@ const SaveButtons = ({
   }, [type])
 
   return (
-    <Box className="grid xs:grid-cols-2 grid-cols-1 gap-2 mt-2">
+    <Box
+      className={twMerge(
+        'grid xs:grid-cols-2 grid-cols-1 gap-2',
+        type === 'enterEdit' && 'mt-2'
+      )}
+    >
       <Button
         fullWidth
         isDisabled={isLoading || isDisabled}

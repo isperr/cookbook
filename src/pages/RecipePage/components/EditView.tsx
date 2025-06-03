@@ -50,10 +50,7 @@ const EditView = ({id}: {id: string}) => {
     <>
       <Typography variant="h5">Rezept bearbeiten</Typography>
       <FormProvider {...methods}>
-        <RecipeForm
-          isAddMode={false}
-          onSubmit={methods.handleSubmit(onSubmit, onError)}
-        >
+        <RecipeForm onSubmit={methods.handleSubmit(onSubmit, onError)}>
           <SaveButtons
             isLoading={isDisabled}
             onCancel={leaveEditMode}

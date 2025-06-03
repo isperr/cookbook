@@ -30,6 +30,9 @@ export const useAddRecipe = () => {
     const formattedDraft = Object.keys(draft).reduce((acc, key) => {
       const field = draft[key as keyof RecipeFormFields]
 
+      if (key === 'ingredientsDraft' || key === 'instructionsDraft') {
+        return acc
+      }
       if (isBoolean(field)) {
         return {...acc, [key]: field}
       }
@@ -37,6 +40,8 @@ export const useAddRecipe = () => {
       return {...acc, [key]: field || null}
     }, {})
 
+    console.log(formattedDraft)
+    return {data: undefined, id: 'test'}
     const docRef = await addDoc(collection(db, 'recipes'), formattedDraft)
     const id = docRef.id
 
