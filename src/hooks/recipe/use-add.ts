@@ -40,8 +40,6 @@ export const useAddRecipe = () => {
       return {...acc, [key]: field || null}
     }, {})
 
-    console.log(formattedDraft)
-    return {data: undefined, id: 'test'}
     const docRef = await addDoc(collection(db, 'recipes'), formattedDraft)
     const id = docRef.id
 
