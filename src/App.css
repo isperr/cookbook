@@ -11,3 +11,10 @@
   justify-content: center;
   align-items: center;
 }
+.MuiAccordionSummary-root.Mui-expanded {
+  min-height: 48px;
+}
+.MuiAccordionSummary-content,
+.MuiAccordionSummary-content.Mui-expanded {
+  margin: 0;
+}

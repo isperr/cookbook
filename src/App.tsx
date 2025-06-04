@@ -9,6 +9,7 @@ import './App.css'
 import './fire'
 import RecipePage from './pages/RecipePage'
 import AddPage from './pages/AddPage'
+import SearchPage from './pages/SearchPage'
 
 const App = () => {
   const {canEdit, isLoggedIn} = useAuth()
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/recipes/:recipeId" element={<RecipePage />} />
             {canEdit && <Route path="/new" element={<AddPage />} />}
+            <Route path="/search" element={<SearchPage />} />
 
             <Route path="*" element={<NotFoundPage />} />
           </>
