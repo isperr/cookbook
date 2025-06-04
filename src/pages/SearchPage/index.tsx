@@ -6,6 +6,7 @@ import {
   useForm
 } from 'react-hook-form'
 import {Box, Typography} from '@mui/material'
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff'
 
 import Button from '../../atoms/Button'
 import PageTemplate from '../../templates/Page'
@@ -17,6 +18,7 @@ import {
   SearchAccordionFields,
   SearchFormFields
 } from './types'
+import DurationAccordion from './components/DurationAccordion'
 
 const SearchPage = () => {
   const [expanded, setExpanded] = useState<SearchAccordionFields>(
@@ -38,8 +40,14 @@ const SearchPage = () => {
     mode: 'onChange'
   })
   const {
-    formState: {isDirty}
+    formState: {isDirty},
+    handleSubmit,
+    reset
   } = formMethods
+  const onResetFilter = () => {
+    reset()
+    setExpanded(defaultSearchAccordionFields)
+  }
 
   const onSubmit: SubmitHandler<SearchFormFields> = async data => {
     if (!isDirty) {
@@ -48,6 +56,7 @@ const SearchPage = () => {
     }
     console.log(data)
     //await handleAdd(data)
+    setExpanded(defaultSearchAccordionFields)
   }
   const onError: SubmitErrorHandler<SearchFormFields> = errors =>
     console.log(errors)
@@ -59,10 +68,7 @@ const SearchPage = () => {
       </Typography>
 
       <FormProvider {...formMethods}>
-        <Box
-          component="form"
-          onSubmit={formMethods.handleSubmit(onSubmit, onError)}
-        >
+        <Box component="form" onSubmit={handleSubmit(onSubmit, onError)}>
           <BooleanToggleAccordion
             field="isFavorite"
             isExpanded={expanded.isFavorite}
@@ -73,7 +79,21 @@ const SearchPage = () => {
             isExpanded={expanded.isLowCarb}
             onAccordionToggle={onChange}
           />
+          <DurationAccordion
+            isExpanded={expanded.duration}
+            onAccordionToggle={onChange}
+          />
 
+          <Button
+            className="mt-4"
+            color="error"
+            fullWidth
+            isDisabled={!isDirty}
+            onClick={onResetFilter}
+            startIcon={<FilterAltOffIcon />}
+          >
+            Alle Filter zurücksetzen
+          </Button>
           <Button
             className="mt-4"
             fullWidth

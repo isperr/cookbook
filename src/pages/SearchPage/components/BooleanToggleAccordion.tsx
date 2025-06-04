@@ -37,13 +37,18 @@ const BooleanToggleAccordion = ({
     control,
     rules: {required: false}
   })
+  const activeFilter = useMemo(() => {
+    if (isBoolean(isChecked)) {
+      return isChecked ? 'Ja' : 'Nein'
+    }
+  }, [isChecked])
 
   return (
     <SearchAccordion
+      activeFilter={activeFilter}
       field={field}
       heading={heading}
       isExpanded={isExpanded}
-      isFilterApplied={isBoolean(isChecked)}
       isResetDisabled={isUndefined(isChecked)}
       onAccordionToggle={onAccordionToggle}
     >
@@ -67,6 +72,7 @@ const BooleanToggleAccordion = ({
           className={twMerge(
             isChecked && 'border-secondary-light text-secondary'
           )}
+          fullWidth
           value="true"
           aria-label="true"
         >
@@ -78,6 +84,7 @@ const BooleanToggleAccordion = ({
           className={twMerge(
             isChecked === false && 'border-secondary-light text-secondary'
           )}
+          fullWidth
           value="false"
           aria-label="false"
         >

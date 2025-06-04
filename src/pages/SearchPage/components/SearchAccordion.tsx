@@ -19,11 +19,11 @@ import {
 } from '../types'
 
 export type SearchAccordionProps = {
+  activeFilter?: string
   children: ReactNode
   field: keyof SearchAccordionFields
   heading: string
   isExpanded: boolean
-  isFilterApplied: boolean
   isResetDisabled: boolean
   onAccordionToggle: (
     searchField: keyof SearchAccordionFields,
@@ -32,14 +32,16 @@ export type SearchAccordionProps = {
 }
 
 const SearchAccordion = ({
+  activeFilter,
   children,
   field,
   heading,
   isExpanded,
-  isFilterApplied,
   isResetDisabled,
   onAccordionToggle
 }: SearchAccordionProps) => {
+  const isFilterApplied = useMemo(() => Boolean(activeFilter), [activeFilter])
+
   const themeModeContext = React.useContext(ThemeModeContext)
   const isDarkMode = useMemo(
     () => themeModeContext.themeMode === 'dark',
@@ -69,7 +71,7 @@ const SearchAccordion = ({
           )}
           component="span"
         >
-          {isFilterApplied ? 'Aktiv' : 'Inaktiv'}
+          {isFilterApplied ? activeFilter : 'Inaktiv'}
         </Typography>
       </AccordionSummary>
       <AccordionDetails className="flex justify-start">
