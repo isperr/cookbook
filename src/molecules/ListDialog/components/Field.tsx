@@ -36,6 +36,7 @@ const Field = ({fieldType, index, type}: FieldProps) => {
           (type === 'ingredients' && fieldType === 'amount') ||
           (type === 'instructions' && fieldType === 'text')
         }
+        className="items-start"
         disabled={disabled}
         error={!value && fieldType === 'text'}
         name={name}
@@ -50,6 +51,7 @@ const Field = ({fieldType, index, type}: FieldProps) => {
           ) : null
         }
         value={value ?? undefined}
+        multiline={fieldType === 'text'}
       />
     </FormControl>
   )
