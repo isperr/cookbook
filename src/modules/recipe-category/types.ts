@@ -17,3 +17,7 @@ export type RecipeCategoryOptionType = {
   name: string
   value: string
 }
+
+export type RecipeCategoryNameReturnType = (
+  state: RootState
+) => string | undefined

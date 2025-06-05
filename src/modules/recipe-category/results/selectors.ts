@@ -5,7 +5,8 @@ import {RootState} from '../../../utils/store'
 import {
   RecipeCategory,
   RecipeCategoryOptionType,
-  RecipeCategoryReturnType
+  RecipeCategoryReturnType,
+  RecipeCategoryNameReturnType
 } from '../types'
 import {groupBy} from 'lodash'
 
@@ -73,3 +74,11 @@ export const selectRecipeCategoryOptions = createSelector(
     return recipeCategoryOptions
   }
 )
+
+export const selectCatgeoryByOptionValue = (
+  value?: string
+): RecipeCategoryNameReturnType =>
+  createSelector(
+    selectRecipeCategoryOptions,
+    options => options.find(opt => opt.value === value)?.name
+  )

@@ -19,6 +19,12 @@ import {
   SearchFormFields
 } from './types'
 import DurationAccordion from './components/DurationAccordion'
+import TitleField from './components/TitleField'
+import RatingAccordion from './components/RatingAccordion'
+import CategoryAccordion from './components/CategoryAccordion'
+import {QueryFieldFilterConstraint, where} from 'firebase/firestore'
+import {loadRecipes} from '../../hooks/recipe/use-load'
+import {isBoolean} from 'lodash'
 
 const SearchPage = () => {
   const [expanded, setExpanded] = useState<SearchAccordionFields>(
@@ -54,8 +60,16 @@ const SearchPage = () => {
       console.log('no change my dude')
       return
     }
-    console.log(data)
+    const filter: QueryFieldFilterConstraint[] = []
+    Object.entries(data).forEach(([key, value]) => {
+      if (value || isBoolean(value)) {
+        filter.push(where(key, '==', value))
+      }
+    })
+    console.log({data, filter})
     //await handleAdd(data)
+    const recipes = await loadRecipes(filter)
+    console.log('RECIPEs', recipes)
     setExpanded(defaultSearchAccordionFields)
   }
   const onError: SubmitErrorHandler<SearchFormFields> = errors =>
@@ -64,28 +78,42 @@ const SearchPage = () => {
   return (
     <PageTemplate className="sm:px-6 px-4">
       <Typography className="text-center" variant="h5">
-        Rezeptbuch durchsuchen
+        Kochbuch durchsuchen
       </Typography>
 
       <FormProvider {...formMethods}>
-        <Box component="form" onSubmit={handleSubmit(onSubmit, onError)}>
-          <BooleanToggleAccordion
-            field="isFavorite"
-            isExpanded={expanded.isFavorite}
-            onAccordionToggle={onChange}
-          />
-          <BooleanToggleAccordion
-            field="isLowCarb"
-            isExpanded={expanded.isLowCarb}
-            onAccordionToggle={onChange}
-          />
-          <DurationAccordion
-            isExpanded={expanded.duration}
-            onAccordionToggle={onChange}
-          />
+        <Box
+          className="flex flex-col gap-4"
+          component="form"
+          onSubmit={handleSubmit(onSubmit, onError)}
+        >
+          <TitleField />
+          <div>
+            <BooleanToggleAccordion
+              field="isFavorite"
+              isExpanded={expanded.isFavorite}
+              onAccordionToggle={onChange}
+            />
+            <BooleanToggleAccordion
+              field="isLowCarb"
+              isExpanded={expanded.isLowCarb}
+              onAccordionToggle={onChange}
+            />
+            <DurationAccordion
+              isExpanded={expanded.duration}
+              onAccordionToggle={onChange}
+            />
+            <RatingAccordion
+              isExpanded={expanded.rating}
+              onAccordionToggle={onChange}
+            />
+            <CategoryAccordion
+              isExpanded={expanded.category}
+              onAccordionToggle={onChange}
+            />
+          </div>
 
           <Button
-            className="mt-4"
             color="error"
             fullWidth
             isDisabled={!isDirty}
@@ -94,12 +122,7 @@ const SearchPage = () => {
           >
             Alle Filter zurücksetzen
           </Button>
-          <Button
-            className="mt-4"
-            fullWidth
-            isDisabled={!isDirty}
-            type="submit"
-          >
+          <Button fullWidth isDisabled={!isDirty} type="submit">
             Suchen
           </Button>
         </Box>

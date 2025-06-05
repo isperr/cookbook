@@ -19,7 +19,7 @@ import {
 } from '../types'
 
 export type SearchAccordionProps = {
-  activeFilter?: string
+  activeFilter?: string | ReactNode
   children: ReactNode
   field: keyof SearchAccordionFields
   heading: string
@@ -65,6 +65,7 @@ const SearchAccordion = ({
         </Typography>
         <Typography
           className={twMerge(
+            'flex',
             isFilterApplied && 'text-green',
             !isFilterApplied && isDarkMode && 'text-text-dark-secondary',
             !isFilterApplied && !isDarkMode && 'text-text-light-secondary'
@@ -74,7 +75,7 @@ const SearchAccordion = ({
           {isFilterApplied ? activeFilter : 'Inaktiv'}
         </Typography>
       </AccordionSummary>
-      <AccordionDetails className="flex justify-start">
+      <AccordionDetails className="flex justify-between">
         {children}
         <IconButton
           aria-label={`reset ${field} filter`}

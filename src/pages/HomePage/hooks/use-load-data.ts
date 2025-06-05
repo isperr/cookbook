@@ -24,10 +24,8 @@ export const useLoadData = () => {
   const handleLoadData = useCallback(async () => {
     try {
       dispatch(load())
-      setTimeout(async () => {
-        const data = await loadRecipes()
-        dispatch(loaded(data))
-      }, 1500)
+      const data = await loadRecipes([])
+      dispatch(loaded(data))
     } catch (error) {
       dispatch(loadingError(error as Error))
       notifications.show(
