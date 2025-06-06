@@ -13,7 +13,7 @@ import {useRecipeWithCategoryName} from '../../../hooks/recipe-category/use-reci
 
 const ListItem = ({id}: {id: string}) => {
   const {title, categoryName, isFavorite, isLowCarb} =
-    useRecipeWithCategoryName(id, false)
+    useRecipeWithCategoryName(id)
   const secondary = useMemo(() => {
     if (isLowCarb) {
       return [categoryName, 'Low Carb'].join('; ')

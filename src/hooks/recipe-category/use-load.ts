@@ -1,5 +1,11 @@
 import {useCallback, useEffect, useRef} from 'react'
-import {collection, getDocs, getFirestore, query} from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  orderBy,
+  query
+} from 'firebase/firestore'
 
 import {
   selectHasError,
@@ -19,7 +25,7 @@ const handleLoadData = async () => {
   const db = getFirestore()
 
   const recipesCollectionRef = collection(db, 'recipe-categories')
-  const recipeQuery = await query(recipesCollectionRef)
+  const recipeQuery = await query(recipesCollectionRef, orderBy('name', 'asc'))
   const snapshot = await getDocs(recipeQuery).catch(error => {
     // error must be handled within component where this util is used
     throw error
@@ -30,8 +36,7 @@ const handleLoadData = async () => {
     const docData = doc.data()
     data.push({
       id: docData.id,
-      name: docData.name,
-      parentCategory: docData.parentCategory
+      name: docData.name
     })
   })
 

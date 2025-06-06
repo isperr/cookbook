@@ -2,12 +2,7 @@ import {createSelector} from '@reduxjs/toolkit'
 
 import {RootState} from '../../../utils/store'
 
-import {
-  RecipeCategory,
-  RecipeCategoryOptionType,
-  RecipeCategoryReturnType
-} from '../types'
-import {groupBy} from 'lodash'
+import {RecipeCategory, RecipeCategoryReturnType} from '../types'
 
 export const selectResult = (state: RootState) =>
   state.recipeCategoryResults.result
@@ -25,22 +20,15 @@ export const selectHasError = createSelector(selectError, error =>
 )
 
 export const selectRecipeCategory = (id: string): RecipeCategoryReturnType =>
-  createSelector([(state: RootState) => selectEntities(state)], entities => {
-    const {parentCategory, ...entity} = entities[id]
+  createSelector(
+    [(state: RootState) => selectEntities(state)],
+    entities => entities[id]
+  )
 
-    return {
-      ...entity,
-      parentCategory: parentCategory ? entities[parentCategory] : null
-    }
-  })
-
-const getOption = (category: RecipeCategory) => {
-  return {
-    name: category.name,
-    value: category.id,
-    isSubheading: !category.parentCategory
-  }
-}
+const getOption = (category: RecipeCategory) => ({
+  name: category.name,
+  value: category.id
+})
 
 export const selectRecipeCategoryOptions = createSelector(
   selectIsLoaded,
@@ -51,25 +39,7 @@ export const selectRecipeCategoryOptions = createSelector(
       return []
     }
     const recipeCategories = result.map(id => entities[id])
-    const recipeCategoryOptions: Array<RecipeCategoryOptionType> = []
-    const grouped = groupBy(
-      recipeCategories,
-      category => category.parentCategory
-    )
-    grouped['null'].forEach(parentCategory => {
-      const children = grouped[parentCategory.id]?.map(getOption) ?? []
-      if (children.length) {
-        recipeCategoryOptions.push(getOption(parentCategory))
-        recipeCategoryOptions.push(...children)
-      } else {
-        recipeCategoryOptions.push({
-          name: parentCategory.name,
-          value: parentCategory.id,
-          isSubheading: false
-        })
-      }
-    })
 
-    return recipeCategoryOptions
+    return recipeCategories.map(getOption)
   }
 )
