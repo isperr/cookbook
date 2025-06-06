@@ -58,7 +58,20 @@ const SearchAccordion = ({
   }
 
   return (
-    <Accordion expanded={isExpanded} onChange={onChange}>
+    <Accordion
+      expanded={isExpanded}
+      disableGutters
+      onChange={onChange}
+      sx={{
+        borderTop: '1px solid',
+        '&:first-of-type': {
+          borderTop: 0
+        },
+        '&::before': {
+          display: 'none'
+        }
+      }}
+    >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography component="span" sx={{width: '33%', flexShrink: 0}}>
           {heading}
