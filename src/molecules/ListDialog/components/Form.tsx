@@ -63,7 +63,7 @@ const ListDialogForm = ({
       <DialogContent className="flex flex-col gap-2">
         {fields.map((field, index) => (
           <Box
-            className="flex items-center gap-2 -mr-3"
+            className="flex items-start gap-2 -mr-3"
             id={field.id}
             key={field.id}
           >
