@@ -60,7 +60,7 @@ const AppBar = () => {
             </Typography>
           </Link>
           <IconButton
-            className="sm:hidden pr-0"
+            className="sm:hidden -mr-2.5"
             color="inherit"
             aria-label="open drawer"
             edge="start"
@@ -75,6 +75,15 @@ const AppBar = () => {
               'sm:flex justify-end items-center hidden'
             )}
           >
+            <Button
+              color="inherit"
+              key="recipes"
+              variant="text"
+              onClick={() => onActionClick('/')}
+            >
+              <span className="md:block hidden">Alle Rezepte</span>
+              <span className="md:hidden block">Rezepte</span>
+            </Button>
             {actions.map(item => {
               if (item.name === 'add' && !canEdit) {
                 return null
@@ -82,6 +91,9 @@ const AppBar = () => {
 
               return (
                 <Button
+                  className={twMerge(
+                    item.shortTitle && 'md:min-w-[64px] min-w-10'
+                  )}
                   color="inherit"
                   key={item.name}
                   variant="text"

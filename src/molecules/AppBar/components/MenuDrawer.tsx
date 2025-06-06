@@ -10,6 +10,7 @@ import {
   Typography
 } from '@mui/material'
 import {Link} from 'react-router'
+import RestaurantIcon from '@mui/icons-material/Restaurant'
 
 import {useLoadRandom} from '../../../hooks/recipe/use-load-random'
 import {selectCanEdit} from '../../../modules/auth/selectors'
@@ -63,6 +64,12 @@ const MenuDrawer = ({
           </Link>
           <Divider />
           <List>
+            <ListItemButton onClick={() => onActionClick('/')}>
+              <ListItemIcon className="justify-center">
+                <RestaurantIcon fontSize="inherit" />
+              </ListItemIcon>
+              <ListItemText primary="Alle Rezepte" />
+            </ListItemButton>
             {actions.map(item => {
               if (item.name === 'add' && !canEdit) {
                 return null
