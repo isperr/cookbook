@@ -1,6 +1,6 @@
 import {memo} from 'react'
 import {Controller, useFormContext} from 'react-hook-form'
-import {FormControl, ListSubheader, MenuItem, Select} from '@mui/material'
+import {FormControl, MenuItem, Select} from '@mui/material'
 
 import DetailText from '../../../atoms/DetailText'
 import {selectRecipeCategoryOptions} from '../../../modules/recipe-category/results/selectors'
@@ -44,12 +44,9 @@ const CategoryDetail = () => {
               }}
               value={value}
             >
-              {options.map(opt => {
-                if (opt.isSubheading) {
-                  return <ListSubheader>{opt.name}</ListSubheader>
-                }
-                return <MenuItem value={opt.value}>{opt.name}</MenuItem>
-              })}
+              {options.map(opt => (
+                <MenuItem value={opt.value}>{opt.name}</MenuItem>
+              ))}
             </Select>
           </FormControl>
         )}
