@@ -17,7 +17,7 @@ import DeleteDialog from './DeleteDialog'
 
 const NonEditView = ({id}: {id: string}) => {
   const canEdit = useAppSelector(selectCanEdit)
-  const recipe = useRecipeWithCategoryName(id, true)
+  const recipe = useRecipeWithCategoryName(id)
   const {enterEditMode} = useToggleEditMode()
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false)

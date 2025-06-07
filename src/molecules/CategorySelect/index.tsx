@@ -1,5 +1,5 @@
 import React, {ChangeEvent, forwardRef, memo, ReactNode} from 'react'
-import {FormControl, ListSubheader, MenuItem, Select} from '@mui/material'
+import {FormControl, MenuItem, Select} from '@mui/material'
 
 import {selectRecipeCategoryOptions} from '../../modules/recipe-category/results/selectors'
 import {useAppSelector} from '../../utils/store-hooks'
@@ -47,12 +47,9 @@ const CategorySelect = forwardRef<
         }}
         value={value}
       >
-        {options.map(opt => {
-          if (opt.isSubheading) {
-            return <ListSubheader>{opt.name}</ListSubheader>
-          }
-          return <MenuItem value={opt.value}>{opt.name}</MenuItem>
-        })}
+        {options.map(opt => (
+          <MenuItem value={opt.value}>{opt.name}</MenuItem>
+        ))}
       </Select>
     </FormControl>
   )

@@ -19,17 +19,17 @@ export type ListProps = {
 const List = ({data, isEditMode, isOrderedList}: ListProps) => (
   <ListComponent className={twMerge(!isEditMode && 'pb-0')}>
     {data.map((item, idx) => (
-      <ListItem key={item.text} className="gap-2 py-0" dense>
+      <ListItem key={item.text} className="gap-2 py-0 items-start" dense>
         <ListItemIcon
           className={twMerge(
-            'justify-center min-w-fit',
+            'justify-center min-w-fit my-1',
             !isOrderedList && 'text-[8px]'
           )}
         >
           {isOrderedList ? (
             <Text type="body">{idx + 1}.</Text>
           ) : (
-            <CircleIcon fontSize="inherit" />
+            <CircleIcon className="my-1.5" fontSize="inherit" />
           )}
         </ListItemIcon>
         <ListItemText

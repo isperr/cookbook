@@ -26,6 +26,7 @@ const AvatarMenu = () => {
   return (
     <div key="avatar">
       <IconButton
+        className="-mr-2.5"
         size="large"
         aria-label="account of current user"
         aria-controls="menu-appbar"
