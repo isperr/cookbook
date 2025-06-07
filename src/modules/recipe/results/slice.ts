@@ -1,10 +1,13 @@
+import {orderBy} from 'lodash'
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {RecipeDocumentData} from '../types'
+
 import {resolved} from '../resolve/slice'
 import {removed, reset as resetRemove} from '../remove/slice'
 import {edited} from '../edit/slice'
 import {added} from '../add/slice'
-import {orderBy} from 'lodash'
+import {loaded as searchLoaded} from '../search/slice'
+
+import {RecipeDocumentData} from '../types'
 
 type RecipeResultsState = {
   entities: {
@@ -140,6 +143,18 @@ export const recipeResultsState = createSlice({
           if (data) {
             const oldData = state.entities[id]
             state.entities[id] = {...oldData, ...data}
+          }
+        }
+      )
+      .addCase(
+        searchLoaded,
+        (state, action: PayloadAction<RecipeDocumentData[]>) => {
+          const recipes = orderBy(action.payload, recipe =>
+            recipe.title.toLowerCase()
+          )
+          state.entities = {
+            ...state.entities,
+            ...recipes.reduce((acc, item) => ({...acc, [item.id]: item}), {})
           }
         }
       )

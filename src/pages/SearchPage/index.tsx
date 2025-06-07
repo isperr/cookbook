@@ -1,36 +1,43 @@
-import {useState} from 'react'
+import {useRef, useState} from 'react'
 import {
   FormProvider,
   SubmitErrorHandler,
   SubmitHandler,
   useForm
 } from 'react-hook-form'
+import {QueryFieldFilterConstraint, where} from 'firebase/firestore'
+import {isBoolean} from 'lodash'
 import {Box, Typography} from '@mui/material'
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff'
 
 import Button from '../../atoms/Button'
+import RecipeList from '../../molecules/RecipeList'
 import PageTemplate from '../../templates/Page'
 
 import BooleanToggleAccordion from './components/BooleanToggleAccordion'
+import CategoryAccordion from './components/CategoryAccordion'
+import DurationAccordion from './components/DurationAccordion'
+import RatingAccordion from './components/RatingAccordion'
+import TitleField from './components/TitleField'
+import {useLoadSearchData} from './hooks/use-load-search-data'
 import {
   defaultSearchAccordionFields,
   defaultSearchFormFieldsValues,
   SearchAccordionFields,
   SearchFormFields
 } from './types'
-import DurationAccordion from './components/DurationAccordion'
-import TitleField from './components/TitleField'
-import RatingAccordion from './components/RatingAccordion'
-import CategoryAccordion from './components/CategoryAccordion'
-import {QueryFieldFilterConstraint, where} from 'firebase/firestore'
-import {loadRecipes} from '../../hooks/recipe/use-load'
-import {isBoolean} from 'lodash'
 
 const SearchPage = () => {
+  const {hasError, isLoaded, isLoading, result, handleLoadData} =
+    useLoadSearchData()
+  const listWrapperRef = useRef<HTMLDivElement>(null)
+
   const [expanded, setExpanded] = useState<SearchAccordionFields>(
     defaultSearchAccordionFields
   )
-
+  const resetExpanded = () => {
+    setExpanded(defaultSearchAccordionFields)
+  }
   const onChange = (
     searchField: keyof SearchAccordionFields,
     isExpanded: boolean
@@ -52,31 +59,32 @@ const SearchPage = () => {
   } = formMethods
   const onResetFilter = () => {
     reset()
-    setExpanded(defaultSearchAccordionFields)
+    resetExpanded()
   }
 
   const onSubmit: SubmitHandler<SearchFormFields> = async data => {
     if (!isDirty) {
-      console.log('no change my dude')
+      resetExpanded()
       return
     }
+
     const filter: QueryFieldFilterConstraint[] = []
     Object.entries(data).forEach(([key, value]) => {
       if (value || isBoolean(value)) {
         filter.push(where(key, '==', value))
       }
     })
-    console.log({data, filter})
-    //await handleAdd(data)
-    const recipes = await loadRecipes(filter)
-    console.log('RECIPEs', recipes)
-    setExpanded(defaultSearchAccordionFields)
+
+    listWrapperRef.current?.scrollIntoView({
+      behavior: 'smooth'
+    })
+    await handleLoadData(filter, resetExpanded)
   }
   const onError: SubmitErrorHandler<SearchFormFields> = errors =>
     console.log(errors)
 
   return (
-    <PageTemplate className="sm:px-6 px-4">
+    <PageTemplate className="sm:px-6 px-4 pb-6">
       <Typography className="text-center" variant="h5">
         Kochbuch durchsuchen
       </Typography>
@@ -94,9 +102,8 @@ const SearchPage = () => {
               isExpanded={expanded.isFavorite}
               onAccordionToggle={onChange}
             />
-            <BooleanToggleAccordion
-              field="isLowCarb"
-              isExpanded={expanded.isLowCarb}
+            <CategoryAccordion
+              isExpanded={expanded.category}
               onAccordionToggle={onChange}
             />
             <DurationAccordion
@@ -107,8 +114,9 @@ const SearchPage = () => {
               isExpanded={expanded.rating}
               onAccordionToggle={onChange}
             />
-            <CategoryAccordion
-              isExpanded={expanded.category}
+            <BooleanToggleAccordion
+              field="isLowCarb"
+              isExpanded={expanded.isLowCarb}
               onAccordionToggle={onChange}
             />
           </div>
@@ -119,6 +127,7 @@ const SearchPage = () => {
             isDisabled={!isDirty}
             onClick={onResetFilter}
             startIcon={<FilterAltOffIcon />}
+            variant="outlined"
           >
             Alle Filter zurücksetzen
           </Button>
@@ -127,6 +136,16 @@ const SearchPage = () => {
           </Button>
         </Box>
       </FormProvider>
+
+      <div ref={listWrapperRef}>
+        <RecipeList
+          hasError={hasError}
+          isLoaded={isLoaded}
+          isLoading={isLoading}
+          result={result}
+          showSecondary={false}
+        />
+      </div>
     </PageTemplate>
   )
 }

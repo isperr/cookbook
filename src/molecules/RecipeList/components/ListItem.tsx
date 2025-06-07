@@ -10,8 +10,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 
 import {useRecipeWithCategoryName} from '../../../hooks/recipe-category/use-recipe-with-category-name'
+import {twMerge} from 'tailwind-merge'
 
-const ListItem = ({id}: {id: string}) => {
+const ListItem = ({
+  id,
+  showSecondary
+}: {
+  id: string
+  showSecondary: boolean
+}) => {
   const {title, categoryName, isFavorite, isLowCarb} =
     useRecipeWithCategoryName(id)
   const secondary = useMemo(() => {
@@ -29,21 +36,28 @@ const ListItem = ({id}: {id: string}) => {
 
   return (
     <MuiListItem
-      className="py-0 px-0"
+      disablePadding
       secondaryAction={
         <IconButton
-          className="sm:-mr-0.5"
+          className={twMerge(
+            showSecondary && 'sm:right-2.5',
+            !showSecondary && 'sm:right-2.5 right-0.5'
+          )}
           color="primary"
           edge="end"
           aria-label="more"
           onClick={onNavigateToRecipe}
         >
-          <ArrowCircleRightIcon fontSize="large" />
+          <ArrowCircleRightIcon fontSize={showSecondary ? 'large' : 'medium'} />
         </IconButton>
       }
     >
       <ListItemButton
-        className="sm:pl-6 pl-4 py-0 sm:pr-12 pr-0"
+        className={twMerge(
+          showSecondary && 'sm:pl-6 pl-4 py-0',
+          !showSecondary && 'sm:px-6 px-4 py-1',
+          'sm:pr-12 pr-0'
+        )}
         onClick={onNavigateToRecipe}
       >
         <ListItemText
@@ -53,7 +67,7 @@ const ListItem = ({id}: {id: string}) => {
               {isFavorite && <FavoriteIcon fontSize="small" color="error" />}
             </span>
           }
-          secondary={secondary}
+          secondary={showSecondary ? secondary : null}
         />
       </ListItemButton>
     </MuiListItem>
