@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react'
+import {useMemo} from 'react'
 import {
   ListItem,
   ListItemButton,
@@ -9,20 +9,20 @@ import {
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 
-import {ThemeModeContext} from '../../../context'
+import {useThemeModeContext} from '../../../context'
 
 export type ModeItemProps = {
   type: 'menu' | 'drawer'
 }
 
 const ModeItem = ({type}: ModeItemProps) => {
-  const themeModeContext = React.useContext(ThemeModeContext)
+  const {themeMode, toggleThemeMode} = useThemeModeContext()
 
   const content = useMemo(
     () => (
       <>
         <ListItemIcon className="justify-center">
-          {themeModeContext.themeMode === 'light' ? (
+          {themeMode === 'light' ? (
             <LightModeIcon fontSize="inherit" />
           ) : (
             <DarkModeIcon fontSize="inherit" />
@@ -31,21 +31,17 @@ const ModeItem = ({type}: ModeItemProps) => {
         <ListItemText primary="Erscheinungsbild" />
       </>
     ),
-    [themeModeContext.themeMode]
+    [themeMode]
   )
 
   if (type === 'menu') {
-    return (
-      <MenuItem onClick={themeModeContext.toggleThemeMode}>{content}</MenuItem>
-    )
+    return <MenuItem onClick={toggleThemeMode}>{content}</MenuItem>
   }
 
   if (type === 'drawer') {
     return (
       <ListItem key="mode" disablePadding>
-        <ListItemButton onClick={themeModeContext.toggleThemeMode}>
-          {content}
-        </ListItemButton>
+        <ListItemButton onClick={toggleThemeMode}>{content}</ListItemButton>
       </ListItem>
     )
   }

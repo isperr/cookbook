@@ -11,7 +11,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff'
 
-import {ThemeModeContext} from '../../../context'
+import {useThemeModeContext} from '../../../context'
 import {
   defaultSearchFormFieldsValues,
   SearchAccordionFields,
@@ -39,11 +39,8 @@ const SearchAccordion = ({
 
   const isFilterApplied = useMemo(() => Boolean(activeFilter), [activeFilter])
 
-  const themeModeContext = React.useContext(ThemeModeContext)
-  const isDarkMode = useMemo(
-    () => themeModeContext.themeMode === 'dark',
-    [themeModeContext.themeMode]
-  )
+  const {themeMode} = useThemeModeContext()
+  const isDarkMode = useMemo(() => themeMode === 'dark', [themeMode])
 
   const {resetField} = useFormContext<SearchFormFields>()
   const onResetFilter = () => {

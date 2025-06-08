@@ -12,16 +12,16 @@ export const useThemeMode = () => {
   const isSystemDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const defaultMode = isSystemDarkMode ? 'dark' : 'light'
 
-  // set appMode with local-storage or fallback to default-mode
-  const [appMode, setAppMode] = useState<PaletteMode>(
+  // set themeMode with local-storage or fallback to default-mode
+  const [themeMode, setAppMode] = useState<PaletteMode>(
     convertedAppModeFromState ?? defaultMode
   )
 
-  // set newly selected theme within local-storage and appMode-state
-  const setMode = () => {
-    setState(appMode === 'light' ? 'dark' : 'light')
+  // set newly selected theme within local-storage and themeMode-state
+  const toggleThemeMode = () => {
+    setState(themeMode === 'light' ? 'dark' : 'light')
     setAppMode(prevAppMode => (prevAppMode === 'light' ? 'dark' : 'light'))
   }
 
-  return {themeMode: appMode, toggleThemeMode: setMode}
+  return {themeMode, toggleThemeMode}
 }
