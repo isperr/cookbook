@@ -1,21 +1,13 @@
 import {memo} from 'react'
 import {useController, useFormContext} from 'react-hook-form'
 
-import SearchAccordion, {SearchAccordionProps} from './SearchAccordion'
+import SearchAccordion from './SearchAccordion'
 import {SearchFormFields} from '../types'
 import CategorySelect from '../../../molecules/CategorySelect'
 import {useAppSelector} from '../../../utils/store-hooks'
 import {selectCatgeoryByOptionValue} from '../../../modules/recipe-category/results/selectors'
 
-export type CategoryAccordionProps = Pick<
-  SearchAccordionProps,
-  'isExpanded' | 'onAccordionToggle'
-> & {}
-
-const CategoryAccordion = ({
-  isExpanded,
-  onAccordionToggle
-}: CategoryAccordionProps) => {
+const CategoryAccordion = () => {
   const {control} = useFormContext<SearchFormFields>()
   const {
     field: {onBlur, onChange, disabled, ref, name, value}
@@ -31,9 +23,7 @@ const CategoryAccordion = ({
       activeFilter={activeFilter}
       field="category"
       heading="Kategorie"
-      isExpanded={isExpanded}
       isResetDisabled={!value}
-      onAccordionToggle={onAccordionToggle}
     >
       <CategorySelect
         ref={ref}

@@ -26,6 +26,7 @@ import {
   SearchAccordionFields,
   SearchFormFields
 } from './types'
+import {SearchPageContext} from './context'
 
 const SearchPage = () => {
   const {hasError, isLoaded, isLoading, result, handleLoadData} =
@@ -37,15 +38,6 @@ const SearchPage = () => {
   )
   const resetExpanded = () => {
     setExpanded(defaultSearchAccordionFields)
-  }
-  const onChange = (
-    searchField: keyof SearchAccordionFields,
-    isExpanded: boolean
-  ) => {
-    setExpanded(prevState => ({
-      ...prevState,
-      [searchField]: isExpanded
-    }))
   }
 
   const formMethods = useForm<SearchFormFields>({
@@ -64,7 +56,7 @@ const SearchPage = () => {
 
   const onSubmit: SubmitHandler<SearchFormFields> = async data => {
     if (!isDirty) {
-      resetExpanded()
+      // do nothing
       return
     }
 
@@ -84,69 +76,54 @@ const SearchPage = () => {
     console.log(errors)
 
   return (
-    <PageTemplate className="sm:px-6 px-4 pb-6">
-      <Typography className="text-center" variant="h5">
-        Kochbuch durchsuchen
-      </Typography>
+    <SearchPageContext.Provider value={{expanded, setExpanded}}>
+      <PageTemplate className="sm:px-6 px-4 pb-6">
+        <Typography className="text-center" variant="h5">
+          Kochbuch durchsuchen
+        </Typography>
 
-      <FormProvider {...formMethods}>
-        <Box
-          className="flex flex-col gap-4"
-          component="form"
-          onSubmit={handleSubmit(onSubmit, onError)}
-        >
-          <TitleField />
-          <div>
-            <BooleanToggleAccordion
-              field="isFavorite"
-              isExpanded={expanded.isFavorite}
-              onAccordionToggle={onChange}
-            />
-            <CategoryAccordion
-              isExpanded={expanded.category}
-              onAccordionToggle={onChange}
-            />
-            <DurationAccordion
-              isExpanded={expanded.duration}
-              onAccordionToggle={onChange}
-            />
-            <RatingAccordion
-              isExpanded={expanded.rating}
-              onAccordionToggle={onChange}
-            />
-            <BooleanToggleAccordion
-              field="isLowCarb"
-              isExpanded={expanded.isLowCarb}
-              onAccordionToggle={onChange}
-            />
-          </div>
-
-          <Button
-            color="error"
-            fullWidth
-            isDisabled={!isDirty}
-            onClick={onResetFilter}
-            startIcon={<FilterAltOffIcon />}
-            variant="outlined"
+        <FormProvider {...formMethods}>
+          <Box
+            className="flex flex-col gap-4"
+            component="form"
+            onSubmit={handleSubmit(onSubmit, onError)}
           >
-            Alle Filter zurücksetzen
-          </Button>
-          <Button fullWidth isDisabled={!isDirty} type="submit">
-            Suchen
-          </Button>
-        </Box>
-      </FormProvider>
+            <TitleField />
+            <div>
+              <BooleanToggleAccordion field="isFavorite" />
+              <CategoryAccordion />
+              <DurationAccordion />
+              <RatingAccordion />
+              <BooleanToggleAccordion field="isLowCarb" />
+            </div>
 
-      <div ref={listWrapperRef}>
-        <RecipeList
-          hasError={hasError}
-          isLoaded={isLoaded}
-          isLoading={isLoading}
-          result={result}
-          showSecondary={false}
-        />
-      </div>
-    </PageTemplate>
+            <Button
+              color="error"
+              fullWidth
+              isDisabled={!isDirty}
+              onClick={onResetFilter}
+              startIcon={<FilterAltOffIcon />}
+              variant="outlined"
+            >
+              Alle Filter zurücksetzen
+            </Button>
+            <Button fullWidth isDisabled={!isDirty} type="submit">
+              Suchen
+            </Button>
+          </Box>
+        </FormProvider>
+
+        <div ref={listWrapperRef}>
+          <RecipeList
+            hasError={hasError}
+            isLoaded={isLoaded}
+            isLoading={isLoading}
+            result={result}
+            showSecondary={false}
+          />
+        </div>
+      </PageTemplate>
+    </SearchPageContext.Provider>
   )
 }
 

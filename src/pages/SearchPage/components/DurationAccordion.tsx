@@ -5,17 +5,9 @@ import Component from '../../../atoms/DurationToggle/components/Component'
 import {recipeDurations} from '../../../modules/recipe/types'
 
 import {SearchFormFields} from '../types'
-import SearchAccordion, {SearchAccordionProps} from './SearchAccordion'
+import SearchAccordion from './SearchAccordion'
 
-export type DurationAccordionProps = Pick<
-  SearchAccordionProps,
-  'isExpanded' | 'onAccordionToggle'
-> & {}
-
-const DurationAccordion = ({
-  isExpanded,
-  onAccordionToggle
-}: DurationAccordionProps) => {
+const DurationAccordion = () => {
   const {control} = useFormContext<SearchFormFields>()
   const {
     field: {onBlur, onChange, disabled, ref, value}
@@ -30,9 +22,7 @@ const DurationAccordion = ({
       activeFilter={value ? recipeDurations[value] : undefined}
       field="duration"
       heading="Dauer"
-      isExpanded={isExpanded}
       isResetDisabled={!value}
-      onAccordionToggle={onAccordionToggle}
     >
       <Component
         ref={ref}

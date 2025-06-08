@@ -2,19 +2,11 @@ import {memo, useMemo} from 'react'
 import {useController, useFormContext} from 'react-hook-form'
 
 import {SearchFormFields} from '../types'
-import SearchAccordion, {SearchAccordionProps} from './SearchAccordion'
+import SearchAccordion from './SearchAccordion'
 import StarRating from '../../../atoms/StarRating'
 import {themeColors} from '../../../../theme'
 
-export type RatingAccordionProps = Pick<
-  SearchAccordionProps,
-  'isExpanded' | 'onAccordionToggle'
-> & {}
-
-const RatingAccordion = ({
-  isExpanded,
-  onAccordionToggle
-}: RatingAccordionProps) => {
+const RatingAccordion = () => {
   const {control} = useFormContext<SearchFormFields>()
   const {
     field: {onChange, disabled, value}
@@ -44,9 +36,7 @@ const RatingAccordion = ({
       activeFilter={activeFilter}
       field="rating"
       heading="Bewertung"
-      isExpanded={isExpanded}
       isResetDisabled={!value}
-      onAccordionToggle={onAccordionToggle}
     >
       <StarRating
         defaultValue={undefined}

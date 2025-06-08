@@ -8,21 +8,14 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
 
-import SearchAccordion, {SearchAccordionProps} from './SearchAccordion'
+import SearchAccordion from './SearchAccordion'
 import {SearchFormFields} from '../types'
 
-export type BooleanToggleAccordionProps = Pick<
-  SearchAccordionProps,
-  'isExpanded' | 'onAccordionToggle'
-> & {
+export type BooleanToggleAccordionProps = {
   field: keyof Pick<SearchFormFields, 'isFavorite' | 'isLowCarb'>
 }
 
-const BooleanToggleAccordion = ({
-  field,
-  isExpanded,
-  onAccordionToggle
-}: BooleanToggleAccordionProps) => {
+const BooleanToggleAccordion = ({field}: BooleanToggleAccordionProps) => {
   const isFavorite = useMemo(() => field === 'isFavorite', [field])
   const heading = useMemo(
     () => (isFavorite ? 'Favorit' : 'Low Carb'),
@@ -48,9 +41,7 @@ const BooleanToggleAccordion = ({
       activeFilter={activeFilter}
       field={field}
       heading={heading}
-      isExpanded={isExpanded}
       isResetDisabled={isUndefined(isChecked)}
-      onAccordionToggle={onAccordionToggle}
     >
       <ToggleButtonGroup
         className="w-full"

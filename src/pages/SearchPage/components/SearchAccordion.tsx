@@ -17,18 +17,14 @@ import {
   SearchAccordionFields,
   SearchFormFields
 } from '../types'
+import {useSearchPageContext} from '../context'
 
 export type SearchAccordionProps = {
   activeFilter?: string | ReactNode
   children: ReactNode
   field: keyof SearchAccordionFields
   heading: string
-  isExpanded: boolean
   isResetDisabled: boolean
-  onAccordionToggle: (
-    searchField: keyof SearchAccordionFields,
-    isExpanded: boolean
-  ) => void
 }
 
 const SearchAccordion = ({
@@ -36,10 +32,11 @@ const SearchAccordion = ({
   children,
   field,
   heading,
-  isExpanded,
-  isResetDisabled,
-  onAccordionToggle
+  isResetDisabled
 }: SearchAccordionProps) => {
+  const {expanded, setExpanded} = useSearchPageContext()
+  const isExpanded = useMemo(() => expanded[field], [expanded, field])
+
   const isFilterApplied = useMemo(() => Boolean(activeFilter), [activeFilter])
 
   const themeModeContext = React.useContext(ThemeModeContext)
@@ -54,7 +51,10 @@ const SearchAccordion = ({
   }
 
   const onChange = (__: React.SyntheticEvent, isExpanded: boolean) => {
-    onAccordionToggle(field, isExpanded)
+    setExpanded(prevState => ({
+      ...prevState,
+      [field]: isExpanded
+    }))
   }
 
   return (
