@@ -2,7 +2,11 @@ import {createSelector} from '@reduxjs/toolkit'
 
 import {RootState} from '../../../utils/store'
 
-import {RecipeCategory, RecipeCategoryReturnType} from '../types'
+import {
+  RecipeCategory,
+  RecipeCategoryReturnType,
+  RecipeCategoryNameReturnType
+} from '../types'
 
 export const selectResult = (state: RootState) =>
   state.recipeCategoryResults.result
@@ -43,3 +47,11 @@ export const selectRecipeCategoryOptions = createSelector(
     return recipeCategories.map(getOption)
   }
 )
+
+export const selectCatgeoryByOptionValue = (
+  value?: string
+): RecipeCategoryNameReturnType =>
+  createSelector(
+    selectRecipeCategoryOptions,
+    options => options.find(opt => opt.value === value)?.name
+  )

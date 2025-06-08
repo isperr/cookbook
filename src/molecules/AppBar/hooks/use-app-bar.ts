@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {useLocation, useNavigate} from 'react-router'
 
-import {ThemeModeContext} from '../../../context'
+import {useThemeModeContext} from '../../../context'
 import {useLoadRandom} from '../../../hooks/recipe/use-load-random'
 import {selectCanEdit} from '../../../modules/auth/selectors'
 import {useToggleEditMode} from '../../../pages/RecipePage/hooks/use-toggle-edit-mode'
@@ -18,7 +18,7 @@ export const useAppBar = () => {
   const {getRandomRecipeId} = useLoadRandom()
   const {isEditMode, leaveEditMode} = useToggleEditMode()
 
-  const themeModeContext = React.useContext(ThemeModeContext)
+  const {themeMode} = useThemeModeContext()
   const [isMobileOpen, setIsMobileOpen] = useState<boolean>(false)
 
   const handleDrawerToggle = () => {
@@ -53,6 +53,6 @@ export const useAppBar = () => {
     handleDrawerToggle,
     isMobileOpen,
     onActionClick,
-    themeModeContext
+    themeMode
   }
 }

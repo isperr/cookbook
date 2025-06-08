@@ -36,6 +36,7 @@ const HomePage = () => {
         isLoaded={isLoaded}
         isLoading={isLoading}
         result={result}
+        showSecondary
       />
     </PageTemplate>
   )

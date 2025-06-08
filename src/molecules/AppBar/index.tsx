@@ -40,7 +40,7 @@ const AppBar = () => {
     handleDrawerToggle,
     isMobileOpen,
     onActionClick,
-    themeModeContext
+    themeMode
   } = useAppBar()
 
   return (
@@ -50,8 +50,8 @@ const AppBar = () => {
           <Link to="/" onClickCapture={closeDrawer}>
             <Typography
               className={twMerge(
-                themeModeContext.themeMode === 'dark' && 'text-white',
-                themeModeContext.themeMode === 'light' && 'text-black'
+                themeMode === 'dark' && 'text-white',
+                themeMode === 'light' && 'text-black'
               )}
               component="div"
               variant="h6"
@@ -70,8 +70,8 @@ const AppBar = () => {
           </IconButton>
           <Box
             className={twMerge(
-              themeModeContext.themeMode === 'dark' && 'text-white',
-              themeModeContext.themeMode === 'light' && 'text-black',
+              themeMode === 'dark' && 'text-white',
+              themeMode === 'light' && 'text-black',
               'sm:flex justify-end items-center hidden'
             )}
           >

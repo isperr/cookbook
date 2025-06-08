@@ -11,6 +11,8 @@ export type StarRatingProps = {
   isReadOnly: boolean
   onChange?: (newValue: StarRatingValue) => void
   name: string
+  ratingColor?: string
+  ratingColorHover?: string
   value?: StarRatingValue
 }
 
@@ -20,6 +22,8 @@ const StarRating = ({
   isReadOnly,
   name,
   onChange,
+  ratingColor,
+  ratingColorHover,
   value
 }: StarRatingProps) => (
   <Rating
@@ -34,6 +38,18 @@ const StarRating = ({
     readOnly={isReadOnly}
     value={value}
     size={isReadOnly ? 'medium' : 'large'}
+    sx={{
+      ...(ratingColor && {
+        '& .MuiRating-iconFilled': {
+          color: ratingColor
+        }
+      }),
+      ...(ratingColorHover && {
+        '& .MuiRating-iconHover': {
+          color: ratingColorHover
+        }
+      })
+    }}
   />
 )
 

@@ -3,12 +3,13 @@ import {
   getDocs,
   getFirestore,
   orderBy,
-  query
+  query,
+  QueryFieldFilterConstraint
 } from 'firebase/firestore'
 
 import {RecipeDocumentData} from '../../modules/recipe/types'
 
-export const loadRecipes = async () => {
+export const loadRecipes = async (filter: QueryFieldFilterConstraint[]) => {
   const db = getFirestore()
 
   const data: RecipeDocumentData[] = []
@@ -16,7 +17,7 @@ export const loadRecipes = async () => {
   const collectionRef = collection(db, 'recipes')
   const recipeQuery = await query(
     collectionRef,
-    //where('isActivated', '==', isActivated),
+    ...filter,
     orderBy('title', 'asc')
   )
   const snapshot = await getDocs(recipeQuery).catch(error => {

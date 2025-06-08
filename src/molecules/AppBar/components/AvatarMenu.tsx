@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {twMerge} from 'tailwind-merge'
 import {Avatar, IconButton, Menu} from '@mui/material'
 
-import {ThemeModeContext} from '../../../context'
+import {useThemeModeContext} from '../../../context'
 import {selectInitials} from '../../../modules/auth/selectors'
 import {useAppSelector} from '../../../utils/store-hooks'
 
@@ -10,7 +10,7 @@ import LogoutItem from './LogoutItem'
 import ModeItem from './ModeItem'
 
 const AvatarMenu = () => {
-  const themeModeContext = React.useContext(ThemeModeContext)
+  const {themeMode} = useThemeModeContext()
   const initials = useAppSelector(selectInitials)
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -37,8 +37,8 @@ const AvatarMenu = () => {
         <Avatar
           className={twMerge(
             'size-8 bg-secondary',
-            themeModeContext.themeMode === 'dark' && 'text-white',
-            themeModeContext.themeMode === 'light' && 'text-black'
+            themeMode === 'dark' && 'text-white',
+            themeMode === 'light' && 'text-black'
           )}
           sx={{fontSize: '16px'}}
         >
