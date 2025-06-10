@@ -1,5 +1,4 @@
-export type IngredientsType = {amount: string; text: string}[]
-export type InstructionsType = {amount: null; text: string}[]
+import {IngredientsType, InstructionsType} from '../../modules/recipe/types'
 
 export type RecipeFormFields = {
   category: string
@@ -16,4 +15,5 @@ export type RecipeFormFields = {
 export type ListDialogFields = {
   ingredientsDraft: IngredientsType
   instructionsDraft: InstructionsType
+  sectionTitle: string | null
 }

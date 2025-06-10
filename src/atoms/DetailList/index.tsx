@@ -4,23 +4,32 @@ import DetailText from '../DetailText'
 import Text from '../Text'
 import List, {ListProps} from './components/List'
 
-export type DetailListProps = Pick<ListProps, 'data' | 'isOrderedList'> & {
+export type DetailListProps = Pick<
+  ListProps,
+  'isOrderedList' | 'sections' | 'type'
+> & {
   heading: string
   noDataText: string
 }
 
 const DetailList = ({
-  data,
   heading,
   isOrderedList,
-  noDataText
+  noDataText,
+  sections,
+  type
 }: DetailListProps) => {
-  const hasData = useMemo(() => Boolean(data.length), [data.length])
+  const hasData = useMemo(() => Boolean(sections.length), [sections.length])
 
   return (
     <DetailText heading={heading}>
       {hasData && (
-        <List data={data} isEditMode={false} isOrderedList={isOrderedList} />
+        <List
+          sections={sections}
+          isEditMode={false}
+          isOrderedList={isOrderedList}
+          type={type}
+        />
       )}
       {!hasData && <Text>{noDataText}</Text>}
     </DetailText>
