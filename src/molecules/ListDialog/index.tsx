@@ -33,7 +33,7 @@ const ListDialog = ({type, title}: ListDialogProps) => {
   const {
     field: {onChange, value}
   } = useController({
-    name: `${type}Alt`,
+    name: type,
     control
   })
   const hasValue = useMemo(() => Boolean(value.length), [value.length])

@@ -29,13 +29,13 @@ const AddPage = () => {
       category: '',
       details: '',
       duration: 'unknown',
-      ingredientsAlt: [
+      ingredients: [
         {
           data: [],
           name: null
         }
       ],
-      instructionsAlt: [
+      instructions: [
         {
           data: [],
           name: null

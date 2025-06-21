@@ -36,14 +36,14 @@ const NonEditView = ({id}: {id: string}) => {
         heading="Zutaten"
         isOrderedList={false}
         noDataText="Es wurden leider keine Zutaten angegeben."
-        sections={recipe.ingredientsAlt}
+        sections={recipe.ingredients}
         type="ingredients"
       />
       <DetailList
         heading="Zubereitung"
         isOrderedList
         noDataText="Die Zubereitung wurde leider nicht angegeben."
-        sections={recipe.instructionsAlt}
+        sections={recipe.instructions}
         type="instructions"
       />
       <DoubleWrapper>
