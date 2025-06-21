@@ -22,7 +22,7 @@ const FieldRow = ({
     handleRemoveRow(sectionIndex, index)
   }
   return (
-    <Box className="flex items-start gap-2 -mr-3">
+    <Box className="flex items-start gap-2">
       {type === 'ingredients' && (
         <Field
           fieldType="amount"

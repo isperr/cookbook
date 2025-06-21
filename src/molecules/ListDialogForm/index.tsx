@@ -1,7 +1,7 @@
 import {memo} from 'react'
-import {useFormContext, useWatch} from 'react-hook-form'
 import {twMerge} from 'tailwind-merge'
 import {
+  Box,
   DialogActions,
   DialogContent,
   FormControlLabel,
@@ -16,7 +16,6 @@ import Button from '../../atoms/Button'
 import {IngredientsType, InstructionsType} from '../../modules/recipe/types'
 
 import {ListDialogProps} from '../ListDialog/index'
-import {ListDialogFields} from '../RecipeForm/types'
 
 import FieldHeaders from './components/FieldHeaders'
 import FieldRow from './components/FieldRow'
@@ -52,12 +51,6 @@ const ListDialogForm = ({
     type
   })
 
-  const {control} = useFormContext<ListDialogFields>()
-  const watchValue = useWatch({
-    name: `${type}Draft`,
-    control
-  })
-
   return (
     <>
       <DialogContent className="flex flex-col gap-2 p-3">
@@ -75,22 +68,20 @@ const ListDialogForm = ({
           label={hasSections ? 'Mit Abschnitte' : 'Ohne Abschnitte'}
         />
         {fields.map((field, sectionIndex) => (
-          <div
-            className={twMerge(
-              'flex flex-col gap-2',
-              hasSections && watchValue.length > 1 && 'border-b-2 pb-2'
-            )}
+          <Paper
+            className="flex flex-col gap-2 px-2 py-1"
+            elevation={3}
             key={`section-${sectionIndex}`}
           >
             {/* show SECTIONMANAGEMENT if hasSections=true */}
             {hasSections && (
-              <Paper className="p-0 flex flex-col gap-2" elevation={0}>
+              <Box className="p-0 flex flex-col gap-2">
                 <SectionManagement
                   handleRemove={handleRemoveSection}
                   sectionIndex={sectionIndex}
                   type={type}
                 />
-              </Paper>
+              </Box>
             )}
 
             {/* FIELD-HEADERS of fields */}
@@ -121,7 +112,7 @@ const ListDialogForm = ({
             >
               <AddCircleIcon fontSize="inherit" />
             </IconButton>
-          </div>
+          </Paper>
         ))}
 
         <FormHelperText className={twMerge('mt-0', isInvalid && 'text-red')}>

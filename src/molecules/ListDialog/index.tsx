@@ -103,7 +103,7 @@ const ListDialog = ({type, title}: ListDialogProps) => {
         aria-describedby="alert-dialog-description"
       >
         <AppBar className="relative" color="default">
-          <Toolbar className="px-4">
+          <Toolbar className="px-3">
             <Typography variant="h6">{title} angeben</Typography>
           </Toolbar>
         </AppBar>
