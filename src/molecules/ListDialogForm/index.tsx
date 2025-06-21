@@ -1,45 +1,34 @@
-import {memo, useMemo, useState} from 'react'
-import {useFieldArray, useFormContext, useWatch} from 'react-hook-form'
+import {memo} from 'react'
+import {useFormContext, useWatch} from 'react-hook-form'
 import {twMerge} from 'tailwind-merge'
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   DialogActions,
   DialogContent,
   FormControlLabel,
   FormHelperText,
   IconButton,
   Paper,
-  Switch,
-  Typography
+  Switch
 } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
-import {useNotifications} from '@toolpad/core'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 import Button from '../../atoms/Button'
-import {
-  IngredientsDataType,
-  IngredientsType,
-  InstructionsDataType,
-  InstructionsType
-} from '../../modules/recipe/types'
-import {getToastConfig} from '../../utils/get-toast-config'
+import {IngredientsType, InstructionsType} from '../../modules/recipe/types'
 
-import {ListDialogFields} from '../RecipeForm/types'
 import {ListDialogProps} from '../ListDialog/index'
+import {ListDialogFields} from '../RecipeForm/types'
 
 import FieldHeaders from './components/FieldHeaders'
 import FieldRow from './components/FieldRow'
 import SectionManagement from './components/SectionManagement'
+import AddSection from './components/AddSection'
+import {EMPTY, useListDialogForm} from './hooks/use-list-dialog-form'
 
 export type ListDialogFormProps = Pick<ListDialogProps, 'type'> & {
   handleCancel: () => void
   handleConfirm: (newValue: IngredientsType | InstructionsType) => void
   hasSections: boolean
 }
-const EMPTY = '---REMOVED---'
 
 const ListDialogForm = ({
   handleCancel,
@@ -47,128 +36,38 @@ const ListDialogForm = ({
   hasSections: defaultHasSections,
   type
 }: ListDialogFormProps) => {
-  const notifications = useNotifications()
-  const {control, setValue} = useFormContext<ListDialogFields>()
-
-  const {fields, append, remove, update} = useFieldArray({
-    control,
-    name: `${type}Draft`
+  const {
+    fields,
+    hasSections,
+    handleAddRow,
+    handleAddSection,
+    handleHasSectionChange,
+    handleRemoveRow,
+    handleRemoveSection,
+    isInvalid,
+    onConfirm
+  } = useListDialogForm({
+    defaultHasSections,
+    handleConfirm,
+    type
   })
+
+  const {control} = useFormContext<ListDialogFields>()
   const watchValue = useWatch({
     name: `${type}Draft`,
     control
   })
 
-  const isInvalid = useMemo(
-    () =>
-      watchValue.some(({data}) => data?.some(it => !it.text)) ||
-      (watchValue.length > 1 && watchValue.some(({name}) => !name)),
-    [watchValue]
-  )
-
-  const onConfirm = () => {
-    if (isInvalid) {
-      notifications.show(
-        'Fülle alle Felder erforderlichen Felder aus oder entferne die Zeile/den Abschnitt mit dem Fehler.',
-        getToastConfig({})
-      )
-    } else {
-      // filter out rows with EMPTY filler
-      const filtered = watchValue.map(({data, name}) => {
-        return {
-          data: data.filter(it => it.text !== EMPTY),
-          name: name
-        }
-      })
-      handleConfirm(
-        type === 'ingredients'
-          ? (filtered as IngredientsType)
-          : (filtered as InstructionsType)
-      )
-    }
-  }
-
-  const handleSectionManagement = (sectionName: string | null) => {
-    append({data: [], name: sectionName})
-  }
-
-  const handleRemoveSection = (sectionIndex: number) => {
-    remove(sectionIndex)
-  }
-
-  const handleRemoveRow = (sectionIndex: number, index: number) => {
-    const currentValue = watchValue[sectionIndex]
-    const updated = currentValue.data.map((val, idx) => {
-      if (idx === index) {
-        return {amount: null, text: EMPTY}
-      }
-      return val
-    })
-
-    if (type === 'ingredients') {
-      update(sectionIndex, {
-        name: currentValue.name,
-        data: updated as IngredientsDataType
-      })
-
-      console.log(watchValue)
-    } else {
-      update(sectionIndex, {
-        name: currentValue.name,
-        data: updated as InstructionsDataType
-      })
-    }
-  }
-
-  const handleAddRow = (sectionIndex: number) => {
-    const currentValue = watchValue[sectionIndex]
-    const updated = [
-      ...currentValue.data,
-      {
-        amount: type === 'instructions' ? null : '',
-        text: ''
-      }
-    ]
-    if (type === 'ingredients') {
-      update(sectionIndex, {
-        name: currentValue.name,
-        data: updated as IngredientsDataType
-      })
-    } else {
-      update(sectionIndex, {
-        name: currentValue.name,
-        data: updated as InstructionsDataType
-      })
-    }
-  }
-
-  const [hasSections, setHasSections] = useState<boolean>(defaultHasSections)
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newHasTitle = event.target.checked
-    if (!newHasTitle && watchValue.length > 1) {
-      // remove all extra sections
-      watchValue.forEach((__, index) => {
-        if (index > 0) {
-          remove(index)
-        }
-      })
-      // reset title for only section left
-      if (watchValue[0].name) {
-        setValue(`${type}Draft.0.name`, null)
-      }
-    }
-    setHasSections(newHasTitle)
-  }
-
   return (
     <>
       <DialogContent className="flex flex-col gap-2 p-3">
+        {/* SWITCH to toggle hasSections */}
         <FormControlLabel
           className="px-2"
           control={
             <Switch
               checked={hasSections}
-              onChange={handleChange}
+              onChange={handleHasSectionChange}
               size="small"
               slotProps={{input: {'aria-label': 'controlled'}}}
             />
@@ -183,8 +82,9 @@ const ListDialogForm = ({
             )}
             key={`section-${sectionIndex}`}
           >
+            {/* show SECTIONMANAGEMENT if hasSections=true */}
             {hasSections && (
-              <Paper className="p-2 flex flex-col gap-2">
+              <Paper className="p-0 flex flex-col gap-2" elevation={0}>
                 <SectionManagement
                   handleRemove={handleRemoveSection}
                   sectionIndex={sectionIndex}
@@ -192,7 +92,11 @@ const ListDialogForm = ({
                 />
               </Paper>
             )}
+
+            {/* FIELD-HEADERS of fields */}
             <FieldHeaders type={type} />
+
+            {/* show FIELD-ROW if field.text !== EMPTY */}
             {field.data.map((innerField, index) => {
               if (innerField.text === EMPTY) {
                 return null
@@ -207,6 +111,8 @@ const ListDialogForm = ({
                 />
               )
             })}
+
+            {/* show ADD-BUTTON to add row */}
             <IconButton
               className="w-fit mx-auto"
               color="secondary"
@@ -223,20 +129,9 @@ const ListDialogForm = ({
           Zeile korrekt gespeichert wird
         </FormHelperText>
 
+        {/* show ADD-BUTTON to add sections if hasSections=true */}
         {hasSections && (
-          <div>
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography component="span">Abschnitt hinzufügen</Typography>
-              </AccordionSummary>
-              <AccordionDetails className="flex flex-col gap-2">
-                <SectionManagement
-                  handleAdd={handleSectionManagement}
-                  type={type}
-                />
-              </AccordionDetails>
-            </Accordion>
-          </div>
+          <AddSection handleAddSection={handleAddSection} type={type} />
         )}
       </DialogContent>
 

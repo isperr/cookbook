@@ -36,7 +36,7 @@ const NonEditView = ({id}: {id: string}) => {
         heading="Zutaten"
         isOrderedList={false}
         noDataText="Es wurden leider keine Zutaten angegeben."
-        sections={recipe.ingredients}
+        sections={recipe.ingredientsAlt}
         type="ingredients"
       />
       <DetailList

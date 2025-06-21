@@ -33,7 +33,7 @@ const ListDialog = ({type, title}: ListDialogProps) => {
   const {
     field: {onChange, value}
   } = useController({
-    name: type,
+    name: `${type}Alt`,
     control
   })
   const hasValue = useMemo(() => Boolean(value.length), [value.length])
@@ -112,7 +112,9 @@ const ListDialog = ({type, title}: ListDialogProps) => {
           <ListDialogForm
             handleCancel={handleCancel}
             handleConfirm={handleConfirm}
-            hasSections={value.length > 1}
+            hasSections={
+              value.length > 1 || (value.length === 1 && Boolean(value[0].name))
+            }
             type={type}
           />
         </FormProvider>

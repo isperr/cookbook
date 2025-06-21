@@ -25,8 +25,8 @@ export type InstructionsType = Array<{
 export type RecipeDocumentData = DocumentData & {
   duration: RecipeDuration
   id: string
-  ingredients: IngredientsType
-  instructions: InstructionsType
+  ingredientsAlt: IngredientsType
+  instructionsAlt: InstructionsType
 }
 export type RecipeReturnType = (state: RootState) => RecipeDocumentData
 export type ResolveStateReturnType = (state: RootState) => boolean

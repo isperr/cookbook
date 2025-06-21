@@ -4,8 +4,8 @@ export type RecipeFormFields = {
   category: string
   details: string
   duration: string
-  ingredients: IngredientsType
-  instructions: InstructionsType
+  ingredientsAlt: IngredientsType
+  instructionsAlt: InstructionsType
   isFavorite: boolean
   isLowCarb: boolean
   rating: number | null

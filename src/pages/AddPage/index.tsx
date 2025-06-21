@@ -29,8 +29,18 @@ const AddPage = () => {
       category: '',
       details: '',
       duration: 'unknown',
-      ingredients: [],
-      instructions: [],
+      ingredientsAlt: [
+        {
+          data: [],
+          name: null
+        }
+      ],
+      instructionsAlt: [
+        {
+          data: [],
+          name: null
+        }
+      ],
       isFavorite: false,
       isLowCarb: false,
       rating: null,

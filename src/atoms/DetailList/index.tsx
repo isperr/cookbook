@@ -19,7 +19,12 @@ const DetailList = ({
   sections,
   type
 }: DetailListProps) => {
-  const hasData = useMemo(() => Boolean(sections.length), [sections.length])
+  const hasData = useMemo(() => {
+    if (sections.length > 1) {
+      return true
+    }
+    return Boolean(sections[0].data.length)
+  }, [sections])
 
   return (
     <DetailText heading={heading}>

@@ -30,8 +30,8 @@ export const loadRecipes = async (filter: QueryFieldFilterConstraint[]) => {
       ...docData,
       duration: docData.duration,
       id: doc.id,
-      instructions: docData.instructions,
-      ingredients: docData.ingredients
+      instructionsAlt: docData.instructionsAlt,
+      ingredientsAlt: docData.ingredientsAlt
     })
   })
 

@@ -10,6 +10,7 @@ import Button from '../../../atoms/Button'
 
 import {ListDialogFields} from '../../RecipeForm/types'
 import {ListDialogProps} from '../../ListDialog/index'
+import DetailText from '../../../atoms/DetailText'
 
 export type ListDialogSectionManagementProps = Pick<ListDialogProps, 'type'> & {
   sectionIndex?: number
@@ -49,12 +50,16 @@ const SectionManagement = ({
     }
   })
 
-  const onSectionManagement = () => {
+  const onAddSection = () => {
     handleAdd?.(value)
     resetField(fieldName)
   }
 
   const onRemoveSection = async () => {
+    if (!hasSectionIndex) {
+      return
+    }
+
     const isConfirmed = await dialogs.confirm(
       'Bist du dir sicher, dass du den Abschnit entfernen möchtest?',
       {
@@ -64,29 +69,31 @@ const SectionManagement = ({
       }
     )
 
-    if (isConfirmed && hasSectionIndex) {
+    if (isConfirmed) {
       handleRemove?.(sectionIndex)
     }
   }
 
   return (
     <>
-      <FormControl fullWidth>
-        <OutlinedInput
-          ref={ref}
-          disabled={disabled}
-          error={hasSectionIndex && !value}
-          fullWidth
-          id={name}
-          onBlur={onBlur}
-          onChange={onChange}
-          placeholder="Abschnitt-Name"
-          required={hasSectionIndex}
-          size="small"
-          value={value ?? ''}
-        />
-      </FormControl>
-      {hasSectionIndex ? (
+      <DetailText heading="Abschnitt-Name" isEditMode>
+        <FormControl fullWidth>
+          <OutlinedInput
+            ref={ref}
+            disabled={disabled}
+            error={hasSectionIndex && !value}
+            fullWidth
+            id={name}
+            onBlur={onBlur}
+            onChange={onChange}
+            placeholder="Abschnitt-Name"
+            required={hasSectionIndex}
+            size="small"
+            value={value ?? ''}
+          />
+        </FormControl>
+      </DetailText>
+      {hasSectionIndex && sectionIndex > 0 && (
         <Button
           color="error"
           onClick={onRemoveSection}
@@ -95,10 +102,11 @@ const SectionManagement = ({
         >
           Abschnitt entfernen
         </Button>
-      ) : (
+      )}
+      {!hasSectionIndex && (
         <Button
           color="secondary"
-          onClick={onSectionManagement}
+          onClick={onAddSection}
           size="small"
           startIcon={<AddIcon />}
         >
