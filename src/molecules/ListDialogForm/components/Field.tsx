@@ -2,22 +2,22 @@ import {useController, useFormContext} from 'react-hook-form'
 import {twMerge} from 'tailwind-merge'
 import {FormControl, InputAdornment, OutlinedInput} from '@mui/material'
 
-import {ListDialogFields} from '../../../molecules/RecipeForm/types'
-
-import {ListDialogProps} from '../index'
+import {ListDialogFields} from '../../RecipeForm/types'
+import {ListDialogProps} from '../../ListDialog/index'
 
 export type FieldProps = Pick<ListDialogProps, 'type'> & {
   fieldType: 'amount' | 'text'
   index: number
+  sectionIndex: number
 }
 
-const Field = ({fieldType, index, type}: FieldProps) => {
+const Field = ({fieldType, index, sectionIndex, type}: FieldProps) => {
   const {control} = useFormContext<ListDialogFields>()
 
   const {
     field: {onBlur, onChange, disabled, ref, name, value}
   } = useController({
-    name: `${type}Draft.${index}.${fieldType}`,
+    name: `${type}Draft.${sectionIndex}.data.${index}.${fieldType}`,
     control,
     rules: {required: fieldType === 'text'}
   })

@@ -2,6 +2,7 @@ import {useCallback} from 'react'
 import {useNotifications} from '@toolpad/core'
 
 import {resolveRecipe} from '../../../hooks/recipe/use-resolve'
+import {useLoadRecipeCategories} from '../../../hooks/recipe-category/use-load'
 import {
   selectHasResolveError,
   selectIsResolved,
@@ -15,7 +16,6 @@ import {
 } from '../../../modules/recipe/resolve/slice'
 import {getToastConfig} from '../../../utils/get-toast-config'
 import {useAppDispatch, useAppSelector} from '../../../utils/store-hooks'
-import {useLoadRecipeCategories} from '../../../hooks/recipe-category/use-load'
 
 export const useResolveRecipe = (id?: string) => {
   const dispatch = useAppDispatch()

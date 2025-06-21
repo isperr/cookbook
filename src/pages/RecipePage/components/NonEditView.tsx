@@ -33,16 +33,18 @@ const NonEditView = ({id}: {id: string}) => {
         <Typography variant="h5">{recipe.title}</Typography>
       </div>
       <DetailList
-        data={recipe.ingredients}
         heading="Zutaten"
-        noDataText="Es wurden leider keine Zutaten angegeben."
         isOrderedList={false}
+        noDataText="Es wurden leider keine Zutaten angegeben."
+        sections={recipe.ingredients}
+        type="ingredients"
       />
       <DetailList
-        data={recipe.instructions}
         heading="Zubereitung"
-        noDataText="Die Zubereitung wurde leider nicht angegeben."
         isOrderedList
+        noDataText="Die Zubereitung wurde leider nicht angegeben."
+        sections={recipe.instructions}
+        type="instructions"
       />
       <DoubleWrapper>
         <DetailText heading="Kategorie" text={recipe.categoryName} />

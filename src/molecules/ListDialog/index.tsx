@@ -5,30 +5,21 @@ import {
   useForm,
   useFormContext
 } from 'react-hook-form'
-import {twMerge} from 'tailwind-merge'
-import {
-  AppBar,
-  Box,
-  Dialog,
-  DialogTitle,
-  Toolbar,
-  Typography
-} from '@mui/material'
+import {AppBar, Dialog, Toolbar, Typography} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
+import {DialogsProvider} from '@toolpad/core'
 
 import Button from '../../atoms/Button'
 import DetailText from '../../atoms/DetailText'
 import List from '../../atoms/DetailList/components/List'
-import Text from '../../atoms/Text'
 import {
-  IngredientsType,
-  InstructionsType,
   ListDialogFields,
   RecipeFormFields
 } from '../../molecules/RecipeForm/types'
+import {IngredientsType, InstructionsType} from '../../modules/recipe/types'
 
-import Form from './components/Form'
+import ListDialogForm from '../ListDialogForm/index'
 
 export type ListDialogProps = {
   type: 'ingredients' | 'instructions'
@@ -55,7 +46,8 @@ const ListDialog = ({type, title}: ListDialogProps) => {
         : []) as IngredientsType,
       instructionsDraft: (type === 'instructions'
         ? value
-        : []) as InstructionsType
+        : []) as InstructionsType,
+      sectionTitle: null
     }
   })
 
@@ -82,13 +74,14 @@ const ListDialog = ({type, title}: ListDialogProps) => {
   }
 
   return (
-    <>
+    <DialogsProvider>
       <DetailText heading={title} isEditMode>
-        {value.length > 0 && (
+        {hasValue && (
           <List
-            data={value}
             isEditMode
             isOrderedList={type === 'instructions'}
+            sections={value}
+            type={type}
           />
         )}
         <Button
@@ -110,34 +103,23 @@ const ListDialog = ({type, title}: ListDialogProps) => {
         aria-describedby="alert-dialog-description"
       >
         <AppBar className="relative" color="default">
-          <Toolbar className="px-6">
+          <Toolbar className="px-4">
             <Typography variant="h6">{title} angeben</Typography>
           </Toolbar>
         </AppBar>
-        <DialogTitle>
-          <Box className="flex">
-            {type === 'ingredients' && (
-              <Text className="sm:flex-[0.207] flex-[0.355]" type="label">
-                Menge
-              </Text>
-            )}
-            <Text
-              className={twMerge(type === 'ingredients' && '')}
-              type="label"
-            >
-              {type === 'ingredients' ? 'Zutat' : 'Schritt'} *
-            </Text>
-          </Box>
-        </DialogTitle>
+
         <FormProvider {...methods}>
-          <Form
+          <ListDialogForm
             handleCancel={handleCancel}
             handleConfirm={handleConfirm}
+            hasSections={
+              value.length > 1 || (value.length === 1 && Boolean(value[0].name))
+            }
             type={type}
           />
         </FormProvider>
       </Dialog>
-    </>
+    </DialogsProvider>
   )
 }
 
