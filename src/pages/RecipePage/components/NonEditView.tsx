@@ -51,11 +51,10 @@ const NonEditView = ({id}: {id: string}) => {
         <DetailText heading="Dauer" text={recipeDurations[recipe.duration]} />
         <DetailText heading="Bewertung">
           <StarRating
-            defaultValue={recipe.rating}
             isDisabled={false}
             isReadOnly
             name="rating"
-            value={undefined}
+            value={recipe.rating}
           />
         </DetailText>
         <DetailText

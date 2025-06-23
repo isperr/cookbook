@@ -6,7 +6,7 @@ import {
   useForm
 } from 'react-hook-form'
 import {QueryFieldFilterConstraint, where} from 'firebase/firestore'
-import {isBoolean} from 'lodash'
+import {isBoolean, isNull} from 'lodash'
 import {Box, Typography} from '@mui/material'
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff'
 
@@ -62,7 +62,7 @@ const SearchPage = () => {
 
     const filter: QueryFieldFilterConstraint[] = []
     Object.entries(data).forEach(([key, value]) => {
-      if (value || isBoolean(value)) {
+      if (value || isBoolean(value) || isNull(value)) {
         filter.push(where(key, '==', value))
       }
     })
