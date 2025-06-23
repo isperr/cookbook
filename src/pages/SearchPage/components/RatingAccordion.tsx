@@ -1,10 +1,12 @@
 import {memo, useMemo} from 'react'
 import {useController, useFormContext} from 'react-hook-form'
+import {isNull, isUndefined} from 'lodash'
+
+import StarRating from '../../../atoms/StarRating'
+import {themeColors} from '../../../../theme'
 
 import {SearchFormFields} from '../types'
 import SearchAccordion from './SearchAccordion'
-import StarRating from '../../../atoms/StarRating'
-import {themeColors} from '../../../../theme'
 
 const RatingAccordion = () => {
   const {control} = useFormContext<SearchFormFields>()
@@ -15,11 +17,12 @@ const RatingAccordion = () => {
     control,
     rules: {required: false}
   })
+
   const activeFilter = useMemo(() => {
-    if (value) {
+    // show active filter if rating=null but hide if rating=undefined
+    if (value || isNull(value)) {
       return (
         <StarRating
-          defaultValue={undefined}
           isDisabled={false}
           isReadOnly
           name="rating"
@@ -36,15 +39,15 @@ const RatingAccordion = () => {
       activeFilter={activeFilter}
       field="rating"
       heading="Bewertung"
-      isResetDisabled={!value}
+      // disable filter-reset if rating=undefined (but allow rating=null or rating=(0-5))
+      isResetDisabled={isUndefined(value)}
     >
       <StarRating
-        defaultValue={undefined}
         isDisabled={Boolean(disabled)}
         isReadOnly={false}
         onChange={onChange}
         name="rating"
-        value={value ?? null}
+        value={value}
       />
     </SearchAccordion>
   )

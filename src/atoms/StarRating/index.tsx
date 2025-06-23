@@ -6,7 +6,7 @@ export type StarRatingDefaultValue = StarRatingNumbers | undefined
 export type StarRatingValue = StarRatingNumbers | null
 
 export type StarRatingProps = {
-  defaultValue: StarRatingDefaultValue
+  defaultValue?: StarRatingDefaultValue
   isDisabled: boolean
   isReadOnly: boolean
   onChange?: (newValue: StarRatingValue) => void
@@ -36,7 +36,7 @@ const StarRating = ({
     }}
     precision={0.5}
     readOnly={isReadOnly}
-    value={value}
+    value={value || null}
     size={isReadOnly ? 'medium' : 'large'}
     sx={{
       ...(ratingColor && {

@@ -1,6 +1,6 @@
 import {Typography} from '@mui/material'
 
-import PageTemplate from '../../templates/Page'
+import Template from '../../templates/Page/components/Template'
 import {useNavigate} from 'react-router'
 import Button from '../../atoms/Button'
 
@@ -12,7 +12,7 @@ const NotFoundPage = () => {
   }
 
   return (
-    <PageTemplate className="items-center px-8 text-center" isEmptyPage>
+    <Template className="items-center px-8 text-center" isEmptyPage>
       <Typography className="leading-none" variant="subtitle1">
         404
       </Typography>
@@ -23,7 +23,7 @@ const NotFoundPage = () => {
       <Button className="mt-2" onClick={handleClick}>
         Zurück zur Homepage
       </Button>
-    </PageTemplate>
+    </Template>
   )
 }
 

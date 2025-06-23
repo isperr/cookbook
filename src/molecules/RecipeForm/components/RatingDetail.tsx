@@ -17,7 +17,6 @@ const RatingDetail = () => {
           name="rating"
           render={({field: {onChange, value, name, disabled}}) => (
             <StarRating
-              defaultValue={undefined}
               isDisabled={Boolean(disabled)}
               isReadOnly={false}
               onChange={onChange}
