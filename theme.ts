@@ -1,3 +1,4 @@
+// colors must always be in unison with colors in /index.css
 export const themeColors = {
   blue: {
     DEFAULT: '#00c7e0',

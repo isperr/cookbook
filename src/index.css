@@ -2,7 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'tailwindcss';
+
 body {
   margin: 0;
   padding: 0;
+}
+
+@theme {
+  --breakpoint-xs: 375px;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 728px;
+  --breakpoint-lg: 984px;
+  --breakpoint-xl: 1240px;
+  --breakpoint-2xl: 1496px;
+
+  --color-blue: #00c7e0;
+  --color-blue-light: #33d2e6;
+  --color-blue-dark: #008b9c;
+  --color-orange: #f59a23;
+  --color-orange-light: #f7ae4f;
+  --color-orange-dark: #ab6b18;
+  --color-green: #7ec636;
+  --color-green-light: #97d15e;
+  --color-green-dark: #588a25;
+  --color-red: #f44336;
+  --color-red-light: #e57373;
+  --color-red-dark: #d32f2f;
+  --color-primary: #6db07d;
+  --color-primary-light: #8abf97;
+  --color-primary-dark: #4c7b57;
+  --color-secondary: #a67c45;
+  --color-secondary-light: #b7966a;
+  --color-secondary-dark: #745630;
+
+  --color-divider-light: #000000d9;
+  --color-divider-dark: #ffffffd9;
+
+  --color-background-light: #fafafa;
+  --color-background-light-paper: #ffffff;
+  --color-background-dark: #303030;
+  --color-background-dark-paper: #424242;
+
+  --color-text-dark-primary: #ffffff;
+  --color-text-dark-secondary: #ffffffb3;
+  --color-text-dark-disabled: #ffffff80;
+  --color-text-dark-hint: #ffffff80;
+
+  --color-text-light-primary: #000000de;
+  --color-text-light-secondary: #0000008a;
+  --color-text-light-disabled: #00000061;
+  --color-text-light-hint: #00000061;
 }
