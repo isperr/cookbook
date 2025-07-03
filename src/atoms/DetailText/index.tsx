@@ -21,7 +21,7 @@ const DetailText = ({
 }: DetailTextProps) => {
   const textContent = useMemo(() => {
     if (text) {
-      return <Text>{text}</Text>
+      return <Text className="whitespace-pre">{text}</Text>
     } else if (children) {
       return children
     }
