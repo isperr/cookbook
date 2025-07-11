@@ -40,7 +40,7 @@ const LoginPage = () => {
         )}
       >
         <Typography className="text-center" variant="h5">
-          Sperr's Rezeptbuch
+          Sperr's Kochbuch
         </Typography>
 
         {!isRegistration && <LoginForm />}
